@@ -12,6 +12,12 @@ class ConfigEncoder(json.JSONEncoder):
             return o.name
         return json.JSONEncoder.default(self,o)
 
+class JsonWrite:
+    def __init__(self):
+        pass
+    def write(self, filename):
+        pass
+    
 class HookWriter:
     def __init__(self, analyzer, filter):
         self.analyzer = analyzer

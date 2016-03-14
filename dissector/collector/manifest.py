@@ -45,7 +45,8 @@ class Service:
 class Manifest(Acollector):
     def __init__(self,target):
         self.collected_data = defaultdict(list)
-        self.target_tags = ['service', 'activity', 'receiver']
+        #self.target_tags = ['service', 'activity', 'receiver']
+        self.target_tags = ['uses-permission']
         Acollector.__init__(self,target)
 
     def get_target_tags(self):
@@ -61,19 +62,24 @@ class Manifest(Acollector):
     def analyze_manifest(self):
         print self.target.get_manifest().toprettyxml()
         self.xmlmanifest = self.target.get_manifest()
+        #print self.xmlmanifest
         self.collect_all()
 
     def collect_all(self):
         for tag in self.target_tags:
             tag_list = self.xmlmanifest.getElementsByTagName(tag)
             for item in tag_list:
+                #print 'porcodio: ' + tag
+                #print 'check = ' + str(tag.rstrip() == "uses-permission")
                 name = item.getAttribute('android:name')
                 exp = item.getAttribute('android:exported')
-                if tag is 'service':
+                if tag == 'service':
                     self.collected_data[tag].append(Service(name,exp,item))
-                elif tag is 'activity':
+                elif tag == 'activity':
                     self.collected_data[tag].append(Activity(name,exp,item))
-                elif tag is 'receiver':
+                elif tag == 'receiver':
                     self.collected_data[tag].append(Receiver(name,exp,item))
+                elif tag == 'uses-permission':
+                    print 'AAAAAA sto analizzando item: ' + item.getAttribute('android:name')
                 else:
                     pass
