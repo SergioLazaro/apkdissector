@@ -2,6 +2,7 @@ __author__ = 'vaioco'
 
 from core.acollector import Acollector
 from collections import defaultdict
+from core.writers import JsonWrite
 
 class Receiver:
     def __init__(self, name, exported, xml):
@@ -66,6 +67,7 @@ class Manifest(Acollector):
         self.collect_all()
 
     def collect_all(self):
+        writer = JsonWrite()    #Creating our JsonWrite class
         for tag in self.target_tags:
             tag_list = self.xmlmanifest.getElementsByTagName(tag)
             for item in tag_list:
@@ -80,6 +82,12 @@ class Manifest(Acollector):
                 elif tag == 'receiver':
                     self.collected_data[tag].append(Receiver(name,exp,item))
                 elif tag == 'uses-permission':
-                    print 'AAAAAA sto analizzando item: ' + item.getAttribute('android:name')
+                    #print 'AAAAAA sto analizzando item: ' + item.getAttribute('android:name')
+                    #Adding new <uses-permission> entry
+                    writer.add(item.getAttribute('android:name'))
                 else:
                     pass
+        #Writing all items added before in our file
+        #Maybe, we could add the name of the analyzed apk
+        #example: whatsapp_permissions.txt/json/...
+        writer.write("permissions.txt")

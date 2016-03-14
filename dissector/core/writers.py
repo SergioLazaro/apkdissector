@@ -14,9 +14,23 @@ class ConfigEncoder(json.JSONEncoder):
 
 class JsonWrite:
     def __init__(self):
-        pass
+        self.array = list()
+        self.elements = 0
+    def add(self,newElem):
+        self.elements += 1
+        self.array[self.elements] = newElem
+
     def write(self, filename):
-        pass
+        print "Writing in the file..."
+        file.open("../files/" + filename,"w")
+        i = 0
+        #Writing directly the json file from <list> argument
+        file.write("{permissions: [")
+        while i < len(self.array) - 1:
+            file.write(self.array[i] + ",")
+            i += 1
+        file.write(self.array[i] + "]}")
+
     
 class HookWriter:
     def __init__(self, analyzer, filter):
