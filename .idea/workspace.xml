@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="225e3edf-299c-4ead-95b7-1a1a1bd864cf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dissector/PScout/4.4.4.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dissector/PScout/5.1.1.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dissector/collector/pscoutDB.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dissector/core/accessSQLite.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dissector/core/createSQLite.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/apkdissector.iml" afterPath="$PROJECT_DIR$/.idea/apkdissector.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dissector/collector/manifest.py" afterPath="$PROJECT_DIR$/dissector/collector/manifest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dissector/core/writers.py" afterPath="$PROJECT_DIR$/dissector/core/writers.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dissector/main.py" afterPath="$PROJECT_DIR$/dissector/main.py" />
     </list>
     <ignored path="apkdissector.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dissector/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="37" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.7450425">
+              <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
               <folding>
                 <element signature="e#23#62#0" expanded="true" />
               </folding>
@@ -90,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pscoutDB.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pscoutDB.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dissector/collector/pscoutDB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38243628">
-              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="45" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <marker date="1457978473000" expanded="true" signature="394:414" placeholder="DROP TABLE I... " />
@@ -106,6 +96,16 @@
                 <marker date="1457978473000" expanded="true" signature="1484:1524" placeholder="SELECT * fro... pscout" />
                 <marker date="1457978473000" expanded="true" signature="1484:1526" placeholder="SELECT * fro... pscout" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="4.4.4.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dissector/PScout/4.4.4.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -129,16 +129,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ananalyzer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dissector/core/ananalyzer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -190,7 +180,6 @@
         <option value="$PROJECT_DIR$/dissector/core/utils.py" />
         <option value="$PROJECT_DIR$/dissector/analyzer/deobfuscator.py" />
         <option value="$PROJECT_DIR$/dissector/core/target.py" />
-        <option value="$PROJECT_DIR$/dissector/main.py" />
         <option value="$PROJECT_DIR$/dissector/core/filters.py" />
         <option value="$PROJECT_DIR$/dissector/analyzer/manifest.py" />
         <option value="$PROJECT_DIR$/dissector/core/writers.py" />
@@ -202,6 +191,7 @@
         <option value="$PROJECT_DIR$/dissector/core/createSQLite.py" />
         <option value="$PROJECT_DIR$/dissector/PScout/4.4.4.csv" />
         <option value="$PROJECT_DIR$/dissector/collector/pscoutDB.py" />
+        <option value="$PROJECT_DIR$/dissector/main.py" />
       </list>
     </option>
   </component>
@@ -340,6 +330,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="analyzer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apkdissector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apkdissector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dissector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PScout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1061,24 +1069,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dissector/PScout/4.4.4.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dissector/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="37" selection-end-column="10" />
-          <folding>
-            <element signature="e#23#62#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dissector/core/createSQLite.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1109,6 +1099,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dissector/PScout/4.4.4.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dissector/core/writers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1121,8 +1119,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dissector/collector/pscoutDB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38243628">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="45" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <marker date="1457978473000" expanded="true" signature="394:414" placeholder="DROP TABLE I... " />
@@ -1133,6 +1131,16 @@
             <marker date="1457978473000" expanded="true" signature="1144:1276" placeholder="INSERT INTO pscout... " />
             <marker date="1457978473000" expanded="true" signature="1484:1524" placeholder="SELECT * fro... pscout" />
             <marker date="1457978473000" expanded="true" signature="1484:1526" placeholder="SELECT * fro... pscout" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dissector/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7450425">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
+          <folding>
+            <element signature="e#23#62#0" expanded="true" />
           </folding>
         </state>
       </provider>

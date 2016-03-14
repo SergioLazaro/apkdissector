@@ -25,10 +25,11 @@ def main():
     targetapp.save_session(cache_dir+session_name+'.andro')
     manifestInfo = Manifest(targetapp)
     manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-    deob = Deobfuscator(targetapp)
-    vmfilter = VirtualMethodsFilter(manifestAnalysis)
-    writer = HookWriter(manifestAnalysis,vmfilter)
-    writer.write(dest+'Fuffa.java')
+    
+    #deob = Deobfuscator(targetapp)
+    #vmfilter = VirtualMethodsFilter(manifestAnalysis)
+    #writer = HookWriter(manifestAnalysis,vmfilter)
+    #writer.write(dest+'Fuffa.java')
     print 'scritto'
 
 
