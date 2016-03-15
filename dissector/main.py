@@ -9,10 +9,14 @@ from core.writers import HookWriter
 #import sys
 #sys.path.insert(1, '/Users/vaioco/android_stuff/androguard')
 
-static_target = '/Users/vaioco/ownCloud/documents/Dottorato/ProgettoPhd/art-hooking-vtable/examples/testing-app.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base.apk'
+#static_target = '/Users/vaioco/ownCloud/documents/Dottorato/ProgettoPhd/art-hooking-vtable/examples/testing-app.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base.apk'
 
-dest = '/Users/vaioco/ownCloud/documents/Dottorato/ProgettoPhd/apkdissector/'
-cache_dir = '/Users/vaioco/ownCloud/documents/Dottorato/ProgettoPhd/apkdissector/cache/'
+#dest = '/Users/vaioco/ownCloud/documents/Dottorato/ProgettoPhd/apkdissector/'
+#cache_dir = '/Users/vaioco/ownCloud/documents/Dottorato/ProgettoPhd/apkdissector/cache/'
+
+static_target = 'apks/testing-app.apk'
+dest = 'files/'
+cache_dir = 'cache/'
 
 def main():
     print 'Analizzo il manifest'
@@ -25,7 +29,13 @@ def main():
     targetapp.save_session(cache_dir+session_name+'.andro')
     manifestInfo = Manifest(targetapp)
     manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-    
+
+    #Should appear a new file called [files/permissions.json]
+    manifestInfo.collect_all()
+
+
+
+
     #deob = Deobfuscator(targetapp)
     #vmfilter = VirtualMethodsFilter(manifestAnalysis)
     #writer = HookWriter(manifestAnalysis,vmfilter)

@@ -25,11 +25,11 @@ class JsonWrite:
         file.open("../files/" + filename,"w")
         i = 0
         #Writing directly the json file from <list> argument
-        file.write("{permissions: [")
+        file.write('{"permissions": ["')
         while i < len(self.array) - 1:
-            file.write(self.array[i] + ",")
+            file.write('{"permission":"' + self.array[i] + '"},')
             i += 1
-        file.write(self.array[i] + "]}")
+        file.write('{"permission":"' + self.array[i] + '"}]}')
 
     
 class HookWriter:

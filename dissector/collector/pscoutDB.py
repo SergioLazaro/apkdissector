@@ -7,12 +7,13 @@ class PScoutDB:
         self.conn = None
         self.create()
 
+    #The DB should be populated if we want to use it
+    def connect(self):
+        self.conn = sqlite3.connect("dbs/" + str(self.api) + ".db")
+
     def create(self):
-        self.dbname =  "dbs/" + str(self.api) + ".db"
-        print 'creating dbname: ' + self.dbname
-        self.conn = sqlite3.connect(self.dbname)
-        print 'debugging conn: ' + str(self.conn)
-        self.conn.execute(''' DROP TABLE IF EXISTS pscout''')
+        self.connect()  #Connect to the DB
+        self.conn.execute(''' DROP TABLE IF EXISTS pscout''')   #Check if table exists
         query1 = '''
         CREATE TABLE pscout
                (ID INTEGER PRIMARY KEY AUTOINCREMENT ,
@@ -22,7 +23,8 @@ class PScoutDB:
                PERMISSION              VARCHAR,
                VERSION                 VARCHAR);
         '''
-        self.conn.execute(query1)
+        self.conn.execute(query1)   #Creating the table always
+        #Read all rows of the file and insert it in new DB created
         with open("PScout/" + str(self.api) + ".csv") as file:
             i = 1
             for line in file:
@@ -32,27 +34,41 @@ class PScoutDB:
                 self.conn.execute("INSERT INTO pscout (CALLERCLASS,CALLERMETHOD,CALLERMETHODDESC,PERMISSION,VERSION) "
                              "VALUES (?,?,?,?,?)",(list[0],list[1],list[2],list[3],list[4]));
 
-            self.conn.commit()
+            self.conn.commit()  #Commit the changes
             print "Records created successfully";
 
+    #Query all rows looking for <permission>
     def querypermission(self, permission):
-        cursor = self.conn.execute("SELECT * from pscout WHERE PERMISSION = %s" % ("'" + permission + "'"))
-        i = 0
-        for row in cursor:
-            i += 1
-            print "ID = ", row[0]
-            print "CALLERCLASS = ", row[1]
-            print "CALLERMETHOD = ", row[2]
-            print "CALLERMETHODDESC = ", row[3]
-            print "PERMISSION = ", row[4]
-            print "VERSION = ", row[5],"\n"
 
-        if(i != 0):
-            print "%d rows found" % (i)
+        cursor = self.conn.execute("SELECT * from pscout WHERE PERMISSION = %s" % ("'" + permission + "'"))
+        array = list()
+        print "Checking permissions of " + str(permission) + "..."
+        for row in cursor:
+            p = Permission(row[1],row[2],row[3])
+            array.append(p)
+        if(len(array) != 0):
+            print "%d rows found" % (len(array))
         else:
             print "%s does not exists \n" % (permission)
 
-        #Should return a list
+        return array
 
+    #Close DB connection
     def close(self):
         self.conn.close()
+
+class Permission:
+
+    def __init__(self,callerClass,callerMethod, callerMethodDesc):
+        self.callerClass = callerClass
+        self.callerMethod = callerMethod
+        self.callerMethodDesc = callerMethodDesc
+
+    def getCallerClass(self):
+        return self.callerClass
+
+    def getCallerMethod(self):
+        return self.callerMethod
+
+    def getCallerMethodDesc(self):
+        return self.callerMethodDesc
