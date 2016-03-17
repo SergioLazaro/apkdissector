@@ -47,14 +47,11 @@ class Service:
         return self.xmlelement.toxml()
 
 
-
-
 class Manifest(Acollector):
     def __init__(self,target):
         self.collected_data = defaultdict(list)
         #self.target_tags = ['service', 'activity', 'receiver']
         self.target_tags = ['uses-permission']
-        #????
         Acollector.__init__(self,target)
 
     def get_target_tags(self):

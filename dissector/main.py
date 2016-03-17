@@ -17,7 +17,6 @@ static_target = 'apks/test-malware.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base
 
 #static_target = 'apks/'
 dest = 'files/'
-cache_dir = 'cache/'
 
 def main(version,apkname,destinationpath):
     print 'Analizzo il manifest'
@@ -27,7 +26,7 @@ def main(version,apkname,destinationpath):
         session_name = targetapp.package_name #usare md5, meglio
     else:
         session_name = "dummyname"
-    targetapp.save_session(cache_dir+session_name+'.andro')
+    targetapp.save_session(destinationpath + "/cache/" + session_name + '.andro')
     manifestInfo = Manifest(targetapp)
     manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
 
