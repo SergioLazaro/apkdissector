@@ -1,15 +1,20 @@
+__author__ = 'sergio'
+
 import sqlite3
 import os
 
 class PScoutDB:
-    def __init__(self,api):
+    def __init__(self,api,destinationpath):
         self.api = api
+        self.destinationpath = destinationpath
         self.conn = None
-        self.create()
+        dbpath = destinationpath + "/dbs/" + str(api) + ".db"
+        if not os.path.exists(dbpath):
+            self.create()
 
     #The DB should be populated if we want to use it
     def connect(self):
-        self.conn = sqlite3.connect("dbs/" + str(self.api) + ".db")
+        self.conn = sqlite3.connect(self.destinationpath + "/dbs/" + str(self.api) + ".db")
 
     def create(self):
         self.connect()  #Connect to the DB
@@ -25,12 +30,10 @@ class PScoutDB:
         '''
         self.conn.execute(query1)   #Creating the table always
         #Read all rows of the file and insert it in new DB created
-        with open("PScout/" + str(self.api) + ".csv") as file:
+        with open(self.destinationpath + "/pscout/" + str(self.api) + ".csv") as file:
             i = 1
             for line in file:
                 list = line.split(",")
-                print "Added record: %d\n" % (i)
-                print "%s - %s - %s - %s - %s\n" % (list[0],list[1],list[2],list[3],list[4])
                 self.conn.execute("INSERT INTO pscout (CALLERCLASS,CALLERMETHOD,CALLERMETHODDESC,PERMISSION,VERSION) "
                              "VALUES (?,?,?,?,?)",(list[0],list[1],list[2],list[3],list[4]));
 

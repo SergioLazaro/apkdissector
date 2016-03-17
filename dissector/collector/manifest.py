@@ -1,12 +1,14 @@
 __author__ = 'vaioco'
+__author__ = 'sergio'
 
-from dissector.core.acollector import Acollector
+from core.acollector import Acollector
 from collections import defaultdict
-from dissector.core.writers import JsonWrite
-from dissector.collector.pscoutDB import PScoutDB
-from dissector.collector.pscoutDB import Permission
+from core.writers import JsonWrite
+from collector.pscoutDB import PScoutDB
+from collector.pscoutDB import Permission
 
 import json
+import os, sys
 
 class Receiver:
     def __init__(self, name, exported, xml):
@@ -52,6 +54,7 @@ class Manifest(Acollector):
         self.collected_data = defaultdict(list)
         #self.target_tags = ['service', 'activity', 'receiver']
         self.target_tags = ['uses-permission']
+        #????
         Acollector.__init__(self,target)
 
     def get_target_tags(self):
@@ -86,7 +89,6 @@ class Manifest(Acollector):
                 elif tag == 'receiver':
                     self.collected_data[tag].append(Receiver(name,exp,item))
                 elif tag == 'uses-permission':
-                    #print 'AAAAAA sto analizzando item: ' + item.getAttribute('android:name')
                     #Adding new <uses-permission> entry
                     writer.add(item.getAttribute('android:name'))
                 else:
@@ -94,34 +96,51 @@ class Manifest(Acollector):
         #Writing all items added before in our file
         #Maybe, we could add the name of the analyzed apk
         #example: whatsapp_permissions.txt/json/...
-        writer.write("../files/permissions.json")
+        print "=============================="
+        print "Total permissions used: " + str(writer.elements)
+        print "=============================="
+        writer.write("files/permissions.json")
 
-    def checkPermissions(self,version):
-        with open("../files/permissions.json","r") as file:
+    def checkPermissions(self,version,apkname,destinationpath):
+        path = os.getcwd() + "/" + str("files/permissions.json")
+        with open(path,"r") as file:
             data = json.load(file)  #Our JSON file
 
-        db = PScoutDB(version)
-        for permission in data["permissions"]:
-            db.connect()                                            #Connecting to the DB
-            array = db.querypermission(permission["permission"])    #Getting info for permission['permission']
-                                                                    #in the DB called <version.db>
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #!!  Create new dir with apk name !!!
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            dir = "blabla/"
+        dir = destinationpath +"/analysis/" + str(apkname) + "/"
+        #Creating directory if not exists
+        if not os.path.exists(dir):
+            print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
+            os.mkdir(dir)
+            os.chmod(dir,0755)
 
-            #Create new JSON file [path = apkName_permission.json]
-            path = str(dir) + str(permission["permission"]) + ".json"
-            file = open(path,"w")
-            file.write("{'pscout':[")
-            #Iterate over the array of Permission objects
-            i = 0
-            for p in array:
-                file.write("{'callerClass':'" + p.self.callerClass + "',")
-                file.write("{'callerMethod':'" + p.self.callerMethod + "',")
-                file.write("{'callerMethodDesc':'" + p.self.callerMethodDesc + "'}")
-                if(i < (len(array) - 1)):
-                    file.write(",")
+        db = PScoutDB(version,destinationpath)
+        numfiles = 0
+        for permission in data["permissions"]:      #Getting all entries for a permission
+            current = permission["permission"]      #Current permission
+            db.connect()                            #Connecting to the DB
+
+            #Getting info for permission['permission'] in the DB called <version.db>
+            array = db.querypermission(current)
+            if len(array) > 0:
+                numfiles += 1
+                #Create new JSON file for permission_name.json
+                path = str(dir) + str(current) + ".json"
+                file = open(path,"wr")
+                print "Creating new JSON file in " + str(dir) + " for " + str(current)
+                file.write('{"pscout":[\n')
+
+                #Iterate over the array of Permission objects
+                i = 0
+                for p in array:
+                    file.write('{"callerClass":"' + p.callerClass + '",')
+                    file.write('"callerMethod":"' + p.callerMethod + '",')
+                    if(i < (len(array) - 1)):
+                        file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"},\n')
+                    else:
+                        file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"}\n')
                     i += 1
-
-            file.write("]}")
+                file.write("]}")
+                file.close()
+        print "=============================="
+        print "Number of files written: " + str(numfiles)
+        print "=============================="
