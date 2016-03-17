@@ -20,7 +20,7 @@ dest = 'files/'
 
 def main(version,apkname,destinationpath):
     print 'Analizzo il manifest'
-    static_target = str(destinationpath) + "/apks/" + str(apkname) + ".apk"
+    static_target = str(destinationpath) + "/apks/" + str(apkname) #+ ".apk"
     targetapp = Target(static_target)
     if targetapp.package_name is not None:
         session_name = targetapp.package_name #usare md5, meglio
