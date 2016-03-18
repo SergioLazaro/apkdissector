@@ -8,7 +8,7 @@ elif [ ! -d $1 ];then
 else
     for elem in `ls $1`;do
         if [ -f $elem ]; then
-            python main.py -v 5.1.1 -i "$PWD/$1" -o /tmp/asd
+            python /home/sid/android/apkdissector/dissector/main.py -v 5.1.1 -i "$PWD/$1" -o /tmp/asd
         fi
         #python main.py -v "5.1.1" -i "$1" -o "/home/sid/android/malware/analysis"
     done
