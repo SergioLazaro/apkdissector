@@ -26,7 +26,7 @@ class Target:
 
     def open(self):
         #aggiungere calcolo md5 dell apk e usarlo come nome per la sessione
-        print self.filename
+        print 'opening : ' + self.filename
         self.apk = APK(self.filename)
         self.dvmf = DalvikVMFormat(self.apk.get_dex())
         self.vma = newVMAnalysis(self.dvmf)
