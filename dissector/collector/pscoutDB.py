@@ -2,19 +2,21 @@ __author__ = 'sergio'
 
 import sqlite3
 import os
+import core
 
 class PScoutDB:
-    def __init__(self,api,destinationpath):
+    def __init__(self,api):
         self.api = api
-        self.destinationpath = destinationpath
+        self.destinationpath = core.myglobals.dissector_global_dir
         self.conn = None
-        dbpath = destinationpath + "/dbs/" + str(api) + ".db"
-        if not os.path.exists(dbpath):
+        self.dbpath = self.destinationpath + "/pscout_files/dbs/" + str(api) + ".db"
+        if not os.path.exists(self.dbpath):
             self.create()
 
     #The DB should be populated if we want to use it
     def connect(self):
-        self.conn = sqlite3.connect(self.destinationpath + "/dbs/" + str(self.api) + ".db")
+        print 'connecting to : ' + str(self.dbpath)
+        self.conn = sqlite3.connect(self.dbpath)
 
     def create(self):
         self.connect()  #Connect to the DB
@@ -30,7 +32,7 @@ class PScoutDB:
         '''
         self.conn.execute(query1)   #Creating the table always
         #Read all rows of the file and insert it in new DB created
-        with open(self.destinationpath + "/pscout/" + str(self.api) + ".csv") as file:
+        with open(self.destinationpath + "/pscout_files/" + str(self.api) + ".csv") as file:
             i = 1
             for line in file:
                 list = line.split(",")

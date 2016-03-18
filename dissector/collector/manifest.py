@@ -46,6 +46,12 @@ class Service:
     def to_string(self):
         return self.xmlelement.toxml()
 
+class Permission:
+    def __init__(self,name):
+        self.name = name
+
+    def get_name(self):
+        return self.name
 
 class Manifest(Acollector):
     def __init__(self,target):
@@ -65,7 +71,7 @@ class Manifest(Acollector):
         self.analyze_manifest()
 
     def analyze_manifest(self):
-        print self.target.get_manifest().toprettyxml()
+        #print self.target.get_manifest().toprettyxml()
         self.xmlmanifest = self.target.get_manifest()
         #print self.xmlmanifest
         self.collect_all()
@@ -86,19 +92,22 @@ class Manifest(Acollector):
                 elif tag == 'receiver':
                     self.collected_data[tag].append(Receiver(name,exp,item))
                 elif tag == 'uses-permission':
+                    print name
                     #Adding new <uses-permission> entry
-                    writer.add(item.getAttribute('android:name'))
+                    self.collected_data[tag].append(Permission(name))
+                    #writer.add(item.getAttribute('android:name'))
                 else:
                     pass
         #Writing all items added before in our file
         #Maybe, we could add the name of the analyzed apk
         #example: whatsapp_permissions.txt/json/...
         print "=============================="
-        print "Total permissions used: " + str(writer.elements)
+        print "Total permissions used: " + str(len(self.collected_data['uses-permission']))
         print "=============================="
-        writer.write("files/permissions.json")
+        #writer.write("files/permissions.json")
 
     def checkPermissions(self,version,apkname,destinationpath):
+        '''
         path = os.getcwd() + "/" + str("files/permissions.json")
         with open(path,"r") as file:
             data = json.load(file)  #Our JSON file
@@ -109,11 +118,13 @@ class Manifest(Acollector):
             print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
             os.mkdir(dir)
             os.chmod(dir,0755)
-
-        db = PScoutDB(version,destinationpath)
+        '''
+        db = PScoutDB(version)
         numfiles = 0
-        for permission in data["permissions"]:      #Getting all entries for a permission
-            current = permission["permission"]      #Current permission
+        #for permission in data["permissions"]:      #Getting all entries for a permission
+        for permission in self.collected_data['uses-permission']:
+            print 'ads: ' + permission.get_name()
+            #current = permission["permission"]      #Current permission
             db.connect()                            #Connecting to the DB
 
             #Getting info for permission['permission'] in the DB called <version.db>
