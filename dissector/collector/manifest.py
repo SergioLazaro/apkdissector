@@ -124,7 +124,7 @@ class Manifest(Acollector):
         #for permission in data["permissions"]:      #Getting all entries for a permission
         for permission in self.collected_data['uses-permission']:
             print 'ads: ' + permission.get_name()
-            #current = permission["permission"]      #Current permission
+            current = permission.get_name()     #Current permission
             db.connect()                            #Connecting to the DB
 
             #Getting info for permission['permission'] in the DB called <version.db>
