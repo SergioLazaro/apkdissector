@@ -117,7 +117,7 @@ class Manifest(Acollector):
         #Creating directory if not exists
         if not os.path.exists(dir):
             print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
-            os.mkdir(dir)
+            os.mkdirdirs(dir)
             os.chmod(dir,0755)
 
         db = PScoutDB(version)
