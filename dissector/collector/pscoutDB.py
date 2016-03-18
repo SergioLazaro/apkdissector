@@ -11,6 +11,7 @@ class PScoutDB:
         self.conn = None
         self.dbpath = self.destinationpath + "/pscout_files/dbs/" + str(api) + ".db"
         if not os.path.exists(self.dbpath):
+            print 'creating the dbpath: ' + self.dbpath
             self.create()
 
     #The DB should be populated if we want to use it

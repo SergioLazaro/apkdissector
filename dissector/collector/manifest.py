@@ -111,14 +111,14 @@ class Manifest(Acollector):
         path = os.getcwd() + "/" + str("files/permissions.json")
         with open(path,"r") as file:
             data = json.load(file)  #Our JSON file
-
+        '''
         dir = destinationpath +"/analysis/" + str(apkname) + "/"
         #Creating directory if not exists
         if not os.path.exists(dir):
             print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
             os.mkdir(dir)
             os.chmod(dir,0755)
-        '''
+        
         db = PScoutDB(version)
         numfiles = 0
         #for permission in data["permissions"]:      #Getting all entries for a permission
@@ -133,6 +133,7 @@ class Manifest(Acollector):
                 numfiles += 1
                 #Create new JSON file for permission_name.json
                 path = str(dir) + str(current) + ".json"
+                print 'looking for: ' + path
                 file = open(path,"wr")
                 print "Creating new JSON file in " + str(dir) + " for " + str(current)
                 file.write('{"pscout":[\n')
