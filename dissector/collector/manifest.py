@@ -112,7 +112,7 @@ class Manifest(Acollector):
         with open(path,"r") as file:
             data = json.load(file)  #Our JSON file
         '''
-        apkname = os.path.splitext(apkname)[0]
+        apkname = os.path.basename(os.path.splitext(apkname)[0])
         dir = destinationpath +"/analysis/" + str(apkname) + "/"
         #Creating directory if not exists
         if not os.path.exists(dir):
