@@ -30,11 +30,7 @@ def jsonoption(key,file):
     #Reading each element
     i = 0
     success = 0
-    print "ELEMENTS TO DOWNLOAD: " + str(len(jsonarray["notifications"]))
-    length = len(jsonarray["notifications"])
-    while i < length:
-        print "ITERATION: " + str(i)
-        print jsonarray["notifications"][i]["sha1"]
+    while i < len(jsonarray["notifications"]):
         apk = jsonarray["notifications"][i]["sha1"]
         result = download(key,apk)
         if result is not None:
@@ -65,11 +61,11 @@ def download(key,apk):
     params = {'apikey': key, 'hash': apk}
     response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
     i = 0
-    while i < 3 and response.status_code is not 200:
-        print "Trying " + str(i+1) + " attempt"
-        time.sleep(3)
-        response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
-        i += 1
+    #while i < 3 and response.status_code is not 200:
+    #    print "Trying " + str(i+1) + " attempt"
+    #    time.sleep(2)
+    #    response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
+    #    i += 1
     element = response.content
     if response.status_code is 200:
         print "Returning element"
