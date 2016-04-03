@@ -25,17 +25,17 @@ def main(key,file,type):
 
 def jsonoption(key,file):
     with open(file,"r") as data_file:
-        result = json.load(data_file)
+        jsonarray = json.load(data_file)
 
     #Reading each element
     i = 0
     success = 0
-    print "ELEMENTS TO DOWNLOAD: " + str(len(result["notifications"]))
-    length = len(result["notifications"])
+    print "ELEMENTS TO DOWNLOAD: " + str(len(jsonarray["notifications"]))
+    length = len(jsonarray["notifications"])
     while i < length:
         print "ITERATION: " + str(i)
-        print result["notifications"][i]["sha1"]
-        apk = result["notifications"][i]["sha1"]
+        print jsonarray["notifications"][i]["sha1"]
+        apk = jsonarray["notifications"][i]["sha1"]
         result = download(key,apk)
         if result is not None:
             apkfile = open("downloads/"+apk+".apk",'w')
