@@ -12,10 +12,10 @@ def main(key,file,type):
         print "arguments error!!\n"
         exit(-1)
     #Create new directory for the downloads
-    pwd = os.getcwd()
+    #pwd = os.getcwd()
 
-    if not os.path.exists(pwd + "/downloads"):
-        os.makedirs("downloads")
+    if not os.path.exists("/tmp/downloads"):
+        os.makedirs("/tmp/downloads")
 
     if type is "json":
         jsonoption(key,file)
@@ -34,7 +34,7 @@ def jsonoption(key,file):
         apk = jsonarray["notifications"][i]["sha1"]
         result = download(key,apk)
         if result is not None:
-            apkfile = open("downloads/"+apk+".apk",'w')
+            apkfile = open("/tmp/downloads/"+apk+".apk",'w')
             apkfile.write(result)
             success += 1
         i += 1
@@ -48,7 +48,8 @@ def txtoption(key,file):
         apk = f.readline()
         result = download(key,apk)
         if result is not None:
-            apkfile = open("downloads/"+apk+".apk",'w')
+            print "Chaging apk name"
+            apkfile = open("/tmp/downloads/"+apk+".apk",'w')
             apkfile.write(result)
             success += 1
         i += 1
@@ -71,6 +72,7 @@ def download(key,apk):
         print "Returning element"
         return element
     else:
+        print "Returning NONE"
         return None
 
 if __name__ == "__main__":
