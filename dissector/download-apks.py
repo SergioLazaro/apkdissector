@@ -59,8 +59,7 @@ def txtoption(key,file):
 def download(key,apk):
     print "Downloading apk: " + str(apk)
     params = {'apikey': key, 'hash': apk}
-    #response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
-    response = None
+    response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
     i = 0
     while i < 3 and response.status_code is not 200:
         print "Trying " + str(i+1) + " attempt"
