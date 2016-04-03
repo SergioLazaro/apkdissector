@@ -34,6 +34,7 @@ def jsonoption(key,file):
     length = len(result["notifications"])
     while i < length:
         print "ITERATION: " + str(i)
+        print result["notifications"][i]["sha1"]
         apk = result["notifications"][i]["sha1"]
         result = download(key,apk)
         if result is not None:
