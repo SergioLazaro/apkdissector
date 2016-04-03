@@ -13,17 +13,18 @@ def main(key,file,type):
         exit(-1)
     #Create new directory for the downloads
     #pwd = os.getcwd()
-
-    if not os.path.exists("/tmp/downloads"):
-        os.makedirs("/tmp/downloads")
+    path = "/tmp/virustotal/sd1/"
+    if not os.path.exists(path):
+        print "Creating new dir " + path
+        os.makedirs(path)
 
     if type is "json":
-        jsonoption(key,file)
+        jsonoption(key,file,path)
 
     else:
-        txtoption(key,file)
+        txtoption(key,file,path)
 
-def jsonoption(key,file):
+def jsonoption(key,file,path):
     with open(file,"r") as data_file:
         jsonarray = json.load(data_file)
 
@@ -34,14 +35,14 @@ def jsonoption(key,file):
         apk = jsonarray["notifications"][i]["sha1"]
         result = download(key,apk)
         if result is not None:
-            apkfile = open("/tmp/downloads/"+apk+".apk",'w')
+            apkfile = open(path + apk+".apk",'w')
             apkfile.write(result)
             success += 1
         i += 1
 
     print "Total apks: " + str(i) + " Downloaded apks: " + str(success)
 
-def txtoption(key,file):
+def txtoption(key,file,path):
     i = 0
     success = 0
     with open(file,"r") as f:
@@ -49,7 +50,7 @@ def txtoption(key,file):
         result = download(key,apk)
         if result is not None:
             print "Chaging apk name"
-            apkfile = open("/tmp/downloads/"+apk+".apk",'w')
+            apkfile = open(path+apk+".apk",'w')
             apkfile.write(result)
             success += 1
         i += 1
@@ -62,18 +63,16 @@ def download(key,apk):
     params = {'apikey': key, 'hash': apk}
     response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
     i = 0
-    #while i < 3 and response.status_code is not 200:
-    #    print "Trying " + str(i+1) + " attempt"
-    #    time.sleep(2)
-    #    response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
-    #    i += 1
+    while i < 3 and response.status_code is not 200:
+        print "Trying " + str(i+1) + " attempt"
+        time.sleep(2)
+        response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
+        i += 1
     print "CODE: " + str(response.status_code)
     element = response.content
     if response.status_code is 200:
-        print "Returning element"
         return element
     else:
-        print "Returning NONE"
         return None
 
 if __name__ == "__main__":
