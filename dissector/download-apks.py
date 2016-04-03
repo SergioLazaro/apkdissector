@@ -64,7 +64,7 @@ def download(key,apk):
     i = 0
     while i < 3 or response.status_code is not 200:
         print "Trying " + str(i+1) + " attempt"
-        time.sleep(3000)
+        time.sleep(3)
         response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
         i += 1
     element = response.content
