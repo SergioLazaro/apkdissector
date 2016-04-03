@@ -67,6 +67,7 @@ def download(key,apk):
     #    time.sleep(2)
     #    response = requests.get('https://www.virustotal.com/vtapi/v2/file/download', params=params)
     #    i += 1
+    print "CODE: " + str(response.status_code)
     element = response.content
     if response.status_code is 200:
         print "Returning element"
