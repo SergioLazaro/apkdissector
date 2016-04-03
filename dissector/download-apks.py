@@ -30,8 +30,9 @@ def jsonoption(key,file):
     #Reading each element
     i = 0
     success = 0
+    print "ELEMENTS TO DOWNLOAD: " + str(len(result["notifications"]))
     while i < len(result["notifications"]):
-        apk = result["notifications"][i]["md5"]
+        apk = result["notifications"][i]["sha1"]
         result = download(key,apk)
         if result is not None:
             apkfile = open("downloads/"+apk+".apk",'w')
