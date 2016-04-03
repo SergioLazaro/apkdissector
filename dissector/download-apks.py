@@ -68,6 +68,7 @@ def download(key,apk):
         i += 1
     element = response.content
     if response.status_code is 200:
+        print "Returning element"
         return element
     else:
         return None
