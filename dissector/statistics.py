@@ -19,9 +19,9 @@ def main(dir):
             print "ITEM: " + str(i) + " VALUE: " + val + " IS DIR"
             permissions = os.listdir(apkpath)
             print permissions
-            print "LENGTH: " + len(results)
+            print "LENGTH: " + str(len(results))
             results = updateResult(results,permissions)
-            print "LENGTH: " + len(results)
+            print "LENGTH: " + str(len(results))
 
     print "Total apks: " + str(i)
     print "============================================================"
