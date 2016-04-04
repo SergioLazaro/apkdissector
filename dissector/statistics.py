@@ -23,14 +23,23 @@ def main(dir):
 
     print "Total apks: " + str(i)
     print "============================================================"
-    printStatistics(results,i+1)
+    printStatistics(results,i+1,dir)
 
-def printStatistics(results,i):
+def printStatistics(results,i,dir):
     for val in results:
         percentage = (Decimal(val.count)/Decimal(i))*100
         print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
-        #print "PERMISSION: " + val.permission + " VALUE: " + str(val.count) + " PERCENTAGE: " +\
-        #      str((Decimal(val.count)/Decimal(i))*100) + "%"
+
+    response = raw_input("Do you want a JSON file?[Y/N]: ")
+    if response is "Y" or response is "y":
+        generateJSON(results,i,dir)
+
+def generateJSON(results,i,dir):
+    fd = open(dir+"statistics.json","w")
+    fd.write("HELLO")
+    fd.close()
+
+
 
 def updateResult(results, permissions):
     for tmppermission in permissions:
