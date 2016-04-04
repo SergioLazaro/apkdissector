@@ -70,11 +70,3 @@ class Permission:
         self.callerMethod = callerMethod
         self.callerMethodDesc = callerMethodDesc
 
-    def getCallerClass(self):
-        return self.callerClass
-
-    def getCallerMethod(self):
-        return self.callerMethod
-
-    def getCallerMethodDesc(self):
-        return self.callerMethodDesc
