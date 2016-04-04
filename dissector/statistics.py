@@ -62,7 +62,7 @@ if __name__ == "__main__":
                       dest="dir",type='string')
 
     (opts, args) = parser.parse_args()
-    if opts.dir is None:
+    if opts.dir is None or (not os.path.isdir(opts.dir)):
         print_help(parser)
     else:
         main(opts.dir)
