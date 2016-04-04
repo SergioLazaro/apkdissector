@@ -45,7 +45,7 @@ def generateJSON(results,i,dir):
         else:
             fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
                      '",percentage":"' + str(percentage) + '"}')
-        fd.write("]}")
+    fd.write("]}")
 
         #print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
     fd.close()
