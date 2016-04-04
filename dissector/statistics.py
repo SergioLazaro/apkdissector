@@ -14,9 +14,10 @@ def main(dir):
     apks = os.listdir(dir)
     results = list()
     for i,val in enumerate(apks):
-        if os.path.isdir(dir+val):
+        apkpath = dir+val
+        if os.path.isdir(apkpath):
             print "ITEM: " + str(i) + " VALUE: " + val + " IS DIR"
-            permissions = os.listdir(val)
+            permissions = os.listdir(apkpath)
             print permissions
             print "LENGTH: " + len(results)
             results = updateResult(results,permissions)
