@@ -47,7 +47,7 @@ def updateResult(results, permissions):
         else:           #tmppermission exists so we have to increment the value
             p = results[position]
             p.count += 1
-            print "Permission: " + p.permission + " NEW VALUE: " + p.count
+            print "Permission: " + p.permission + " NEW VALUE: " + str(p.count)
     return results
 
 
