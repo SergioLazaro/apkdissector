@@ -40,11 +40,11 @@ def generateJSON(results,i,dir):
     for j,val in enumerate(results):
         percentage = (Decimal(val.count)/Decimal(i))*100
         if j < len(results) - 1:
-            fd.write('{"permission":"' + val.permission + '","count":"' + val.count +
-                     '",percentage":"' + percentage + '"},')
+            fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
+                     '",percentage":"' + str(percentage) + '"},')
         else:
-            fd.write('{"permission":"' + val.permission + '","count":"' + val.count +
-                     '",percentage":"' + percentage + '"}')
+            fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
+                     '",percentage":"' + str(percentage) + '"}')
         fd.write("]}")
 
         #print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
