@@ -28,7 +28,7 @@ def main(dir):
 def printStatistics(results,i,dir):
     for val in results:
         percentage = (Decimal(val.count)/Decimal(i))*100
-        print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
+        print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission[:-5],val.count, percentage)
 
     response = raw_input("Do you want a JSON file?[Y/N]: ")
     if response is "Y" or response is "y":
@@ -40,10 +40,10 @@ def generateJSON(results,i,dir):
     for j,val in enumerate(results):
         percentage = (Decimal(val.count)/Decimal(i))
         if j < len(results) - 1:
-            fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
+            fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
                      '","percentage":"' + str(round(percentage,2)) + '"},')
         else:
-            fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
+            fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
                      '","percentage":"' + str(round(percentage,2)) + '"}')
     fd.write("]}")
 
