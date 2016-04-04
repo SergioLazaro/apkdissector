@@ -30,8 +30,10 @@ def main(dir):
 
 def printStatistics(results,i):
     for val in results:
-        print "PERMISSION: " + val.permission + " VALUE: " + str(val.count) + " PERCENTAGE: " +\
-              str(Decimal(val.count)/Decimal(i))
+        percentage = (Decimal(val.count)/Decimal(i))*100
+        print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f") % (val.permission,val.count, percentage)
+        #print "PERMISSION: " + val.permission + " VALUE: " + str(val.count) + " PERCENTAGE: " +\
+        #      str((Decimal(val.count)/Decimal(i))*100) + "%"
 
 def updateResult(results, permissions):
     for tmppermission in permissions:
