@@ -44,11 +44,9 @@ def updateResult(results, permissions):
             p = PermissionCount(tmppermission,1)
             #Append new PermissionCount
             results.append(p)
-            print "Added new permission: " + p.permission + " VALUE: 1"
         else:           #tmppermission exists so we have to increment the value
             p = results[position]
             p.count += 1
-            print "Permission: " + p.permission + " NEW VALUE: " + str(p.count)
     return results
 
 
