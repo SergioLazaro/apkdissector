@@ -29,7 +29,7 @@ def main(dir):
 
 def printStatistics(results,i):
     for val in results:
-        print "PERMISSION: " + val.permission + " VALUE: " + val.count + " PERCENTAGE: " (val.count/i)
+        print "PERMISSION: " + val.permission + " VALUE: " + str(val.count) + " PERCENTAGE: " + str((val.count/i))
 
 def updateResult(results, permissions):
     for tmppermission in permissions:
