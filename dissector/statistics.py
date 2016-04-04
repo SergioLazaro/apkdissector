@@ -23,7 +23,7 @@ def main(dir):
 
     print "Total apks: " + str(i)
     print "============================================================"
-    printStatistics(results,i-1)
+    printStatistics(results,i+1)
 
 def printStatistics(results,i):
     for val in results:
