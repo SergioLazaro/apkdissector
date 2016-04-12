@@ -17,11 +17,10 @@ def main(dir):
     for i,val in enumerate(apks):
         apkpath = dir+val
         if os.path.isdir(apkpath):
-            print "ITEM: " + str(i) + " VALUE: " + val + " IS DIR"
             permissions = os.listdir(apkpath)
             results = updateResult(results,permissions)
 
-    print "Total apks: " + str(i)
+    print "Total apks: " + str(i+1)
     print "============================================================"
     printStatistics(results,i+1,dir)
 
@@ -46,8 +45,6 @@ def generateJSON(results,i,dir):
             fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
                      '","percentage":"' + str(round(percentage,2)) + '"}')
     fd.write("]}")
-
-        #print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
     fd.close()
 
 
@@ -82,7 +79,7 @@ if __name__ == "__main__":
     # 1 -> Path to your directory with APKs analyzed
 
     parser = optparse.OptionParser()
-    parser.add_option('-d', '--dir' , action="store", help="Path to your directory with APKs analyzed",
+    parser.add_option('-d', '--dir' , action="store", help="Path to your directory with APKs analyzed i.e:/path/to/your/apk/analyzed/",
                       dest="dir",type='string')
 
     (opts, args) = parser.parse_args()
