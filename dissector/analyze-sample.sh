@@ -12,7 +12,7 @@ else
         if [ -f "$1$elem" ]; then
             if [ $i -lt 5 ]; then
                 echo "Launching thread $i"
-                python /home/sid/android/apkdissector/dissector/main.py -v 5.1.1 -i "$1$elem" -o /tmp/clean-sd1 &
+                python /home/sid/android/apkdissector/dissector/main.py -v 5.1.1 -i "$1$elem" -o /tmp/asd/testing/results &
                 i=$(($i + 1))
                 output=$output"\n"$elem
             else
@@ -22,7 +22,7 @@ else
                 i=0
                 #Launch the element we have when i = 5
                 echo "Launching thread $i"
-                python /home/sid/android/apkdissector/dissector/main.py -v 5.1.1 -i "$1$elem" -o /tmp/clean-sd1 &
+                python /home/sid/android/apkdissector/dissector/main.py -v 5.1.1 -i "$1$elem" -o /tmp/asd/testing/results &
                 i=$(($i + 1))
             fi
         fi
