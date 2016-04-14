@@ -1,5 +1,9 @@
-__author__ = 'vaioco'
+import threading
+from threading import Thread
 
+__author__ = 'vaioco && sergio'
+
+from core.configurationreader import ConfigurationReader
 from collector.manifest import Manifest
 from core.target import Target
 from analyzer.manifest import ManifestAnalyzer
@@ -9,6 +13,7 @@ from core.writers import HookWriter
 import sys
 import optparse
 import core.myglobals
+import os
 #sys.path.insert(1, '/Users/vaioco/android_stuff/androguard')
 
 static_target = 'apks/test-malware.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base.apk'
@@ -25,9 +30,18 @@ dest = 'files/'
 
 python main.py -i file1 -o /home/sid/android/malware/analysis
 '''
-def main(version, apkpath, destinationpath):
+def main(path):
     global dissector_global_dir
-    print 'Analizzo il manifest'
+    config = ConfigurationReader()   #Config parameters
+    #Check if the path is a file or a dir
+    if os.path.isdir(path):
+        analyzeSample(path, config)
+
+        #Could call to statistics.py to get some permissions statistics
+    else:
+        analyzeAPK(path, config)
+
+def analyzeAPK(apkpath, config):
     static_target = str(apkpath) #this must be the complete path of apk file
     targetapp = Target(static_target)
     if targetapp.package_name is not None:
@@ -43,9 +57,7 @@ def main(version, apkpath, destinationpath):
     #Should appear a new file called [files/permissions.json]
     print "Writing new JSON file with pscout mappings..."
     #Should appear a new file called []
-    manifestInfo.checkPermissions(version, apkpath, destinationpath)
-
-
+    manifestInfo.checkPermissions(config.version, apkpath, config.outputdir)
 
     #deob = Deobfuscator(targetapp)
     #vmfilter = VirtualMethodsFilter(manifestAnalysis)
@@ -53,25 +65,63 @@ def main(version, apkpath, destinationpath):
     #writer.write(dest+'Fuffa.java')
     #print 'scritto'
 
+def analyzeSample(samplepath, config):
+    runningThreads = 0
+    i = 0
+    apks = os.listdir(samplepath)
+    threadList = list()
+    for apk in apks:
+        if runningThreads < config.threads:
+            #Generating apk path
+            apkpath = ""
+            if samplepath[:-1] is "/":
+                apkpath = samplepath + apk
+            else:
+                apkpath = samplepath + "/" + apk
+
+            param = prepareParameters(apkpath,config)
+            t = threading.Thread(target=analyzeAPK(), args=param)
+            threadList.append(t)
+            t.start()   #Starting new thread
+            i += 1
+        else:
+            #Wait until all threads are finished
+            for thread in threadList:
+                thread.join()
+            threadList = list() #Clear list that contains finished threads
+            #Launch thread of this iteration and append to our threadList
+            param = prepareParameters(apkpath,config)
+            t = threading.Thread(target=analyzeAPK(), args=param)
+            threadList.append(t)
+            t.start()
+            i=1
+
+def prepareParameters(apkpath,config):
+    param = list()
+    list.append(config.version)
+    list.append(apkpath)
+    list.append(config.outputdir)
+    return param
+
 def print_help(parser):
     print "arguments error!!\n"
     parser.print_help()
     exit(-1)
 
 if __name__ == "__main__":
-    #ARG0: version of android for checking pscout version file
-    #ARG1: APK name, always without the extension
-    #ARG2: Directory where you want to write the files
-    #      and also, where the PScout files and db (if exists) should be
+    #PARAMETERS
+    #-f, --file: APK file path
+    #-d, --dir: Path to a directory with APKS
     core.myglobals.init()
     print core.myglobals.dissector_global_dir
     parser = optparse.OptionParser()
-    parser.add_option('-v', action="store", help="Android version to compare with", dest="pscoutversion",type='string')
-    parser.add_option('-i', action="store", help="apk file without the extensions", dest="inputapk",type='string')
-    parser.add_option('-o', action="store", help="Working directory", dest="outdir",type='string')
+    parser.add_option('-f', '--file', action="store", help="APK file path", dest="file",type="string")
+    parser.add_option('-d','--dir', action="store", help="Path to a directory with APKs", dest="dir",type="string")
 
     (opts, args) = parser.parse_args()
-    if opts.pscoutversion is None or opts.inputapk is None or opts.outdir is None:
+    if opts.file is not None:
+        main(opts.file)
+    elif opts.dir is not None:
+        main(opts.dir)
+    else:
         print_help(parser)
-    #print opts, args
-    main(opts.pscoutversion,opts.inputapk,opts.outdir)

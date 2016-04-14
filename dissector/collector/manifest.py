@@ -92,7 +92,6 @@ class Manifest(Acollector):
                 elif tag == 'receiver':
                     self.collected_data[tag].append(Receiver(name,exp,item))
                 elif tag == 'uses-permission':
-                    print name
                     #Adding new <uses-permission> entry
                     self.collected_data[tag].append(Permission(name))
                     #writer.add(item.getAttribute('android:name'))
@@ -113,7 +112,7 @@ class Manifest(Acollector):
             data = json.load(file)  #Our JSON file
         '''
         apkname = os.path.basename(os.path.splitext(apkname)[0])
-        dir = destinationpath +"/analysis/" + str(apkname) + "/"
+        dir = destinationpath + str(apkname) + "/"
         #Creating directory if not exists
         if not os.path.exists(dir):
             print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."

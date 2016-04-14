@@ -1,3 +1,4 @@
+__author__ = 'sergio'
 import sqlite3
 
 conn = sqlite3.connect('../dbs/example.db')
