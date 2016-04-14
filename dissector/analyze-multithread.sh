@@ -28,6 +28,7 @@ else
             fi
         fi
     done
+    wait
     END=$(date +%s)
     DIFF=$(( $END - $START ))
     echo "It took $DIFF seconds"
