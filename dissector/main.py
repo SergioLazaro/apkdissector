@@ -33,11 +33,20 @@ dest = 'files/'
 python main.py -i file1 -o /home/sid/android/malware/analysis
 '''
 def main(path):
+
+    #Generating directory path
+    if path[:-1] is not "/":
+        path = path + "/"
+
     global dissector_global_dir
     config = ConfigurationReader()   #Config parameters
     #Check if the path is a file or a dir
     if os.path.isdir(path):
-        analyzeSample(path, config)
+        #analyzeSample(path, config)
+        apks = os.listdir(path)
+        for apk in apks:
+            analyzeAPK(path+apk,config)
+
         #Could call to statistics.py to get some permissions statistics
         currentdir = os.getcwd()
         print "Getting some statistics..."
