@@ -96,13 +96,11 @@ def analyzeAPK(apkpath, config):
 def analyzeSample(samplepath, config):
     start = time.time()
     runningThreads = 0
-    i = 0
     apks = os.listdir(samplepath)
     threadList = list()
     for apk in apks:
         if runningThreads < config.threads:
             #Generating apk path
-            apkpath = ""
             if samplepath[:-1] is "/":
                 apkpath = samplepath + apk
             else:
@@ -111,7 +109,7 @@ def analyzeSample(samplepath, config):
             t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
             threadList.append(t)
             t.start()   #Starting new thread
-            i += 1
+            runningThreads += 1
         else:
             #Wait until all threads are finished
             for thread in threadList:
@@ -121,7 +119,7 @@ def analyzeSample(samplepath, config):
             t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
             threadList.append(t)
             t.start()
-            i=1
+            runningThreads = 1
     for thread in threadList:
         thread.join()
 
