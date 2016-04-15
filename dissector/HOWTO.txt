@@ -1,0 +1,29 @@
+This file explain how to run all of the available python scripts.
+All of this scripts have the -h option to show the help info.
+
+** main.py **
+
+Analyze a single apk or a sample of apks (Take care of config.ini configuration file)
+
+python main.py -f /path/to/apk
+python main.py -d /path/to/dir/with/apks
+
+** statistics.py **
+
+Get some permission statistics(percentage) of a directory with analyzed apks
+python statistics.py -d /path/to/dir/with/analyzed/apks
+
+** download-apks.py **
+Download apks from virustotal
+
+python download-apks.py -k virustotalAPIkey -f textfile
+python download-apks.py -k virustotalAPIkey -j jsonfile
+
+You should use  '-j' or '-f'.
+'-f' -> text file with apks hashes
+'-j' -> json file with apks hashes
+
+** createSQLite.py **
+Create SQLite DB in /tmp needed while running main.py
+
+python createSQLite.py -v 5.1.1 -f /path/to/PScout/csv/file
