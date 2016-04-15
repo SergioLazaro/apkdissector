@@ -1,6 +1,8 @@
 import threading
 from threading import Thread
 
+import time
+
 __author__ = 'vaioco && sergio'
 
 from core.configurationreader import ConfigurationReader
@@ -36,12 +38,29 @@ def main(path):
     #Check if the path is a file or a dir
     if os.path.isdir(path):
         analyzeSample(path, config)
-
         #Could call to statistics.py to get some permissions statistics
+        currentdir = os.getcwd()
+        print "Getting some statistics..."
+        os.system("python " + currentdir + "/statistics.py -d " + config.outputdir)
     else:
+        start = time.time()
         analyzeAPK(path, config)
+        end = time.time()
+        print "Total time spent (seconds): %.2f" % (end - start)
+
+
 
 def analyzeAPK(apkpath, config):
+
+    #Creating directory for the current apk
+    apkname = os.path.basename(os.path.splitext(apkpath)[0])
+    dir = config.outputdir + str(apkname) + "/"
+    #Creating directory if not exists
+    if not os.path.exists(dir):
+        print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
+        os.makedirs(dir)
+        os.chmod(dir,0755)
+
     static_target = str(apkpath) #this must be the complete path of apk file
     targetapp = Target(static_target)
     if targetapp.package_name is not None:
@@ -51,14 +70,23 @@ def analyzeAPK(apkpath, config):
     #first we need to check if a cache file already exists
     #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
     manifestInfo = Manifest(targetapp)
-    manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
 
+    #Changing stdout to apkName.txt file (Normal output and errors)
+    print "Redirecting stdout to " + dir + "output.txt"
+    fd = open(dir + 'output.txt','w')
+    sys.stdout = fd
+    manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
     print "Writing new JSON file with permissions..."
     #Should appear a new file called [files/permissions.json]
     print "Writing new JSON file with pscout mappings..."
     #Should appear a new file called []
-    manifestInfo.checkPermissions(config.version, apkpath, config.outputdir)
+    manifestInfo.checkPermissions(config,apkname)
 
+    #Restoring stdout
+    sys.stdout = sys.__stdout__
+    fd.close()
+    print apkname + " has been analyzed."
+    print "**********************************************************"
     #deob = Deobfuscator(targetapp)
     #vmfilter = VirtualMethodsFilter(manifestAnalysis)
     #writer = HookWriter(manifestAnalysis,vmfilter)
@@ -66,6 +94,7 @@ def analyzeAPK(apkpath, config):
     #print 'scritto'
 
 def analyzeSample(samplepath, config):
+    start = time.time()
     runningThreads = 0
     i = 0
     apks = os.listdir(samplepath)
@@ -79,8 +108,7 @@ def analyzeSample(samplepath, config):
             else:
                 apkpath = samplepath + "/" + apk
 
-            param = prepareParameters(apkpath,config)
-            t = threading.Thread(target=analyzeAPK(), args=param)
+            t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
             threadList.append(t)
             t.start()   #Starting new thread
             i += 1
@@ -90,18 +118,16 @@ def analyzeSample(samplepath, config):
                 thread.join()
             threadList = list() #Clear list that contains finished threads
             #Launch thread of this iteration and append to our threadList
-            param = prepareParameters(apkpath,config)
-            t = threading.Thread(target=analyzeAPK(), args=param)
+            t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
             threadList.append(t)
             t.start()
             i=1
+    for thread in threadList:
+        thread.join()
 
-def prepareParameters(apkpath,config):
-    param = list()
-    list.append(config.version)
-    list.append(apkpath)
-    list.append(config.outputdir)
-    return param
+    end = time.time()
+    print "Total time spent (seconds): %.2f" % (end - start)
+
 
 def print_help(parser):
     print "arguments error!!\n"

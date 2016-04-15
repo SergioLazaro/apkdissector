@@ -5,11 +5,11 @@ import os
 import core
 
 class PScoutDB:
-    def __init__(self,api):
+    def __init__(self,api,dbpath):
         self.api = api
         self.destinationpath = core.myglobals.dissector_global_dir
         self.conn = None
-        self.dbpath = self.destinationpath + "/pscout_files/dbs/" + str(api) + ".db"
+        self.dbpath = dbpath + str(api) + ".db"
         if not os.path.exists(self.dbpath):
             print 'creating the dbpath: ' + self.dbpath
             self.create()

@@ -1,11 +1,9 @@
-__author__ = 'vaioco'
-__author__ = 'sergio'
+__author__ = 'vaioco && sergio'
 
-from core.acollector import Acollector
 from collections import defaultdict
 from core.writers import JsonWrite
 from collector.pscoutDB import PScoutDB
-from collector.pscoutDB import Permission
+from core.acollector import Acollector
 
 import json
 import os, sys
@@ -105,21 +103,16 @@ class Manifest(Acollector):
         print "=============================="
         #writer.write("files/permissions.json")
 
-    def checkPermissions(self,version,apkname,destinationpath):
+    def checkPermissions(self,config,apkname):
+        #PARAMS(self,version,apkname,destinationpath,dbpath)
         '''
         path = os.getcwd() + "/" + str("files/permissions.json")
         with open(path,"r") as file:
             data = json.load(file)  #Our JSON file
         '''
-        apkname = os.path.basename(os.path.splitext(apkname)[0])
-        dir = destinationpath + str(apkname) + "/"
-        #Creating directory if not exists
-        if not os.path.exists(dir):
-            print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
-            os.makedirs(dir)
-            os.chmod(dir,0755)
+        dir = config.outputdir + str(apkname) + "/"
 
-        db = PScoutDB(version)
+        db = PScoutDB(config.version,config.dbpath)
         numfiles = 0
         #for permission in data["permissions"]:      #Getting all entries for a permission
         for permission in self.collected_data['uses-permission']:
