@@ -33,20 +33,11 @@ dest = 'files/'
 python main.py -i file1 -o /home/sid/android/malware/analysis
 '''
 def main(path):
-
-    #Generating directory path
-    if path[:-1] is not "/":
-        path = path + "/"
-
     global dissector_global_dir
     config = ConfigurationReader()   #Config parameters
     #Check if the path is a file or a dir
     if os.path.isdir(path):
-        #analyzeSample(path, config)
-        apks = os.listdir(path)
-        for apk in apks:
-            analyzeAPK(path+apk,config)
-
+        analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
         currentdir = os.getcwd()
         print "Getting some statistics..."
@@ -108,7 +99,9 @@ def analyzeSample(samplepath, config):
     apks = os.listdir(samplepath)
     threadList = list()
     for apk in apks:
-        if runningThreads < config.threads:
+        print 'config.threads = ' + str(config.threads),
+        print  'running: ' + str(runningThreads)
+        if int(runningThreads) <= int(config.threads):
             #Generating apk path
             if samplepath[:-1] is "/":
                 apkpath = samplepath + apk
@@ -119,7 +112,10 @@ def analyzeSample(samplepath, config):
             threadList.append(t)
             t.start()   #Starting new thread
             runningThreads += 1
+            print 'mi sono rotto esco con ' + str(runningThreads)
+           # break
         else:
+            print 'aspetto i threadssssss'
             #Wait until all threads are finished
             for thread in threadList:
                 thread.join()

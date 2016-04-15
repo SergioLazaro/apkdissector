@@ -30,6 +30,7 @@ def printStatistics(results,i,dir):
         print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission[:-5],val.count, percentage)
 
     response = raw_input("Do you want a JSON file?[Y/N]: ")
+    response = "Y"
     if response is "Y" or response is "y":
         generateJSON(results,i,dir)
 
