@@ -1,8 +1,7 @@
-import os,optparse
-
-from decimal import Decimal
-
 __author__ = 'sergio'
+
+import os,optparse
+from decimal import Decimal
 
 class PermissionCount:
 
@@ -17,12 +16,21 @@ def main(dir):
     for i,val in enumerate(apks):
         apkpath = dir+val
         if os.path.isdir(apkpath):
-            permissions = os.listdir(apkpath)
+            direlements = os.listdir(apkpath)   #'ls'
+            permissions = getAnalyzedApks(direlements)  #Getting all apks directories
             results = updateResult(results,permissions)
 
     print "Total apks: " + str(i+1)
     print "============================================================"
     printStatistics(results,i+1,dir)
+
+#Method used to exclude files and get only directories
+def getAnalyzedApks(direlements):
+    permissions = list()
+    for elem in direlements:
+        if elem.endswith(".json"):
+            permissions.append(elem)
+    return permissions
 
 def printStatistics(results,i,dir):
     for val in results:
@@ -66,8 +74,6 @@ def updateResult(results, permissions):
             p.count += 1
     return results
 
-
-    return results
 
 def print_help(parser):
     print "arguments error!!\n"
