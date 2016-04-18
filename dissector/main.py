@@ -16,6 +16,7 @@ import sys
 import optparse
 import core.myglobals
 import os
+from core.threadAnalyzer import ThreadAnalyzer
 #sys.path.insert(1, '/Users/vaioco/android_stuff/androguard')
 
 static_target = 'apks/test-malware.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base.apk'
@@ -44,12 +45,16 @@ def main(path):
         os.system("python " + currentdir + "/statistics.py -d " + config.outputdir)
     else:
         start = time.time()
-        analyzeAPK(path, config)
+        #analyzeAPK(path, config)
+        apk = ThreadAnalyzer(path,config)
+        print "Analyzing APK " + path
+        apk.run()
+        #Wait until thread ends
+        apk.join()
         end = time.time()
         print "Total time spent (seconds): %.2f" % (end - start)
 
-
-
+'''
 def analyzeAPK(apkpath, config):
 
     #Creating directory for the current apk
@@ -92,6 +97,7 @@ def analyzeAPK(apkpath, config):
     #writer = HookWriter(manifestAnalysis,vmfilter)
     #writer.write(dest+'Fuffa.java')
     #print 'scritto'
+'''
 
 def analyzeSample(samplepath, config):
     start = time.time()
@@ -100,7 +106,7 @@ def analyzeSample(samplepath, config):
     threadList = list()
     for apk in apks:
         print 'config.threads = ' + str(config.threads),
-        print  'running: ' + str(runningThreads)
+        print 'running: ' + str(runningThreads)
         if int(runningThreads) <= int(config.threads):
             #Generating apk path
             if samplepath[:-1] is "/":
@@ -108,9 +114,10 @@ def analyzeSample(samplepath, config):
             else:
                 apkpath = samplepath + "/" + apk
 
-            t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
+            #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
+            t = ThreadAnalyzer(apkpath,config)
             threadList.append(t)
-            t.start()   #Starting new thread
+            t.run()   #Starting new thread
             runningThreads += 1
             print 'mi sono rotto esco con ' + str(runningThreads)
            # break
@@ -121,9 +128,10 @@ def analyzeSample(samplepath, config):
                 thread.join()
             threadList = list() #Clear list that contains finished threads
             #Launch thread of this iteration and append to our threadList
-            t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
+            #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
+            t = ThreadAnalyzer(apkpath,config)
             threadList.append(t)
-            t.start()
+            t.run()
             runningThreads = 1
     for thread in threadList:
         thread.join()
