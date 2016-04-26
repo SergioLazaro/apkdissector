@@ -29,7 +29,6 @@ class ThreadAnalyzer (threading.Thread):
 
         static_target = str(apkpath) #this must be the complete path of apk file
         #Catching Androguard exception
-        exception = 0
         try:
             targetapp = Target(static_target)
             if targetapp.package_name is not None:
@@ -46,10 +45,6 @@ class ThreadAnalyzer (threading.Thread):
             fd = open(dir + 'output.txt','w')
             sys.stdout = fd
             manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-            print "Writing new JSON file with permissions..."
-            #Should appear a new file called [files/permissions.json]
-            print "Writing new JSON file with pscout mappings..."
-            #Should appear a new file called []
             manifestInfo.checkPermissions(config,apkname)
 
             #Restoring stdout
@@ -59,8 +54,10 @@ class ThreadAnalyzer (threading.Thread):
             print "**********************************************************"
         except:
             print "Error appeared analyzing " + static_target
-            exception = 1
-
+            e = sys.exc_info()[0]
+            print e
+            fd = open(config.outputdir + "errors.txt","a")
+            fd.write(apkpath + "\n")
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)

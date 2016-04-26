@@ -39,6 +39,14 @@ def main(path):
     config = ConfigurationReader()   #Config parameters
     #Check if the path is a file or a dir
     if os.path.isdir(path):
+        #Checking if path is OK
+        if path[-1:] is not "/":
+            path = path + "/"
+        if os.path.isfile(path + "errors.txt") is False:
+            print "Creating file to report errors in " + path
+            fd = open(path + "errors.txt","w")
+            fd.close()
+
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
         currentdir = os.getcwd()
@@ -60,9 +68,6 @@ def main(path):
         print "Total time spent (seconds): %.2f" % (end - start)
 
 def analyzeSample(samplepath, config):
-    #Check if samplepath is correct
-    if samplepath[-1:] is not "/":
-        samplepath = samplepath + "/"
     start = time.time()
     runningThreads = 1
     apks = os.listdir(samplepath)
