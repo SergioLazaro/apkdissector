@@ -100,11 +100,10 @@ def analyzeAPK(apkpath, config):
 '''
 
 def analyzeSample(samplepath, config):
-    print "BEFORE: " + samplepath
+    #Check if samplepath is correct
     if samplepath[:-1] is not "/":
         samplepath = samplepath + "/"
-    print "AFTER: " + samplepath
-    
+
     start = time.time()
     runningThreads = 0
     apks = os.listdir(samplepath)
@@ -112,20 +111,20 @@ def analyzeSample(samplepath, config):
     for apk in apks:
         print 'config.threads = ' + str(config.threads),
         print 'running: ' + str(runningThreads)
-        if int(runningThreads) <= int(config.threads):
+        if int(runningThreads) < int(config.threads):
             #Generating apk path
             apkpath = samplepath + apk
 
             #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
-            print "APK PATH: " + apkpath
+
             t = ThreadAnalyzer(apkpath,config)
             threadList.append(t)
             t.run()   #Starting new thread
             runningThreads += 1
-            print 'mi sono rotto esco con ' + str(runningThreads)
-           # break
+            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
+            # break
         else:
-            print 'aspetto i threadssssss'
+            print 'Waiting for threads...'
             #Wait until all threads are finished
             for thread in threadList:
                 thread.join()
