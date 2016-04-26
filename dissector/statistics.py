@@ -20,11 +20,6 @@ class Statistics:
 
 
     def parseOutput(self):
-        #Check if samplepath is correct
-        print self.dir
-        if self.dir[:-1] is not "/":
-            self.dir = self.dir + "/"
-        print self.dir
         #Getting analyzed apks directories
         analyzedfolders = os.listdir(self.dir)
         errors = 0
