@@ -16,7 +16,7 @@ class ThreadAnalyzer (threading.Thread):
         #Call to Analyze APK
         self.analyzeAPK(self.apkpath,self.config)
 
-    def analyzeAPK(apkpath, config):
+    def analyzeAPK(self,apkpath, config):
 
         #Creating directory for the current apk
         apkname = os.path.basename(os.path.splitext(apkpath)[0])
