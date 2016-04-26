@@ -61,6 +61,7 @@ def main(path):
 def analyzeSample(samplepath, config):
     #Check if samplepath is correct
     print samplepath
+    print "ELEM: " + samplepath[:-1]
     if samplepath[:-1] is not "/":
         samplepath = samplepath + "/"
     print samplepath
