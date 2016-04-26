@@ -53,10 +53,10 @@ class ThreadAnalyzer (threading.Thread):
             print apkname + " has been analyzed."
             print "**********************************************************"
         except:
-            print "Error appeared analyzing " + static_target
-            fd = open(config.outputdir + "errors/" + apkname + ".txt","w")
+            print "[!!] Error appeared analyzing " + static_target
+            fd = open(config.errorlogdir + apkname + ".txt","w")
             err = traceback.format_exc()
-            fd.write("ERROR: " + str(err))
+            fd.write(str(err))
             fd.close
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)

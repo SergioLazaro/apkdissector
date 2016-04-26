@@ -42,9 +42,9 @@ def main(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
-        if os.path.isdir(path + "errors") is False:
-            print "Creating folder to report errors in " + path + "errors"
-            os.mkdir(path + "errors",0666)
+        if os.path.isdir(config.errorlogdir) is False:
+            print "Creating folder to report errors in " + config.errorlogdir + "errors"
+            os.mkdir(config.errorlogdir,0666)
 
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
