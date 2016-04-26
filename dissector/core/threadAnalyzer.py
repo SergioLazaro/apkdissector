@@ -27,7 +27,7 @@ class ThreadAnalyzer (threading.Thread):
             os.makedirs(dir)
             os.chmod(dir,0755)
 
-
+        print "APK PATH = " + apkpath
         static_target = str(apkpath) #this must be the complete path of apk file
         targetapp = Target(static_target)
         if targetapp.package_name is not None:
