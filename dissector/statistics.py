@@ -19,26 +19,6 @@ class Statistics:
         self.parseOutput()
 
 
-    def parseOutput(self):
-        #Checking if directory path is correct
-        if self.dir[-1:] is not "/":
-            self.dir = self.dir + "/"
-
-        #Getting analyzed apks directories
-        analyzedfolders = os.listdir(self.dir)
-        errors = 0
-        for i,apkdir in enumerate(analyzedfolders):
-            apkdirpath = self.dir + apkdir + "/"
-            if os.path.isdir(apkdirpath):       #Work if apk path is a directory
-                elements = os.listdir(apkdirpath)
-                if "output.txt" in elements:
-                    f = open(apkdirpath + 'output.txt')
-                    s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-                    if (s.find('Androguard') or s.find('androguard')) != -1:
-                        errors += 1
-
-        print "Analyzed " + str(i+1) + " apks. There was " + str(errors) + " errors."
-
 def main(dir):
     apks = os.listdir(dir)
     results = list()

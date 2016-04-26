@@ -42,19 +42,15 @@ def main(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
-        if os.path.isfile(path + "errors.txt") is False:
-            print "Creating file to report errors in " + path
-            fd = open(path + "errors.txt","w")
-            fd.close()
+        if os.path.isdir(path + "errors") is False:
+            print "Creating folder to report errors in " + path + "errors"
+            os.mkdir(path + "errors",0666)
 
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
-        currentdir = os.getcwd()
         print "Getting some statistics..."
         stats = Statistics(config.outputdir)
         stats.getStatistics()
-        stats.parseOutput()
-        #os.system("python " + currentdir + "/statistics.py -d " + config.outputdir)
     else:
         start = time.time()
         #analyzeAPK(path, config)
