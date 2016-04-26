@@ -28,7 +28,10 @@ class ThreadAnalyzer (threading.Thread):
             os.chmod(dir,0755)
 
         static_target = str(apkpath) #this must be the complete path of apk file
-        targetapp = Target(static_target)
+        try:
+            targetapp = Target(static_target)
+        except:
+            print "Error appeared analyzing " + static_target
         if targetapp.package_name is not None:
             session_name = targetapp.package_name #usare md5, meglio
         else:
