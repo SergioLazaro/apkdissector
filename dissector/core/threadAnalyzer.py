@@ -58,7 +58,7 @@ class ThreadAnalyzer (threading.Thread):
                 print "[!!] Error appeared analyzing " + static_target
                 fd = open(config.errorlogdir + apkname + ".txt","w")
                 err = traceback.format_exc()
-                fd.write(str(err))
+                fd.write(apkname + "\n" + str(err))
                 fd.close
             else:
                 raise

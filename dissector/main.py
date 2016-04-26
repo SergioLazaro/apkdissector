@@ -50,6 +50,7 @@ def main(path):
         stats.getStatistics()
         print "[*] Errors are reported in " + config.errorlogdir
         print "[*] More output for each APK available in " + config.outputdir
+
     else:
         start = time.time()
         #analyzeAPK(path, config)
