@@ -16,8 +16,6 @@ class Statistics:
 
     def getStatistics(self):
         main(self.dir)
-        self.parseOutput()
-
 
 def main(dir):
     apks = os.listdir(dir)
