@@ -9,6 +9,20 @@ class PermissionCount:
         self.permission = permission
         self.count = count
 
+class Statistics:
+
+    def __init__(self, dir):
+        self.dir = dir
+
+    def getStatistics(self):
+        main(self.dir)
+        self.parseOutput()
+
+
+    def parseOutput(self):
+        analyzedfolders = os.listdir(self.dir)
+        print analyzedfolders
+        print "Output directory: " + self.dir
 
 def main(dir):
     apks = os.listdir(dir)

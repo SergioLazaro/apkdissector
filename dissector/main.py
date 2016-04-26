@@ -17,6 +17,7 @@ import optparse
 import core.myglobals
 import os
 from core.threadAnalyzer import ThreadAnalyzer
+from statistics import Statistics
 #sys.path.insert(1, '/Users/vaioco/android_stuff/androguard')
 
 static_target = 'apks/test-malware.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base.apk'
@@ -42,7 +43,10 @@ def main(path):
         #Could call to statistics.py to get some permissions statistics
         currentdir = os.getcwd()
         print "Getting some statistics..."
-        os.system("python " + currentdir + "/statistics.py -d " + config.outputdir)
+        stats = Statistics(config.outputdir)
+        stats.getStatistics()
+        stats.parseOutput()
+        #os.system("python " + currentdir + "/statistics.py -d " + config.outputdir)
     else:
         start = time.time()
         #analyzeAPK(path, config)
