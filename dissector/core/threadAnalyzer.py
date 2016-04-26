@@ -55,7 +55,7 @@ class ThreadAnalyzer (threading.Thread):
         except:
             print "Error appeared analyzing " + static_target
             e = sys.exc_info()[0]
-            print "[*] Error: " + e
+            print "[*] Error: " + str(e)
             fd = open(config.outputdir + "errors/" + apkname + ".txt","w")
             fd.write(traceback.print_exc())
             fd.close
