@@ -1,3 +1,5 @@
+import shutil
+
 __author__='sergio'
 
 import threading, os, sys, traceback
@@ -60,7 +62,7 @@ class ThreadAnalyzer (threading.Thread):
                 err = traceback.format_exc()
                 fd.write(apkname + "\n" + str(err))
                 fd.close
-                os.remove(dir)
+                shutil.rmtree(dir)
             else:
                 raise
         #deob = Deobfuscator(targetapp)
