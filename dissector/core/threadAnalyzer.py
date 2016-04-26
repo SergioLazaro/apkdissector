@@ -28,17 +28,22 @@ class ThreadAnalyzer (threading.Thread):
             os.chmod(dir,0755)
 
         static_target = str(apkpath) #this must be the complete path of apk file
+        #Catching Androguard exception
+        exception = 0
         try:
             targetapp = Target(static_target)
+            if targetapp.package_name is not None:
+                session_name = targetapp.package_name #usare md5, meglio
+            else:
+                session_name = "dummyname"
+
+            manifestInfo = Manifest(targetapp)
         except:
             print "Error appeared analyzing " + static_target
-        if targetapp.package_name is not None:
-            session_name = targetapp.package_name #usare md5, meglio
-        else:
-            session_name = "dummyname"
+            exception = 1
+
         #first we need to check if a cache file already exists
         #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
-        manifestInfo = Manifest(targetapp)
 
         #Changing stdout to apkName.txt file (Normal output and errors)
         print "Redirecting stdout to " + dir + "output.txt"

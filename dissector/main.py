@@ -63,13 +63,13 @@ def analyzeSample(samplepath, config):
     if samplepath[-1:] is not "/":
         samplepath = samplepath + "/"
     start = time.time()
-    runningThreads = 0
+    runningThreads = 1
     apks = os.listdir(samplepath)
     threadList = list()
     for apk in apks:
         print 'config.threads = ' + str(config.threads),
-        print 'running: ' + str(runningThreads + 1)
-        if int(runningThreads) < int(config.threads):
+        print 'running: ' + str(runningThreads)
+        if int(runningThreads) <= int(config.threads):
             #Generating apk path
             apkpath = samplepath + apk
 
@@ -78,7 +78,7 @@ def analyzeSample(samplepath, config):
             t.run()   #Starting new thread
             threadList.append(t)
             runningThreads += 1
-            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads + 1)
+            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
             # break
         else:
             print 'Waiting for threads...'
@@ -96,7 +96,7 @@ def analyzeSample(samplepath, config):
             t.run()
             threadList.append(t)
             runningThreads = 1
-            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads + 1)
+            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
 
     print "Waiting to the last threads launched"
     for thread in threadList:
