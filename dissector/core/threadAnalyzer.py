@@ -7,16 +7,17 @@ from analyzer.manifest import ManifestAnalyzer
 
 
 class ThreadAnalyzer (threading.Thread):
-    def __init__(self, apkpath, config):
+    def __init__(self, apkpath, config,type):
         threading.Thread.__init__(self)
         self.apkpath = apkpath
         self.config = config
+        self.type = type
 
     def run(self):
         #Call to Analyze APK
-        self.analyzeAPK(self.apkpath,self.config)
+        self.analyzeAPK(self.apkpath,self.config,self.type)
 
-    def analyzeAPK(self,apkpath, config):
+    def analyzeAPK(self,apkpath, config, type):
 
         #Creating directory for the current apk
         apkname = os.path.basename(os.path.splitext(apkpath)[0])
@@ -53,11 +54,14 @@ class ThreadAnalyzer (threading.Thread):
             print apkname + " has been analyzed."
             print "**********************************************************"
         except:
-            print "[!!] Error appeared analyzing " + static_target
-            fd = open(config.errorlogdir + apkname + ".txt","w")
-            err = traceback.format_exc()
-            fd.write(str(err))
-            fd.close
+            if type is "d":
+                print "[!!] Error appeared analyzing " + static_target
+                fd = open(config.errorlogdir + apkname + ".txt","w")
+                err = traceback.format_exc()
+                fd.write(str(err))
+                fd.close
+            else:
+                raise
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)

@@ -49,10 +49,11 @@ def main(path):
         stats = Statistics(config.outputdir)
         stats.getStatistics()
         print "[*] Errors are reported in " + config.errorlogdir
+        print "[*] More output for each APK available in " + config.outputdir
     else:
         start = time.time()
         #analyzeAPK(path, config)
-        apk = ThreadAnalyzer(path,config)
+        apk = ThreadAnalyzer(path,config,"f")
         print "Analyzing APK " + path
         apk.run()
         #Wait until thread ends
@@ -71,8 +72,7 @@ def analyzeSample(samplepath, config):
             #Generating apk path
             apkpath = samplepath + apk
 
-            #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
-            t = ThreadAnalyzer(apkpath,config)
+            t = ThreadAnalyzer(apkpath,config,"d")
             t.run()   #Starting new thread
             threadList.append(t)
             print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
@@ -84,12 +84,10 @@ def analyzeSample(samplepath, config):
                 if thread.isAlive():        #A thread could have finished his job before join()...
                     thread.join()
             threadList = list() #Clear list that contains finished threads
-            #Launch thread of this iteration and append to our threadList
-            #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
             #Generating apk path
             apkpath = samplepath + apk
 
-            t = ThreadAnalyzer(apkpath,config)
+            t = ThreadAnalyzer(apkpath,config,"d")
             t.run()
             threadList.append(t)
             runningThreads = 1
