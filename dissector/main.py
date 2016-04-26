@@ -76,9 +76,8 @@ def analyzeSample(samplepath, config):
             t = ThreadAnalyzer(apkpath,config)
             t.run()   #Starting new thread
             threadList.append(t)
-            runningThreads += 1
             print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
-            # break
+            runningThreads += 1
         else:
             print 'Waiting for threads...'
             #Wait until all threads are finished
