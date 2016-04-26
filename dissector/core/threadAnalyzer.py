@@ -38,29 +38,29 @@ class ThreadAnalyzer (threading.Thread):
                 session_name = "dummyname"
 
             manifestInfo = Manifest(targetapp)
+            #first we need to check if a cache file already exists
+            #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
+
+            #Changing stdout to apkName.txt file (Normal output and errors)
+            print "Redirecting stdout to " + dir + "output.txt"
+            fd = open(dir + 'output.txt','w')
+            sys.stdout = fd
+            manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
+            print "Writing new JSON file with permissions..."
+            #Should appear a new file called [files/permissions.json]
+            print "Writing new JSON file with pscout mappings..."
+            #Should appear a new file called []
+            manifestInfo.checkPermissions(config,apkname)
+
+            #Restoring stdout
+            sys.stdout = sys.__stdout__
+            fd.close()
+            print apkname + " has been analyzed."
+            print "**********************************************************"
         except:
             print "Error appeared analyzing " + static_target
             exception = 1
 
-        #first we need to check if a cache file already exists
-        #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
-
-        #Changing stdout to apkName.txt file (Normal output and errors)
-        print "Redirecting stdout to " + dir + "output.txt"
-        fd = open(dir + 'output.txt','w')
-        sys.stdout = fd
-        manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-        print "Writing new JSON file with permissions..."
-        #Should appear a new file called [files/permissions.json]
-        print "Writing new JSON file with pscout mappings..."
-        #Should appear a new file called []
-        manifestInfo.checkPermissions(config,apkname)
-
-        #Restoring stdout
-        sys.stdout = sys.__stdout__
-        fd.close()
-        print apkname + " has been analyzed."
-        print "**********************************************************"
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)
