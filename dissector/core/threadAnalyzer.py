@@ -55,7 +55,7 @@ class ThreadAnalyzer (threading.Thread):
         except:
             print "Error appeared analyzing " + static_target
             fd = open(config.outputdir + "errors/" + apkname + ".txt","w")
-            err = traceback.print_exc()
+            err = traceback.extract_stack()
             fd.write("ERROR: " + str(err))
             fd.close
         #deob = Deobfuscator(targetapp)
