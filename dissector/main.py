@@ -139,7 +139,8 @@ def analyzeSample(samplepath, config):
 
     print "Waiting to the last threads launched"
     for thread in threadList:
-        thread.join()
+        if thread.isAlive():        #A thread could have finished his job before join()...
+            thread.join()
 
     end = time.time()
     print "Total time spent (seconds): %.2f" % (end - start)
