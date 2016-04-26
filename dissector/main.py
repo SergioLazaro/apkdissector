@@ -126,7 +126,8 @@ def analyzeSample(samplepath, config):
             print 'Waiting for threads...'
             #Wait until all threads are finished
             for thread in threadList:
-                thread.join()
+                if thread.isAlive():        #A thread could have finished his job before join()...
+                    thread.join()
             threadList = list() #Clear list that contains finished threads
             #Launch thread of this iteration and append to our threadList
             #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
