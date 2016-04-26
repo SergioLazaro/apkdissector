@@ -107,6 +107,7 @@ def analyzeSample(samplepath, config):
     start = time.time()
     runningThreads = 0
     apks = os.listdir(samplepath)
+    print "APKS: " + apks
     threadList = list()
     for apk in apks:
         print 'config.threads = ' + str(config.threads),
@@ -131,6 +132,9 @@ def analyzeSample(samplepath, config):
             threadList = list() #Clear list that contains finished threads
             #Launch thread of this iteration and append to our threadList
             #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
+            #Generating apk path
+            apkpath = samplepath + apk
+            
             t = ThreadAnalyzer(apkpath,config)
             t.run()
             threadList.append(t)
