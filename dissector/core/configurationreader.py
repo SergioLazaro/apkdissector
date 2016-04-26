@@ -1,3 +1,5 @@
+import os
+
 __author__ = 'sergio'
 import ConfigParser
 
@@ -11,7 +13,18 @@ class ConfigurationReader:
         self.errorlogdir = self.ConfigSectionMap("Configuration")['errorlogpath']
         self.threads = self.ConfigSectionMap("Configuration")['threads']
         self.dbpath = self.ConfigSectionMap("Configuration")['dbpath']
+        self.checkEnviroment()
         self.printConfiguration()
+
+    def checkEnviroment(self):
+        print "Checking current enviroment..."
+        if os.path.isdir(self.outputdir) is False:
+            print "Creating folder to write the output in " + self.outputdir
+            os.mkdir(self.outputdir,0666)
+        if os.path.isdir(self.errorlogdir) is False:
+            print "Creating folder to report errors in " + self.errorlogdir
+            os.mkdir(self.errorlogdir,0666)
+        print "Everything is currently OK..."
 
     def printConfiguration(self):
         print "====================="

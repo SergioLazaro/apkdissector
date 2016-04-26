@@ -42,9 +42,6 @@ def main(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
-        if os.path.isdir(config.errorlogdir) is False:
-            print "Creating folder to report errors in " + config.errorlogdir + "errors"
-            os.mkdir(config.errorlogdir,0666)
 
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
@@ -67,6 +64,8 @@ def analyzeSample(samplepath, config):
     start = time.time()
     runningThreads = 1
     apks = os.listdir(samplepath)
+    print apks
+    exit(0)
     threadList = list()
     for apk in apks:
         print 'config.threads = ' + str(config.threads),
