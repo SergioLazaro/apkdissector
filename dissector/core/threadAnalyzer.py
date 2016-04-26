@@ -1,3 +1,5 @@
+from pip.utils import logging
+
 __author__='sergio'
 
 import threading, os, sys, traceback
@@ -55,8 +57,10 @@ class ThreadAnalyzer (threading.Thread):
         except:
             print "Error appeared analyzing " + static_target
             fd = open(config.outputdir + "errors/" + apkname + ".txt","w")
-            fd.write(str(traceback.print_exc()))
+            err = traceback.print_exc()
+            fd.write("ERROR: " + str(err))
             fd.close
+            raise
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)
