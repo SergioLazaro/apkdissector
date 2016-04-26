@@ -58,7 +58,6 @@ class ThreadAnalyzer (threading.Thread):
             err = traceback.print_exc()
             fd.write("ERROR: " + str(err))
             fd.close
-            raise
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)
