@@ -60,6 +60,7 @@ class ThreadAnalyzer (threading.Thread):
                 err = traceback.format_exc()
                 fd.write(apkname + "\n" + str(err))
                 fd.close
+                os.remove(dir)
             else:
                 raise
         #deob = Deobfuscator(targetapp)
