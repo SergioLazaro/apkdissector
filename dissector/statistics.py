@@ -31,9 +31,6 @@ def main(dir):
     print "============================================================"
     printStatistics(results,i+1,dir)
 
-    stats = Statistics(dir)
-    stats.parseOutput()
-
 #Method used to exclude files and get only directories
 def getAnalyzedApks(direlements):
     permissions = list()
