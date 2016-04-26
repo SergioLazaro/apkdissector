@@ -64,8 +64,6 @@ def analyzeSample(samplepath, config):
     start = time.time()
     runningThreads = 1
     apks = os.listdir(samplepath)
-    print apks
-    exit(0)
     threadList = list()
     for apk in apks:
         print 'config.threads = ' + str(config.threads),
