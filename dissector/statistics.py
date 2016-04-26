@@ -1,6 +1,6 @@
 __author__ = 'sergio'
 
-import os,optparse
+import os,optparse, mmap
 from decimal import Decimal
 
 class PermissionCount:
@@ -20,9 +20,25 @@ class Statistics:
 
 
     def parseOutput(self):
+        #Check if samplepath is correct
+        print self.dir
+        if self.dir[:-1] is not "/":
+            self.dir = self.dir + "/"
+        print self.dir
+        #Getting analyzed apks directories
         analyzedfolders = os.listdir(self.dir)
-        print analyzedfolders
-        print "Output directory: " + self.dir
+        errors = 0
+        for i,apkdir in enumerate(analyzedfolders):
+            apkdirpath = self.dir + apkdir + "/"
+            if os.path.isdir(apkdirpath):       #Work if apk path is a directory
+                elements = os.listdir(apkdirpath)
+                if "output.txt" in elements:
+                    f = open(apkdirpath + 'output.txt')
+                    s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                    if (s.find('Androguard') or s.find('androguard')) != -1:
+                        errors += 1
+
+        print "Analyzed " + str(i+1) + " apks. There was " + str(errors) + " errors."
 
 def main(dir):
     apks = os.listdir(dir)
@@ -37,6 +53,9 @@ def main(dir):
     print "Total apks: " + str(i+1)
     print "============================================================"
     printStatistics(results,i+1,dir)
+
+    stats = Statistics(dir)
+    stats.parseOutput()
 
 #Method used to exclude files and get only directories
 def getAnalyzedApks(direlements):
