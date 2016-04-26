@@ -66,8 +66,6 @@ def analyzeSample(samplepath, config):
     apks = os.listdir(samplepath)
     threadList = list()
     for apk in apks:
-        print 'config.threads = ' + str(config.threads),
-        print 'running: ' + str(runningThreads)
         if int(runningThreads) <= int(config.threads):
             #Generating apk path
             apkpath = samplepath + apk
