@@ -45,9 +45,10 @@ def main(path):
 
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
-        print "Getting some statistics..."
+        print "[*] Getting some statistics..."
         stats = Statistics(config.outputdir)
         stats.getStatistics()
+        print "[*] Errors are reported in " + config.errorlogdir
     else:
         start = time.time()
         #analyzeAPK(path, config)
