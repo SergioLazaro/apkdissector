@@ -116,10 +116,9 @@ def analyzeSample(samplepath, config):
             apkpath = samplepath + apk
 
             #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
-
             t = ThreadAnalyzer(apkpath,config)
-            threadList.append(t)
             t.run()   #Starting new thread
+            threadList.append(t)
             runningThreads += 1
             print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
             # break
@@ -132,9 +131,12 @@ def analyzeSample(samplepath, config):
             #Launch thread of this iteration and append to our threadList
             #t = threading.Thread(target=analyzeAPK, args=(apkpath,config))
             t = ThreadAnalyzer(apkpath,config)
-            threadList.append(t)
             t.run()
+            threadList.append(t)
             runningThreads = 1
+            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
+
+    print "Waiting to the last threads launched"
     for thread in threadList:
         thread.join()
 
