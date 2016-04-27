@@ -20,10 +20,12 @@ class Statistics:
     def getErrors(self,config):
         path = config.errorlogdir
         errorfiles = os.listdir(path)
+        errors = 0
         for file in errorfiles:
             if file.endswith(".txt"):
-                print file
+                errors += 1
 
+        print "[*] " + str(errors) + " errors reported analyzing this sample."
 
 def main(dir):
     apks = os.listdir(dir)
