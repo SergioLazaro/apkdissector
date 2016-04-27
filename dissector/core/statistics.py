@@ -27,7 +27,7 @@ class Statistics:
                 results = self.updateResult(results,permissions)
 
         print "============================================================"
-        self.printStatistics(results,i+1,self.dir)
+        self.printStatistics(results,i+1)
         print "============================================================"
         print "[*] Analyzed apks: " + str(i+1)
         print "[*] Total errors reported: " + str(self.apksnumber - (i+1))
@@ -40,18 +40,18 @@ class Statistics:
                 permissions.append(elem)
         return permissions
 
-    def printStatistics(self,results,i,dir):
+    def printStatistics(self,results,i):
         for val in results:
             percentage = (Decimal(val.count)/Decimal(i))*100
             print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission[:-5],val.count, percentage)
 
         response = raw_input("Do you want a JSON file?[Y/N]: ")
         if response is "Y" or response is "y":
-            print "[*] JSON file in " + dir
-            self.generateJSON(results,i,dir)
+            print "[*] JSON file created in " + self.dir
+            self.generateJSON(results,i)
 
-    def generateJSON(self,results,i,dir):
-        fd = open(dir+"statistics.json","w")
+    def generateJSON(self,results,i):
+        fd = open(self.dir+"statistics.json","w")
         fd.write('{"permissions": [')
         for j,val in enumerate(results):
             percentage = (Decimal(val.count)/Decimal(i))
@@ -65,8 +65,6 @@ class Statistics:
         fd.write('"errors" :"' + str(self.apksnumber - (i+1)) + '"')
         fd.write("}")
         fd.close()
-
-
 
     def updateResult(self,results, permissions):
         for tmppermission in permissions:

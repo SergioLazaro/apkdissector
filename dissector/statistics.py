@@ -9,7 +9,7 @@ class PermissionCount:
         self.permission = permission
         self.count = count
 
-def main(dir,apksnumber):
+def main(dir):
     apks = os.listdir(dir)
     results = list()
     for i,val in enumerate(apks):
@@ -23,7 +23,6 @@ def main(dir,apksnumber):
     printStatistics(results,i+1,dir)
     print "============================================================"
     print "[*] Analyzed apks: " + str(i+1)
-    print "[*] Total errors reported: " + str(apksnumber - (i+1))
 
 #Method used to exclude files and get only directories
 def getAnalyzedApks(direlements):
