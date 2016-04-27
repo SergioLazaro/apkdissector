@@ -21,6 +21,7 @@ class Statistics:
         print "GET ERRORS FROM " + config.errorlogdir
         path = config.errorlogdir
         errorfiles = os.listdir(path)
+        print errorfiles
         for file in errorfiles:
             if file[-4:] is ".txt":
                 print file
