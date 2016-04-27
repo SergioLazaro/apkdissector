@@ -60,7 +60,7 @@ class Statistics:
             else:
                 fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
                          '","percentage":"' + str(round(percentage,2)) + '"}')
-        fd.write("]")
+        fd.write("],")
         fd.write('"errors" :"' + str(self.apksnumber - (i+1)) + '"')
         fd.write("}")
         fd.close()
