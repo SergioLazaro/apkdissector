@@ -42,15 +42,14 @@ def main(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
-
+        apksnumber = os.listdir(path)
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
         print "[*] Getting some statistics..."
         stats = Statistics(config.outputdir)
-        stats.getStatistics()
+        stats.getStatistics(apksnumber)
         print "[*] Errors are reported in " + config.errorlogdir
         print "[*] More output for each APK available in " + config.outputdir
-        #stats.getErrors(config)
 
     else:
         start = time.time()
