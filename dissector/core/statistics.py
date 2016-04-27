@@ -47,6 +47,7 @@ class Statistics:
 
         response = raw_input("Do you want a JSON file?[Y/N]: ")
         if response is "Y" or response is "y":
+            print "[*] JSON file in " + dir
             self.generateJSON(results,i,dir)
 
     def generateJSON(self,results,i,dir):
