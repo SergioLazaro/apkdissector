@@ -22,5 +22,5 @@ def main():
             r = requests.get(url=nexturl, headers={})
             if r.status_code is not 200:    #If the status_code is not 200
                 i = 10001                   #we exit the loop
-                
+
 main()
