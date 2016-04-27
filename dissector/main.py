@@ -42,7 +42,7 @@ def main(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
-        apksnumber = os.listdir(path)
+        apksnumber = len(os.listdir(path))
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
         print "[*] Getting some statistics..."
