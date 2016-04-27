@@ -20,9 +20,10 @@ class Statistics:
     def getErrors(self,config):
         print "GET ERRORS"
         path = config.errorlogdir
-        for elem in os.listdir(path):
-            if elem[-4:] is ".txt":
-                print elem
+        errorfiles = os.listdir(path)
+        for file in errorfiles:
+            if file[-4:] is ".txt":
+                print file
 
 
 def main(dir):
