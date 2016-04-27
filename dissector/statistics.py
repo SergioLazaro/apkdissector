@@ -9,24 +9,6 @@ class PermissionCount:
         self.permission = permission
         self.count = count
 
-class Statistics:
-
-    def __init__(self, dir):
-        self.dir = dir
-
-    def getStatistics(self,apksnumber):
-        main(self.dir,apksnumber)
-
-    def getErrors(self,config):
-        path = config.errorlogdir
-        errorfiles = os.listdir(path)
-        errors = 0
-        for file in errorfiles:
-            if file.endswith(".txt"):
-                errors += 1
-
-        print "[*] " + str(errors) + " errors reported analyzing this sample."
-
 def main(dir,apksnumber):
     apks = os.listdir(dir)
     results = list()
