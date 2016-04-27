@@ -18,6 +18,7 @@ class Statistics:
         main(self.dir)
 
     def getErrors(self,config):
+        print "GET ERRORS"
         path = config.errorlogdir
         for elem in os.listdir(path):
             if elem[-4:] is ".txt":
