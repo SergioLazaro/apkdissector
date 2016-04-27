@@ -40,8 +40,8 @@ def main(dir,apksnumber):
     print "============================================================"
     printStatistics(results,i+1,dir)
     print "============================================================"
-    print "Analyzed apks: " + str(i+1)
-    print "Total errors: " + str(apksnumber - (i+1))
+    print "[*] Analyzed apks: " + str(i+1)
+    print "[*] Total errors reported: " + str(apksnumber - (i+1))
 
 #Method used to exclude files and get only directories
 def getAnalyzedApks(direlements):
