@@ -36,8 +36,9 @@ def main(dir):
             direlements = os.listdir(apkpath)   #'ls'
             permissions = getAnalyzedApks(direlements)  #Getting all apks directories
             results = updateResult(results,permissions)
-
-    print "Total apks: " + str(i+1)
+    print "Total apks: " + str(len(apks))
+    print "Analyzed apks: " + str(i+1)
+    print "Total errors: " + str(len(apks) - (i+1))
     print "============================================================"
     printStatistics(results,i+1,dir)
 
