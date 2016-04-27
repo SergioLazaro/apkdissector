@@ -17,6 +17,12 @@ class Statistics:
     def getStatistics(self):
         main(self.dir)
 
+    def getErrors(self,config):
+        path = config.errorlogdir
+        for elem in os.listdir(path):
+            if elem[-4:] is ".txt":
+                print elem
+
 
 def main(dir):
     apks = os.listdir(dir)
