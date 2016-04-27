@@ -20,6 +20,7 @@ class Statistics:
         apks = os.listdir(self.dir)
         results = list()
         for i,val in enumerate(apks):
+            print "I VALUE: " + str(i) + " VALUE: " + str(val)
             apkpath = self.dir+val
             if os.path.isdir(apkpath):
                 direlements = os.listdir(apkpath)   #'ls'
