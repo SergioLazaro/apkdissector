@@ -18,12 +18,10 @@ class Statistics:
         main(self.dir)
 
     def getErrors(self,config):
-        print "GET ERRORS FROM " + config.errorlogdir
         path = config.errorlogdir
         errorfiles = os.listdir(path)
-        print errorfiles
         for file in errorfiles:
-            if file[-4:] is ".txt":
+            if file.endswith(".txt"):
                 print file
 
 
