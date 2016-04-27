@@ -19,19 +19,20 @@ class Statistics:
     def getStatistics(self):
         apks = os.listdir(self.dir)
         results = list()
-        for i,val in enumerate(apks):
-            print "I VALUE: " + str(i) + " VALUE: " + str(val)
+        i = 0
+        for val in apks:
             apkpath = self.dir+val
             if os.path.isdir(apkpath):
                 direlements = os.listdir(apkpath)   #'ls'
                 permissions = self.getAnalyzedApks(direlements)  #Getting all apks directories
                 results = self.updateResult(results,permissions)
+                i += 1
 
         print "============================================================"
-        self.printStatistics(results,i+1)
+        self.printStatistics(results,i)
         print "============================================================"
-        print "[*] Analyzed apks: " + str(i+1)
-        print "[*] Total errors reported: " + str(self.apksnumber - (i+1))
+        print "[*] Analyzed apks: " + str(i)
+        print "[*] Total errors reported: " + str(self.apksnumber - (i))
 
     #Method used to exclude files and get only directories
     def getAnalyzedApks(self,direlements):
