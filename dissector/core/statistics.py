@@ -28,6 +28,7 @@ class Statistics:
                 results = self.updateResult(results,permissions)
                 i += 1
 
+        results = sorted(results, key=lambda x: x.count, reverse=True)
         print "============================================================"
         self.printStatistics(results,i)
         print "============================================================"
