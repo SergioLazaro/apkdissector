@@ -54,8 +54,8 @@ if __name__ == "__main__":
     parser.add_option('-n', '--num' , action="store", help="Number of hashes to download.",
                       dest="num",type='string')
 
-    parser.add_option('-w', '--write' , action="store", help="Write N apk hashes in a TXT file",
-                      dest="write",type='string')
+    parser.add_option('-w', '--write', default=True, help="Write N apk hashes in a TXT file",
+                       dest="verbose",type='string')
 
     parser.add_option('-f','--file', action="store", help="TXT file which contains hashes to download.",
                       dest="hashesfile",type="string")
