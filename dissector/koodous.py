@@ -5,7 +5,12 @@ import requests, optparse, os
 def main(opts):
     #Write N apk hashes
     if opts.write is not None and opts.num is not None:
-        writehashes(opts.num)
+        #Limiting the number of apks to download
+        if opts.num < 1000000:  #Number should be lower than 1 million
+            writehashes(opts.num)
+        else:
+            print "[!!] -n arg should be lower than 1 million."
+            exit(-1)
 
 
 def writehashes(num):
@@ -25,6 +30,7 @@ def writehashes(num):
             next_url = json['next']
             apks = json['results']  #Getting info about 50 apks
             for apk in apks:
+
                 fd.write(apk['sha256'] + "\n")  #Writing on the file
                 print apk['sha256']
                 i += 1
@@ -40,7 +46,6 @@ def print_help(parser):
 
 if __name__ == "__main__":
     #Parameters
-    # -h -> Show help to run this script.
     # -n -> Number of hashes to download.
     # -w -> Write N apk hashes in a TXT file.
     # -f -> TXT file which contains hashes to download.
@@ -48,8 +53,6 @@ if __name__ == "__main__":
     # -k -> Koodus key to download a sample allowed.
 
     parser = optparse.OptionParser()
-    parser.add_option('-h','--help', action="store", help="Show help to run this script.",
-                      dest="help",type="string")
 
     parser.add_option('-n', '--num' , action="store", help="Number of hashes to download.",
                       dest="num",type='string')
@@ -74,4 +77,5 @@ if __name__ == "__main__":
         if opts.help is not None:
             print_help(parser)
         else:
-            main(opts)
+            #main(opts)
+            print opts
