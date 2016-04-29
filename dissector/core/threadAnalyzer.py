@@ -9,28 +9,26 @@ from analyzer.manifest import ManifestAnalyzer
 
 
 class ThreadAnalyzer (threading.Thread):
-    def __init__(self, apkpath, config,type):
+    def __init__(self, apkpath, config,lock,working,type):
         threading.Thread.__init__(self)
         self.apkpath = apkpath
         self.config = config
         self.type = type
+        self.lock = lock
+        self.working = working
 
     def run(self):
         #Call to Analyze APK
-        self.analyzeAPK(self.apkpath,self.config,self.type)
-
-    def analyzeAPK(self,apkpath, config, type):
-
         #Creating directory for the current apk
-        apkname = os.path.basename(os.path.splitext(apkpath)[0])
-        dir = config.outputdir + str(apkname) + "/"
+        apkname = os.path.basename(os.path.splitext(self.apkpath)[0])
+        dir = self.config.outputdir + str(apkname) + "/"
         #Creating directory if not exists
         if not os.path.exists(dir):
             print "Creating directory " + str(dir) + " for APK " + str(apkname) + "..."
             os.makedirs(dir)
             os.chmod(dir,0755)
 
-        static_target = str(apkpath) #this must be the complete path of apk file
+        static_target = str(self.apkpath) #this must be the complete path of apk file
         #Catching Androguard exception
         try:
             targetapp = Target(static_target)
@@ -48,7 +46,7 @@ class ThreadAnalyzer (threading.Thread):
             fd = open(dir + 'output.txt','w')
             sys.stdout = fd
             manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-            manifestInfo.checkPermissions(config,apkname)
+            manifestInfo.checkPermissions(self.config,apkname)
 
             #Restoring stdout
             sys.stdout = sys.__stdout__
@@ -58,16 +56,26 @@ class ThreadAnalyzer (threading.Thread):
         except:
             if type is "d":
                 print "[!!] Error appeared analyzing " + static_target
-                fd = open(config.errorlogdir + apkname + ".txt","w")
+                fd = open(self.config.errorlogdir + apkname + ".txt","w")
                 err = traceback.format_exc()
                 fd.write(apkname + "\n" + str(err))
                 fd.close
                 shutil.rmtree(dir)
             else:
                 raise
+
+        if self.lock.locked():
+            print "Thread " + str(self.id) + " RELEASE"
+            try:
+                self.lock.release()
+            except:
+                print "Lock unlocked."
+            self.working -= 1
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)
         #writer.write(dest+'Fuffa.java')
         #print 'scritto'
+
+
 

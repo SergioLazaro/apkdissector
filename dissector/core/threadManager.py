@@ -41,14 +41,19 @@ class Worker(threading.Thread):
                 print "Lock unlocked."
             self.working -= 1
 
-
-tm = ThreadManager(3)
+start = time.time()
+tm = ThreadManager(2)
 for i in range(5):      #we launch 5 tasks but can be run just 3
     print "WORKING : " + str(tm.working) + " LOCK STATE: " + str(tm.lock.locked())
-    waittime = random.randint(5,8)
+    waittime = random.randint(8,10)
     t = Worker(i,waittime,tm.lock,tm.working)
     tm.manage(t)
     time.sleep(2)
+waiting = threading.enumerate()
+for thread in waiting[1:]:
+    thread.join()
+end = time.time()
+print "Total time %.2f" % (end - start)
 
 
 

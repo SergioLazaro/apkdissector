@@ -15,9 +15,10 @@ from core.writers import HookWriter
 import sys
 import optparse
 import core.myglobals
-import os
+import os, threading
 from core.threadAnalyzer import ThreadAnalyzer
 from core.statistics import Statistics
+from core.threadManager import ThreadManager
 #sys.path.insert(1, '/Users/vaioco/android_stuff/androguard')
 
 static_target = 'apks/test-malware.apk'  #'/Users/vaioco/Lavoro/cert/youapp/base.apk'
@@ -67,38 +68,17 @@ def analyzeSample(samplepath, config):
     start = time.time()
     runningThreads = 1
     apks = os.listdir(samplepath)
-    threadList = list()
+    tm = ThreadManager(config.threads)
     for apk in apks:
-        if int(runningThreads) <= int(config.threads):
-            #Generating apk path
-            apkpath = samplepath + apk
+        #Generating apk path
+        apkpath = samplepath + apk
+        t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working,"d")
+        tm.manage(t)    #Starting new thread
+        print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
 
-            t = ThreadAnalyzer(apkpath,config,"d")
-            t.run()   #Starting new thread
-            threadList.append(t)
-            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
-            runningThreads += 1
-        else:
-            print 'Waiting for threads...'
-            #Wait until all threads are finished
-            for thread in threadList:
-                if thread.isAlive():        #A thread could have finished his job before join()...
-                    thread.join()
-            threadList = list() #Clear list that contains finished threads
-            #Generating apk path
-            apkpath = samplepath + apk
-
-            t = ThreadAnalyzer(apkpath,config,"d")
-            t.run()
-            threadList.append(t)
-            runningThreads = 1
-            print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
-
-    print "Waiting to the last threads launched"
-    for thread in threadList:
-        if thread.isAlive():        #A thread could have finished his job before join()...
-            thread.join()
-
+    waiting = threading.enumerate()
+    for thread in waiting[1:]:
+        thread.join()
     end = time.time()
     print "Total time spent (seconds): %.2f" % (end - start)
 
