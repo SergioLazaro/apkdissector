@@ -4,48 +4,49 @@ import threading, time, random, datetime
 
 class ThreadManager:
 
-    def __init__(self):
-        print "hello"
+    def __init__(self,limit):
+        self.limit = limit
+        self.lock = threading.Lock()
+        self.working = 0
 
+    def manage(self,t):
+        if self.working < self.limit:
+            print "Launching thread number " + str(i)
+            t.start()
+            self.working += 1
+        else:
+            self.lock.acquire()
+            print "Thread " + str(i) + " waiting until release..."
+            t.start()
+            self.working += 1
 
 class Worker(threading.Thread):
 
-    def __init__(self, id, t):
+    def __init__(self, id, t, lock, working):
         threading.Thread.__init__(self)
         self.id = id
         self.t = t
+        self.lock = lock
+        self.working = working
 
     def run(self):
-        global working
         print "Worker " + str(self.id) + " go to sleep " + str(self.t) + " seconds."
         time.sleep(self.t)
         print "Worker " + str(self.id) + " finished"
-        if lock.locked():
+        if self.lock.locked():
             print "Thread " + str(self.id) + " RELEASE"
             try:
-                lock.release()
+                self.lock.release()
             except:
                 print "Lock unlocked."
-            working -= 1
+            self.working -= 1
 
 
-def launchThread(i,lock):
+tm = ThreadManager(3)
+for i in range(10):      #we launch 5 tasks but can be run just 3
     waittime = random.randint(5,8)
-    t = Worker(i,waittime)
-    t.start()
+    t = Worker(i,waittime,tm.lock,tm.working)
+    tm.manage(t)
 
-#tm = ThreadManager()
-global lock, working
-lock = threading.Lock()
-i = 0
-working = 0
-for i in range(5):      #we launch 5 tasks but can be run just 3
-    if working < 3:
-        print "Launching thread number " + str(i)
-        launchThread(i,lock)
-    else:
-        lock.acquire()
-        print "Thread " + str(i) + " waiting until release..."
-        launchThread(i,lock)
-    working += 1
+
 
