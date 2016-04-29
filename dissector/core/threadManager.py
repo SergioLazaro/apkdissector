@@ -43,10 +43,12 @@ class Worker(threading.Thread):
 
 
 tm = ThreadManager(3)
-for i in range(10):      #we launch 5 tasks but can be run just 3
+for i in range(5):      #we launch 5 tasks but can be run just 3
+    print "WORKING : " + str(tm.working) + " LOCK STATE: " + str(tm.lock.locked())
     waittime = random.randint(5,8)
     t = Worker(i,waittime,tm.lock,tm.working)
     tm.manage(t)
+    time.sleep(2)
 
 
 
