@@ -22,7 +22,10 @@ class Worker(threading.Thread):
         print "Worker " + str(self.id) + " finished"
         if lock.locked():
             print "Thread " + str(self.id) + " RELEASE"
-            lock.release()
+            try:
+                lock.release()
+            except:
+                print "Lock unlocked."
             working -= 1
 
 
