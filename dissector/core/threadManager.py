@@ -19,7 +19,7 @@ class ThreadManager:
             print "Thread " + str(i) + " waiting until release..."
             t.start()
             self.working += 1
-
+'''
 class Worker(threading.Thread):
 
     def __init__(self, id, t, lock, working):
@@ -54,6 +54,6 @@ for thread in waiting[1:]:
     thread.join()
 end = time.time()
 print "Total time %.2f" % (end - start)
-
+'''
 
 
