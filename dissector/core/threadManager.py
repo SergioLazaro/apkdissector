@@ -19,7 +19,7 @@ class ThreadManager:
             print "Thread " + str(i) + " waiting until release..."
             t.start()
             self.working += 1
-'''
+
 class Worker(threading.Thread):
 
     def __init__(self, id, t, lock, working):
@@ -40,7 +40,7 @@ class Worker(threading.Thread):
             except:
                 print "Lock unlocked."
             self.working -= 1
-
+'''
 start = time.time()
 tm = ThreadManager(2)
 for i in range(5):      #we launch 5 tasks but can be run just 3
