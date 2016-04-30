@@ -43,7 +43,7 @@ class Statistics:
         self.printStatistics(results,i)
         print "============================================================"
         print "[*] Analyzed apks: " + str(i)
-        #print "[*] Total errors reported: " + str(self.apksnumber - (i))
+        print "[*] Total errors reported: " + str(self.errors - (i))
 
     '''
         Method used to read the permissions used by an analyzed APK
@@ -74,9 +74,8 @@ class Statistics:
             else:
                 fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
                          '","percentage":"' + str(round(percentage,2)) + '"}')
-        fd.write("]")
-        #fd.write("],")
-        #fd.write('"errors" :"' + str(self.apksnumber - (i)) + '"')
+        fd.write("],")
+        fd.write('"errors" :"' + str(self.apksnumber - (i)) + '"')
         fd.write("}")
         fd.close()
 
