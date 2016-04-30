@@ -13,7 +13,6 @@ class ConfigurationReader:
         self.errorlogdir = self.ConfigSectionMap("Configuration")['errorlogpath']
         self.threads = self.ConfigSectionMap("Configuration")['threads']
         self.dbpath = self.ConfigSectionMap("Configuration")['dbpath']
-        self.cachedir = self.ConfigSectionMap("Configuration")['cachedir']
         self.checkEnviroment()
         self.printConfiguration()
 
@@ -25,9 +24,6 @@ class ConfigurationReader:
         if os.path.isdir(self.errorlogdir) is False:
             print "Creating folder to report errors in " + self.errorlogdir
             os.mkdir(self.errorlogdir,0666)
-        if os.path.isdir(self.cachedir) is False:
-            print "Creating folder to write cache files in " + self.cachedir
-            os.mkdir(self.cachedir,0666)
         print "Everything is currently OK..."
 
     def printConfiguration(self):
@@ -39,7 +35,6 @@ class ConfigurationReader:
         print "PScout Version: " + self.version
         print "Error log dir: " + self.errorlogdir
         print "DB path: " + self.dbpath
-        print "Cache dir: " + self.cachedir
         print "====================="
 
 
