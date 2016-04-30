@@ -27,7 +27,7 @@ class Statistics:
                 results = self.updateResult(results,permissions)
                 i += 1
         for result in results:
-            print "PERMISSION: " + result.permission + " VALUE: " + str(results.count)
+            print "PERMISSION: " + result.permission + " VALUE: " + str(result.count)
         results = sorted(results, key=lambda x: x.count, reverse=True)
         print "============================================================"
         self.printStatistics(results,i)
