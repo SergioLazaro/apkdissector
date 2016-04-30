@@ -116,17 +116,16 @@ class Manifest(Acollector):
         file.write('\t"hash":"' + apkname + '",\n')
         file.write('\t"package_name":"' + package_name + '",\n')
         file.write('\t"mapping":[\n')
-
-        for permission in self.collected_data['uses-permission']:   #Getting all entries for a permission
+        for j, permission in enumerate(self.collected_data['uses-permission']):   #Getting all entries for a permission
             current = permission.get_name()     #Current permission
             file.write('\t\t{"permission":"' + current + '",\n')
-            file.write('\t\t"info":[\n')
+            file.write('\t\t"info":[')
             db.connect()                            #Connecting to the DB
 
             #Getting info for permission['permission'] in the DB called <version.db>
             array = db.querypermission(current)
             if len(array) > 0:
-
+                file.write('\n')
                 #Iterate over the array of Permission objects
                 i = 0
                 for p in array:
@@ -137,6 +136,10 @@ class Manifest(Acollector):
                     else:
                         file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"}\n')
                     i += 1
-
-            file.write("]},")
+            #Check if we have more to write
+            if j < (len(self.collected_data['uses-permission']) - 1):
+                file.write("]},")
+            else:
+                file.write("]}")
+            j += 1
         file.close()
