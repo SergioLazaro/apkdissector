@@ -26,8 +26,7 @@ class Statistics:
                 permissions = self.readPermissions(filepath)
                 results = self.updateResult(results,permissions)
                 i += 1
-        for result in results:
-            print "PERMISSION: " + result.permission + " VALUE: " + str(result.count)
+
         results = sorted(results, key=lambda x: x.count, reverse=True)
         print "============================================================"
         self.printStatistics(results,i)
@@ -78,11 +77,13 @@ class Statistics:
                     position = i
 
             if position == -1:  #tmppermission does not exists
+                print "ADDING NEW PERMISSION: " + tmppermission
                 #Create new PermissionCount
                 p = PermissionCount(tmppermission,1)
                 #Append new PermissionCount
                 results.append(p)
             else:           #tmppermission exists so we have to increment the value
                 p = results[position]
+                print "INCREASING PERMISSION " + tmppermission + " OLD VALUE: " + str(p.count) + " NEW VALUE: " + str(p.count + 1)
                 p.count += 1
         return results
