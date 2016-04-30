@@ -93,7 +93,8 @@ class ThreadAnalyzer ():
         found = False
         i = 0
         while not found and i < len(caches):
-            if caches[i] is (apkname + ".json"):
+            print caches[i]
+            if caches[i] is apkname:
                 found = True
             i += 1
         return found
