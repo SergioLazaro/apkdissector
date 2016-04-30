@@ -60,8 +60,8 @@ def main(path):
         print "Analyzing APK " + path
         apk.start()
         #Wait until thread ends
-        if apk.isAlive():
-            apk.join()
+        #if apk.isAlive():
+        #    apk.join()
         end = time.time()
         print "Total time spent (seconds): %.2f" % (end - start)
 
