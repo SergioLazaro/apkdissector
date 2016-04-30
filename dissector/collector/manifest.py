@@ -103,38 +103,34 @@ class Manifest(Acollector):
         #print "=============================="
         #writer.write("files/permissions.json")
 
-    def checkPermissions(self,config,apkname):
-        #PARAMS(self,version,apkname,destinationpath,dbpath)
-        '''
-        path = os.getcwd() + "/" + str("files/permissions.json")
-        with open(path,"r") as file:
-            data = json.load(file)  #Our JSON file
-        '''
+    def checkPermissions(self,config,apkname,package_name):
+
         dir = config.outputdir + str(apkname) + "/"
 
         db = PScoutDB(config.version,config.dbpath)
-        numfiles = 0
-        #for permission in data["permissions"]:      #Getting all entries for a permission
-        for permission in self.collected_data['uses-permission']:
-            #print 'ads: ' + permission.get_name()
+        #Create new JSON file for permission_name.json
+        path = dir + apkname + ".json"
+        file = open(path,"w")
+        #Populating JSON file
+        file.write('{"apk":\n')
+        file.write('\t"hash":"' + apkname + '",\n')
+        file.write('\t"package_name":"' + package_name + '",\n')
+        file.write('\t"mapping":[\n')
+
+        for permission in self.collected_data['uses-permission']:   #Getting all entries for a permission
             current = permission.get_name()     #Current permission
+            file.write('\t\t{"permission":"' + current + '",\n')
+            file.write('\t\t"info":[\n')
             db.connect()                            #Connecting to the DB
 
             #Getting info for permission['permission'] in the DB called <version.db>
             array = db.querypermission(current)
             if len(array) > 0:
-                numfiles += 1
-                #Create new JSON file for permission_name.json
-                path = str(dir) + str(current) + ".json"
-                #print 'looking for: ' + path
-                file = open(path,"wr")
-                #print "Creating new JSON file in " + str(dir) + " for " + str(current)
-                file.write('{"pscout":[\n')
 
                 #Iterate over the array of Permission objects
                 i = 0
                 for p in array:
-                    file.write('{"callerClass":"' + p.callerClass + '",')
+                    file.write('\t\t\t{"callerClass":"' + p.callerClass + '",')
                     file.write('"callerMethod":"' + p.callerMethod + '",')
                     if(i < (len(array) - 1)):
                         file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"},\n')
@@ -142,7 +138,5 @@ class Manifest(Acollector):
                         file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"}\n')
                     i += 1
                 file.write("]}")
-                file.close()
-        #print "=============================="
-        #print "Number of files written: " + str(numfiles)
-        #print "=============================="
+
+        file.close()

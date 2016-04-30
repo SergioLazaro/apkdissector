@@ -39,26 +39,25 @@ class ThreadAnalyzer ():
                 session_name = "dummyname"
 
             #Check if the current APK has a cache file
-            cache_exists = os.path.isfile(dir + apkname + ".json")
+            cache_exists = os.path.isfile(dir + "cache.json")
             if cache_exists:
                 print "Restoring session for " + apkname
-                targetapp.restore_session(dir + apkname + ".json")
+                targetapp.restore_session(dir + "cache.json")
             else:
                 print "Saving session for " + apkname
-                targetapp.save_session(self.config.cachedir + apkname + ".json")
+                targetapp.save_session(dir + "cache.json")
 
             manifestInfo = Manifest(targetapp)
             #first we need to check if a cache file already exists
             #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
 
             #Changing stdout to apkName.txt file (Normal output and errors)
-            #print "Redirecting stdout to " + dir + "output.txt"
             fd = open(dir + 'output.txt','w')
             sys.stdout = fd
             manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
             print "analyzing: "
             targetapp._print()
-            manifestInfo.checkPermissions(self.config,apkname)
+            manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name)
             #Restoring stdout
             sys.stdout = sys.__stdout__
             fd.close()

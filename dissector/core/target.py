@@ -24,6 +24,7 @@ class Target:
         print "Target info: "
         print "package name: " + self.package_name.encode("utf-8")
         print "filename: " + self.filename
+
     def get_name(self):
         return self.filename
 
