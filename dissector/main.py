@@ -58,7 +58,7 @@ def main(path):
         #analyzeAPK(path, config)
         apk = ThreadAnalyzer(path,config,"f")
         print "Analyzing APK " + path
-        apk.run()
+        apk.start()
         #Wait until thread ends
         if apk.isAlive():
             apk.join()

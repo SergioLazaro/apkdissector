@@ -38,6 +38,7 @@ class ThreadAnalyzer ():
             else:
                 session_name = "dummyname"
             targetapp.save_session('/tmp/asd/testing/cache/' + apkname + ".json")
+            exit(0)
             manifestInfo = Manifest(targetapp)
             #first we need to check if a cache file already exists
             #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
