@@ -25,10 +25,23 @@ class Worker(threading.Thread):
         threading.Thread.__init__(self)
         self.tasks = tasks
     def run(self):
+<<<<<<< HEAD
         task = self.tasks.get()
         task.start()
         print "Worker task finished!!"
         self.tasks.task_done()
+=======
+        print "Worker " + str(self.id) + " go to sleep " + str(self.t) + " seconds."
+        time.sleep(self.t)
+        print "Worker " + str(self.id) + " finished"
+        if self.lock.locked():
+            print "Thread " + str(self.id) + " RELEASE"
+            try:
+                self.lock.release()
+            except:
+                print "Lock unlocked."
+            self.working -= 1
+>>>>>>> 020840b949167fbf6c50c2b8fcd58ffb618fa135
 '''
 start = time.time()
 tm = ThreadManager(2)
@@ -43,6 +56,6 @@ for thread in waiting[1:]:
     thread.join()
 end = time.time()
 print "Total time %.2f" % (end - start)
-
+'''
 
 '''
