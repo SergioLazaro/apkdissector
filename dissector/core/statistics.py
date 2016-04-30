@@ -43,7 +43,7 @@ class Statistics:
         self.printStatistics(results,i)
         print "============================================================"
         print "[*] Analyzed apks: " + str(i)
-        print "[*] Total errors reported: " + str(self.errors - (i))
+        print "[*] Total errors reported: " + str(self.errors)
 
     '''
         Method used to read the permissions used by an analyzed APK
