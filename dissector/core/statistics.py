@@ -26,7 +26,8 @@ class Statistics:
                 permissions = self.readPermissions(filepath)
                 results = self.updateResult(results,permissions)
                 i += 1
-        print results
+        for result in results:
+            print "PERMISSION: " + result.permission + " VALUE: " + str(results.count)
         results = sorted(results, key=lambda x: x.count, reverse=True)
         print "============================================================"
         self.printStatistics(results,i)
