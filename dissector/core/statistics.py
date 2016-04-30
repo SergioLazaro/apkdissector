@@ -23,7 +23,8 @@ class Statistics:
         i = 0
         for apk in apks:
             apkpath = self.dir+apk
-            if os.path.isdir(apkpath):
+            if os.path.isdir(apkpath):          #Working only on APK directories
+                print "APK: " + apk
                 filepath = apkpath + "/" + apk + ".json"
                 permissions = self.readPermissions(filepath)
                 results = self.updateResult(results,permissions)
@@ -50,7 +51,7 @@ class Statistics:
     def printStatistics(self,results,i):
         for val in results:
             percentage = (Decimal(val.count)/Decimal(i))*100
-            print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission[:-5],val.count, percentage)
+            print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
 
         self.generateJSON(results,i)
 
