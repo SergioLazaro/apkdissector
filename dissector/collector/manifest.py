@@ -137,6 +137,6 @@ class Manifest(Acollector):
                     else:
                         file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"}\n')
                     i += 1
-                file.write("]}")
+                file.write("]},")
 
         file.close()
