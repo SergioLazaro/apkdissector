@@ -11,6 +11,8 @@ class PermissionCount:
         self.count = count
 
 def main(dir):
+    if dir[-1:] is not "/":
+        dir = dir + "/"
     if os.path.isdir(dir):
         statistics = Statistics(dir)
         statistics.getStatistics()

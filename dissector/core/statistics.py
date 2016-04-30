@@ -14,18 +14,29 @@ class Statistics:
 
     def __init__(self, dir):
         self.dir = dir
+        self.errors = 0
+        self.apks = list()
+        self.checkErrors()
+
+    def checkErrors(self):
+        apks = os.listdir(self.dir)
+        for apk in apks:
+            apkpath = self.dir + apk + "/"
+            #Checking that we have a empty directory
+            if os.path.isdir(apkpath):
+                if os.listdir(apkpath) == []:
+                    self.errors += 1
+                else:
+                    self.apks.append(apk)
 
     def getStatistics(self):
-        apks = os.listdir(self.dir)
         results = list()
         i = 0
-        for apk in apks:
-            apkpath = self.dir+apk
-            if os.path.isdir(apkpath):          #Working only on APK directories
-                filepath = apkpath + "/" + apk + ".json"
-                permissions = self.readPermissions(filepath)
-                results = self.updateResult(results,permissions)
-                i += 1
+        for apk in self.apks:
+            filepath = self.dir + apk + "/" + apk + ".json"
+            permissions = self.readPermissions(filepath)
+            results = self.updateResult(results,permissions)
+            i += 1
 
         results = sorted(results, key=lambda x: x.count, reverse=True)
         print "============================================================"
@@ -77,13 +88,11 @@ class Statistics:
                     position = i
 
             if position == -1:  #tmppermission does not exists
-                print "ADDING NEW PERMISSION: " + tmppermission
                 #Create new PermissionCount
                 p = PermissionCount(tmppermission,1)
                 #Append new PermissionCount
                 results.append(p)
             else:           #tmppermission exists so we have to increment the value
                 p = results[position]
-                print "INCREASING PERMISSION " + tmppermission + " OLD VALUE: " + str(p.count) + " NEW VALUE: " + str(p.count + 1)
                 p.count += 1
         return results
