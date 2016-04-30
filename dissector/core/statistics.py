@@ -26,7 +26,7 @@ class Statistics:
                 permissions = self.readPermissions(filepath)
                 results = self.updateResult(results,permissions)
                 i += 1
-
+        print results
         results = sorted(results, key=lambda x: x.count, reverse=True)
         print "============================================================"
         self.printStatistics(results,i)
@@ -58,10 +58,10 @@ class Statistics:
         for j,val in enumerate(results):
             percentage = (Decimal(val.count)/Decimal(i))
             if j < len(results) - 1:
-                fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
+                fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
                          '","percentage":"' + str(round(percentage,2)) + '"},')
             else:
-                fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
+                fd.write('{"permission":"' + val.permission + '","count":"' + str(val.count) +
                          '","percentage":"' + str(round(percentage,2)) + '"}')
         fd.write("]")
         #fd.write("],")
