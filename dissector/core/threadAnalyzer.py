@@ -93,7 +93,7 @@ class ThreadAnalyzer ():
         found = False
         i = 0
         while not found and i < len(caches):
-            print caches[i]
+            print caches[i][:-5]
             if caches[i] is apkname:
                 found = True
             i += 1
