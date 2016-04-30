@@ -90,6 +90,7 @@ class ThreadAnalyzer ():
 
     def checkCacheDir(self, apkname):
         caches = os.listdir(self.config.cachedir)
+        print caches
         found = False
         i = 0
         while not found and i < len(caches):
