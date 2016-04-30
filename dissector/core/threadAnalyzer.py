@@ -37,7 +37,14 @@ class ThreadAnalyzer ():
                 session_name = targetapp.package_name #usare md5, meglio
             else:
                 session_name = "dummyname"
-            targetapp.save_session('/tmp/asd/testing/cache/' + apkname + ".json")
+
+            cache_exists = self.checkCacheDir(apkname)
+            if cache_exists:
+                print "Restoring session for " + apkname
+                targetapp.restore_session(self.config.cachedir + apkname + ".json")
+            else:
+                print "Saving session for " + apkname
+                targetapp.save_session(self.config.cachedir + apkname + ".json")
             exit(0)
             manifestInfo = Manifest(targetapp)
             #first we need to check if a cache file already exists
@@ -80,6 +87,16 @@ class ThreadAnalyzer ():
         #writer = HookWriter(manifestAnalysis,vmfilter)
         #writer.write(dest+'Fuffa.java')
         #print 'scritto'
+
+    def checkCacheDir(self, apkname):
+        caches = os.listdir(self.config.cachedir)
+        found = False
+        i = 0
+        while not found and i < len(caches):
+            if caches[i] is apkname:
+                found = True
+            i += 1
+        return found
 
 
 
