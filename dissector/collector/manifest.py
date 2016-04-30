@@ -112,7 +112,7 @@ class Manifest(Acollector):
         path = dir + apkname + ".json"
         file = open(path,"w")
         #Populating JSON file
-        file.write('{"apk":\n')
+        file.write('{"apk":{\n')
         file.write('\t"hash":"' + apkname + '",\n')
         file.write('\t"package_name":"' + package_name + '",\n')
         file.write('\t"mapping":[\n')
@@ -138,8 +138,8 @@ class Manifest(Acollector):
                     i += 1
             #Check if we have more to write
             if j < (len(self.collected_data['uses-permission']) - 1):
-                file.write("]},")
-                
+                file.write("]},\n")
+
             j += 1
-        file.write("]}]}")
+        file.write("]}]}}")
         file.close()
