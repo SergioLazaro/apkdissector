@@ -11,12 +11,12 @@ class PScoutDB:
         self.conn = None
         self.dbpath = dbpath + str(api) + ".db"
         if not os.path.exists(self.dbpath):
-            print 'creating the dbpath: ' + self.dbpath
+            #print 'creating the dbpath: ' + self.dbpath
             self.create()
 
     #The DB should be populated if we want to use it
     def connect(self):
-        print 'connecting to : ' + str(self.dbpath)
+        #print 'connecting to : ' + str(self.dbpath)
         self.conn = sqlite3.connect(self.dbpath)
 
     def create(self):
@@ -41,21 +41,24 @@ class PScoutDB:
                              "VALUES (?,?,?,?,?)",(list[0],list[1],list[2],list[3],list[4]));
 
             self.conn.commit()  #Commit the changes
-            print "Records created successfully";
+            #print "Records created successfully";
 
     #Query all rows looking for <permission>
     def querypermission(self, permission):
 
         cursor = self.conn.execute("SELECT * from pscout WHERE PERMISSION = %s" % ("'" + permission + "'"))
         array = list()
-        print "Checking permissions of " + str(permission) + "..."
+        #print "Checking permissions of " + str(permission) + "..."
         for row in cursor:
             p = Permission(row[1],row[2],row[3])
             array.append(p)
         if(len(array) != 0):
-            print "%d rows found" % (len(array))
+            pass
+            #print "%d rows found" % (len(array))
         else:
-            print "%s does not exists \n" % (permission)
+            pass
+            #TODO: catch errors
+            #print "%s does not exists \n" % (permission)
 
         return array
 

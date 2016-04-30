@@ -98,9 +98,9 @@ class Manifest(Acollector):
         #Writing all items added before in our file
         #Maybe, we could add the name of the analyzed apk
         #example: whatsapp_permissions.txt/json/...
-        print "=============================="
-        print "Total permissions used: " + str(len(self.collected_data['uses-permission']))
-        print "=============================="
+        #print "=============================="
+        #print "Total permissions used: " + str(len(self.collected_data['uses-permission']))
+        #print "=============================="
         #writer.write("files/permissions.json")
 
     def checkPermissions(self,config,apkname):
@@ -116,7 +116,7 @@ class Manifest(Acollector):
         numfiles = 0
         #for permission in data["permissions"]:      #Getting all entries for a permission
         for permission in self.collected_data['uses-permission']:
-            print 'ads: ' + permission.get_name()
+            #print 'ads: ' + permission.get_name()
             current = permission.get_name()     #Current permission
             db.connect()                            #Connecting to the DB
 
@@ -126,9 +126,9 @@ class Manifest(Acollector):
                 numfiles += 1
                 #Create new JSON file for permission_name.json
                 path = str(dir) + str(current) + ".json"
-                print 'looking for: ' + path
+                #print 'looking for: ' + path
                 file = open(path,"wr")
-                print "Creating new JSON file in " + str(dir) + " for " + str(current)
+                #print "Creating new JSON file in " + str(dir) + " for " + str(current)
                 file.write('{"pscout":[\n')
 
                 #Iterate over the array of Permission objects
@@ -143,6 +143,6 @@ class Manifest(Acollector):
                     i += 1
                 file.write("]}")
                 file.close()
-        print "=============================="
-        print "Number of files written: " + str(numfiles)
-        print "=============================="
+        #print "=============================="
+        #print "Number of files written: " + str(numfiles)
+        #print "=============================="
