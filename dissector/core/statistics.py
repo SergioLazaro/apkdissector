@@ -93,6 +93,6 @@ class Statistics:
                 results.append(p)
             else:           #tmppermission exists so we have to increment the value
                 p = results[position]
-                print "[!!] PERMISSION " + p.permission " INCREASING"
+                print "[!!] PERMISSION " + p.permission + " INCREASING"
                 p.count += 1
         return results
