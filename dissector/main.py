@@ -36,6 +36,7 @@ dest = 'files/'
 python main.py -i file1 -o /home/sid/android/malware/analysis
 '''
 def main(path):
+    print "main started!!"
     global dissector_global_dir
     config = ConfigurationReader()   #Config parameters
     #Check if the path is a file or a dir
@@ -64,24 +65,38 @@ def main(path):
         end = time.time()
         print "Total time spent (seconds): %.2f" % (end - start)
 
+def putUpTo5Tasks(tm, apks_list, samplepath , config):
+    res = []
+    for x in range(5):
+        apk = apks_list.pop()
+        apkpath = samplepath + apk
+        t = ThreadAnalyzer(apkpath,config,"d")
+        res.append(t)
+    tm.add_task(res)
+
+
 def analyzeSample(samplepath, config):
     start = time.time()
-    runningThreads = 1
+    #runningThreads = 1
     apks = os.listdir(samplepath)
-    tm = ThreadManager(config.threads)
-    for apk in apks:
-        #Generating apk path
-        apkpath = samplepath + apk
-        t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working,"d")
-        tm.manage(t)    #Starting new thread
-        print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
-
+    #tm = ThreadManager(config.threads)
+    while True:
+        if not apks: break
+            #Generating apk path
+            #apkpath = samplepath + apk
+        tm  = ThreadManager(config.threads)
+            #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working,"d")
+        putUpTo5Tasks(tm,apks, samplepath, config)
+        tm.wait_completition()
+        print "num of apks: " + str(len(apks))
+            #print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
+    '''
     waiting = threading.enumerate()
     for thread in waiting[1:]:
         thread.join()
     end = time.time()
     print "Total time spent (seconds): %.2f" % (end - start)
-
+    '''
 
 def print_help(parser):
     print "arguments error!!\n"

@@ -1,46 +1,35 @@
 __author__ = 'sergio'
 
 import threading, time, random, datetime
+from Queue import Queue
 
 class ThreadManager:
-
-    def __init__(self,limit):
-        self.limit = limit
+    def __init__(self,num_threads):
         self.lock = threading.Lock()
-        self.working = 0
-
-    def manage(self,t):
-        if self.working < self.limit:
-            print "Launching thread number " + str(i)
-            t.start()
-            self.working += 1
-        else:
-            self.lock.acquire()
-            print "Thread " + str(i) + " waiting until release..."
-            t.start()
-            self.working += 1
+        self.num_threads = num_threads
+        self.tasks = Queue(num_threads)
+        #for _ in range(self.num_threads): Worker(self.tasks)
+    def add_task(self, tasks_list):
+        for t in tasks_list:
+            self.tasks.put(t)
+            Worker(self.tasks).start()
+        print "Queue len: " + str(self.tasks.qsize())
+    def wait_completition(self):
+        self.tasks.join()
+        print "Thread Manager: tasks completed!"
+    def areTaskRunning(self):
+        print self.tasks.empty()
 
 class Worker(threading.Thread):
-
-    def __init__(self, id, t, lock, working):
+    def __init__(self, tasks):
         threading.Thread.__init__(self)
-        self.id = id
-        self.t = t
-        self.lock = lock
-        self.working = working
-
+        self.tasks = tasks
     def run(self):
-        print "Worker " + str(self.id) + " go to sleep " + str(self.t) + " seconds."
-        time.sleep(self.t)
-        print "Worker " + str(self.id) + " finished"
-        if self.lock.locked():
-            print "Thread " + str(self.id) + " RELEASE"
-            try:
-                self.lock.release()
-            except:
-                print "Lock unlocked."
-            self.working -= 1
-
+        task = self.tasks.get()
+        task.start()
+        print "Worker task finished!!"
+        self.tasks.task_done()
+'''
 start = time.time()
 tm = ThreadManager(2)
 for i in range(5):      #we launch 5 tasks but can be run just 3
@@ -56,4 +45,4 @@ end = time.time()
 print "Total time %.2f" % (end - start)
 
 
-
+'''
