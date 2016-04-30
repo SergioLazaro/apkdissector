@@ -1,7 +1,8 @@
 __author__ = 'sergio'
 
-import os,optparse, mmap
+import os,optparse, json
 from decimal import Decimal
+from core.statistics import Statistics
 
 class PermissionCount:
 
@@ -10,67 +11,10 @@ class PermissionCount:
         self.count = count
 
 def main(dir):
-    apks = os.listdir(dir)
-    results = list()
-    for i,val in enumerate(apks):
-        apkpath = dir+val
-        if os.path.isdir(apkpath):
-            direlements = os.listdir(apkpath)   #'ls'
-            permissions = getAnalyzedApks(direlements)  #Getting all apks directories
-            results = updateResult(results,permissions)
-
-    print "============================================================"
-    printStatistics(results,i+1,dir)
-    print "============================================================"
-    print "[*] Analyzed apks: " + str(i+1)
-
-#Method used to exclude files and get only directories
-def getAnalyzedApks(direlements):
-    permissions = list()
-    for elem in direlements:
-        if elem.endswith(".json"):
-            permissions.append(elem)
-    return permissions
-
-def printStatistics(results,i,dir):
-    for val in results:
-        percentage = (Decimal(val.count)/Decimal(i))*100
-        print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission[:-5],val.count, percentage)
-
-    generateJSON(results,i,dir)
-
-def generateJSON(results,i,dir):
-    fd = open(dir+"statistics.json","w")
-    fd.write('{"permissions": [')
-    for j,val in enumerate(results):
-        percentage = (Decimal(val.count)/Decimal(i))
-        if j < len(results) - 1:
-            fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
-                     '","percentage":"' + str(round(percentage,2)) + '"},')
-        else:
-            fd.write('{"permission":"' + val.permission[:-5] + '","count":"' + str(val.count) +
-                     '","percentage":"' + str(round(percentage,2)) + '"}')
-    fd.write("]}")
-    fd.close()
-
-
-
-def updateResult(results, permissions):
-    for tmppermission in permissions:
-        position = -1
-        for i,existingpermission in enumerate(results):
-            if existingpermission.permission == tmppermission:
-                position = i
-
-        if position == -1:  #tmppermission does not exists
-            #Create new PermissionCount
-            p = PermissionCount(tmppermission,1)
-            #Append new PermissionCount
-            results.append(p)
-        else:           #tmppermission exists so we have to increment the value
-            p = results[position]
-            p.count += 1
-    return results
+    if os.path.isdir(dir):
+        apknumber = len(os.listdir(dir))
+        statistics = Statistics(dir,apknumber)
+        statistics.getStatistics()
 
 
 def print_help(parser):

@@ -24,10 +24,7 @@ class Statistics:
             apkpath = self.dir+apk
             if os.path.isdir(apkpath):
                 filepath = apkpath + "/" + apk + ".json"
-                with open(filepath) as data_file:
-                    data = json.load(data_file)
-
-                permissions = self.getAnalyzedApks(direlements)  #Getting all apks directories
+                permissions = self.readPermissions(filepath)
                 results = self.updateResult(results,permissions)
                 i += 1
 
@@ -38,12 +35,15 @@ class Statistics:
         print "[*] Analyzed apks: " + str(i)
         print "[*] Total errors reported: " + str(self.apksnumber - (i))
 
-    #Method used to exclude files and get only directories
-    def getAnalyzedApks(self,direlements):
+    '''
+        Method used to read the permissions used by an analyzed APK
+    '''
+    def readPermissions(self,filepath):
         permissions = list()
-        for elem in direlements:
-            if elem.endswith(".json"):
-                permissions.append(elem)
+        with open(filepath) as data_file:
+            data = json.load(data_file)
+            for permission in data['mapping']:
+                permissions.append(permission['permission'])
         return permissions
 
     def printStatistics(self,results,i):
