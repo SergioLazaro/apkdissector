@@ -2,7 +2,7 @@
 __author__='sergio'
 
 from decimal import Decimal
-import os
+import os, json
 
 class PermissionCount:
 
@@ -20,10 +20,13 @@ class Statistics:
         apks = os.listdir(self.dir)
         results = list()
         i = 0
-        for val in apks:
-            apkpath = self.dir+val
+        for apk in apks:
+            apkpath = self.dir+apk
             if os.path.isdir(apkpath):
-                direlements = os.listdir(apkpath)   #'ls'
+                filepath = apkpath + "/" + apk + ".json"
+                with open(filepath) as data_file:
+                    data = json.load(data_file)
+
                 permissions = self.getAnalyzedApks(direlements)  #Getting all apks directories
                 results = self.updateResult(results,permissions)
                 i += 1
@@ -48,10 +51,7 @@ class Statistics:
             percentage = (Decimal(val.count)/Decimal(i))*100
             print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission[:-5],val.count, percentage)
 
-        response = raw_input("Do you want a JSON file?[Y/N]: ")
-        if response is "Y" or response is "y":
-            print "[*] JSON file created in " + self.dir
-            self.generateJSON(results,i)
+        self.generateJSON(results,i)
 
     def generateJSON(self,results,i):
         fd = open(self.dir+"statistics.json","w")

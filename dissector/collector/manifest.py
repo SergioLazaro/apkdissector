@@ -112,14 +112,13 @@ class Manifest(Acollector):
         path = dir + apkname + ".json"
         file = open(path,"w")
         #Populating JSON file
-        file.write('{"apk":{\n')
-        file.write('\t"hash":"' + apkname + '",\n')
-        file.write('\t"package_name":"' + package_name + '",\n')
-        file.write('\t"mapping":[\n')
+        file.write('{"hash":"' + apkname + '",\n')
+        file.write('"package_name":"' + package_name + '",\n')
+        file.write('"mapping":[\n')
         for j, permission in enumerate(self.collected_data['uses-permission']):   #Getting all entries for a permission
             current = permission.get_name()     #Current permission
-            file.write('\t\t{"permission":"' + current + '",\n')
-            file.write('\t\t"info":[')
+            file.write('\t{"permission":"' + current + '",\n')
+            file.write('\t"info":[')
             db.connect()                            #Connecting to the DB
 
             #Getting info for permission['permission'] in the DB called <version.db>
@@ -129,7 +128,7 @@ class Manifest(Acollector):
                 #Iterate over the array of Permission objects
                 i = 0
                 for p in array:
-                    file.write('\t\t\t{"callerClass":"' + p.callerClass + '",')
+                    file.write('\t\t{"callerClass":"' + p.callerClass + '",')
                     file.write('"callerMethod":"' + p.callerMethod + '",')
                     if(i < (len(array) - 1)):
                         file.write('"callerMethodDesc":"' + p.callerMethodDesc + '"},\n')
@@ -141,5 +140,5 @@ class Manifest(Acollector):
                 file.write("]},\n")
 
             j += 1
-        file.write("]}]}}")
+        file.write("]}]}")
         file.close()

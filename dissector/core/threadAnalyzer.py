@@ -39,13 +39,13 @@ class ThreadAnalyzer ():
                 session_name = "dummyname"
 
             #Check if the current APK has a cache file
-            cache_exists = os.path.isfile(dir + "cache.json")
+            cache_exists = os.path.isfile(dir + "cache")
             if cache_exists:
                 print "Restoring session for " + apkname
-                targetapp.restore_session(dir + "cache.json")
+                targetapp.restore_session(dir + "cache")
             else:
                 print "Saving session for " + apkname
-                targetapp.save_session(dir + "cache.json")
+                targetapp.save_session(dir + "cache")
 
             manifestInfo = Manifest(targetapp)
             #first we need to check if a cache file already exists
