@@ -38,7 +38,8 @@ class ThreadAnalyzer ():
             else:
                 session_name = "dummyname"
 
-            cache_exists = self.checkCacheDir(apkname)
+            #Check if the current APK has a cache file
+            cache_exists = os.path.isfile(self.config.cachedir + apkname + ".json")
             if cache_exists:
                 print "Restoring session for " + apkname
                 targetapp.restore_session(self.config.cachedir + apkname + ".json")
@@ -88,18 +89,7 @@ class ThreadAnalyzer ():
         #writer.write(dest+'Fuffa.java')
         #print 'scritto'
 
-    def checkCacheDir(self, apkname):
-        caches = os.listdir(self.config.cachedir)
-        found = False
-        i = 0
-        while not found and i < len(caches):
 
-            cache = os.path.splitext(caches[i])[0]
-            print "CACHE FILE: " + cache + " - APKNAME: " + apkname
-            if cache == apkname:
-                found = True
-            i += 1
-        return found
 
 
 
