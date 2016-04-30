@@ -12,19 +12,16 @@ class PermissionCount:
 
 class Statistics:
 
-    def __init__(self, dir, apksnumber):
+    def __init__(self, dir):
         self.dir = dir
-        self.apksnumber = apksnumber
 
     def getStatistics(self):
         apks = os.listdir(self.dir)
-        print apks
         results = list()
         i = 0
         for apk in apks:
             apkpath = self.dir+apk
             if os.path.isdir(apkpath):          #Working only on APK directories
-                print "APK: " + apk
                 filepath = apkpath + "/" + apk + ".json"
                 permissions = self.readPermissions(filepath)
                 results = self.updateResult(results,permissions)
@@ -35,7 +32,7 @@ class Statistics:
         self.printStatistics(results,i)
         print "============================================================"
         print "[*] Analyzed apks: " + str(i)
-        print "[*] Total errors reported: " + str(self.apksnumber - (i))
+        #print "[*] Total errors reported: " + str(self.apksnumber - (i))
 
     '''
         Method used to read the permissions used by an analyzed APK

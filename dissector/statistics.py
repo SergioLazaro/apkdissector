@@ -12,8 +12,7 @@ class PermissionCount:
 
 def main(dir):
     if os.path.isdir(dir):
-        apknumber = len(os.listdir(dir))
-        statistics = Statistics(dir,apknumber)
+        statistics = Statistics(dir)
         statistics.getStatistics()
 
 
