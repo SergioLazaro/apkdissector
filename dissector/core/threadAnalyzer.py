@@ -90,12 +90,13 @@ class ThreadAnalyzer ():
 
     def checkCacheDir(self, apkname):
         caches = os.listdir(self.config.cachedir)
-        print caches
         found = False
         i = 0
         while not found and i < len(caches):
-            print "CACHE FILE: " + caches[i][-5] + " - APKNAME: " + apkname
-            if caches[i][-5] == apkname:
+
+            cache = os.path.splitext(caches[i])[0]
+            print "CACHE FILE: " + cache + " - APKNAME: " + apkname
+            if cache == apkname:
                 found = True
             i += 1
         return found
