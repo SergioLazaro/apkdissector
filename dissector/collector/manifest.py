@@ -139,7 +139,7 @@ class Manifest(Acollector):
             #Check if we have more to write
             if j < (len(self.collected_data['uses-permission']) - 1):
                 file.write("]},")
-            else:
-                file.write("]}")
+                
             j += 1
+        file.write("]}]}")
         file.close()
