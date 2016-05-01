@@ -7,6 +7,7 @@ from target import Target
 from collector.manifest import Manifest
 from analyzer.manifest import ManifestAnalyzer
 from logger import Logger
+from exceptions import ZIPException
 
 #class ThreadAnalyzer (threading.Thread):
 class ThreadAnalyzer ():
@@ -35,7 +36,7 @@ class ThreadAnalyzer ():
         try:
             logpath = self.config.outputdir + apkname + '/log.txt'
             log = Logger(logpath)
-            targetapp = Target(static_target)
+            targetapp = Target(static_target,self.config)
             if targetapp.package_name is not None:
                 session_name = targetapp.package_name #usare md5, meglio
             else:
@@ -63,15 +64,10 @@ class ThreadAnalyzer ():
         except:
             if type is "d":
                 errorlogpath = self.config.errorlogpath + apkname + ".txt"
-                log = Logger(errorlogpath)
-                log.write("[!!] Error appeared analyzing " + static_target)
-                err = traceback.format_exc()
-                log.write.write(str(err))
+                exception = ZIPException(errorlogpath,apkname)
                 shutil.rmtree(dir)
-                log.close()
             else:
                 raise
-
 
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)

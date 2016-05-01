@@ -1,3 +1,5 @@
+import shutil
+
 __author__ = 'vaioco'
 
 
@@ -8,16 +10,17 @@ from androguard.core.bytecodes.apk import *
 from androguard.core.analysis.analysis import newVMAnalysis
 from core.utils import *
 from cPickle import dumps, loads
-
+from exceptions import ZIPException
 from androguard.decompiler.decompiler import *
 
 '''
     APK 2target da analizzare
 '''
 class Target:
-    def __init__(self, filename):
+    def __init__(self, filename,config):
         self.cachedir = ''
         self.filename = filename
+        self.config = config
         self.package_name = None
         self.open()
     def _print(self):
@@ -39,9 +42,11 @@ class Target:
             if self.package_name is None:
                 print 'cannot retrive package name information for ' + self.filename
         except:
-            #APK(self.filename).new_zip(self.filename)
-            print "INVALID APK"
-            exit(-1)
+            print "cannot open the APK file"
+            apkname = os.path.basename(os.path.splitext(self.filename)[0])
+            errorlogpath = self.config.errorlogpath + apkname + ".txt"
+            exception = ZIPException(errorlogpath,apkname)
+            shutil.rmtree(dir)
 
     def get_manifest(self):
         return self.apk.get_android_manifest_xml()
