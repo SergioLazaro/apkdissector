@@ -28,7 +28,6 @@ class Statistics:
                 if os.listdir(apkpath) == []:
                     self.errors += 1
                 else:
-                    print "Appending new APK"
                     self.apks.append(apk)
 
     def getStatistics(self):
@@ -38,7 +37,7 @@ class Statistics:
         for apk in self.apks:
             filepath = self.dir + apk + "/" + apk + ".json"
             permissions = self.readPermissions(filepath)
-            results = self.updateResult(results,permissions)
+            results = self.updateResult(results,permissions,apk)
             i += 1
 
         results = sorted(results, key=lambda x: x.count, reverse=True)
@@ -82,7 +81,8 @@ class Statistics:
         fd.write("}")
         fd.close()
 
-    def updateResult(self,results, permissions):
+    def updateResult(self,results, permissions,apk):
+        print apk + " has " + str(len(permissions)) + " permissions"
         for tmppermission in permissions:
             position = -1
             for i,existingpermission in enumerate(results):
