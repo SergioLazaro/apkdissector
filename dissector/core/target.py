@@ -22,7 +22,7 @@ class Target:
         self.filename = filename
         self.config = config
         self.package_name = None
-        self.open()
+        self.status = self.open()
     def _print(self):
         return "Target info: \n\tpackage name: " + self.package_name.encode("utf-8") + \
                "\n\tfilename: " + self.filename
@@ -41,11 +41,14 @@ class Target:
             self.package_name = self.apk.get_package()
             if self.package_name is None:
                 print 'cannot retrive package name information for ' + self.filename
+
+            return True
         except:
             print "cannot open the APK file"
             apkname = os.path.basename(os.path.splitext(self.filename)[0])
             errorlogpath = self.config.errorlogdir + apkname + ".txt"
             exception = ZIPException(errorlogpath,apkname)
+            return False
             #shutil.rmtree(dir)
 
     def get_manifest(self):

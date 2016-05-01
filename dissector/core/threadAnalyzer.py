@@ -37,30 +37,31 @@ class ThreadAnalyzer ():
             logpath = self.config.outputdir + apkname + '/log.txt'
             log = Logger(logpath)
             targetapp = Target(static_target,self.config)
-            if targetapp.package_name is not None:
-                session_name = targetapp.package_name #usare md5, meglio
-            else:
-                session_name = "dummyname"
+            if targetapp.status:
+                if targetapp.package_name is not None:
+                    session_name = targetapp.package_name #usare md5, meglio
+                else:
+                    session_name = "dummyname"
 
-            #Check if the current APK has a cache file
-            cache_exists = os.path.isfile(dir + "cache")
-            if cache_exists:
-                log.write("Restoring session for " + apkname)
-                targetapp.restore_session(dir + "cache")
-            else:
-                log.write("Saving session for " + apkname)
-                targetapp.save_session(dir + "cache")
+                #Check if the current APK has a cache file
+                cache_exists = os.path.isfile(dir + "cache")
+                if cache_exists:
+                    log.write("Restoring session for " + apkname)
+                    targetapp.restore_session(dir + "cache")
+                else:
+                    log.write("Saving session for " + apkname)
+                    targetapp.save_session(dir + "cache")
 
-            manifestInfo = Manifest(targetapp)
+                manifestInfo = Manifest(targetapp)
 
-            #Changing stdout to apkName.txt file (Normal output and errors)
-            manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-            log.write("analyzing...\n" + targetapp._print())
-            manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)
-            log.write(apkname + " has been analyzed.")
-            print apkname + " has been analyzed."
-            print "**********************************************************"
-            log.close()
+                #Changing stdout to apkName.txt file (Normal output and errors)
+                manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
+                log.write("analyzing...\n" + targetapp._print())
+                manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)
+                log.write(apkname + " has been analyzed.")
+                print apkname + " has been analyzed."
+                print "**********************************************************"
+                log.close()
         except:
             if type is "d":
                 errorlogpath = self.config.errorlogdir + apkname + ".txt"
