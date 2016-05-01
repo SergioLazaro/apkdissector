@@ -63,7 +63,7 @@ class ThreadAnalyzer ():
             log.close()
         except:
             if type is "d":
-                errorlogpath = self.config.errorlogpath + apkname + ".txt"
+                errorlogpath = self.config.errorlogdir + apkname + ".txt"
                 exception = ZIPException(errorlogpath,apkname)
                 shutil.rmtree(dir)
             else:
