@@ -33,7 +33,6 @@ class Statistics:
     def getStatistics(self):
         results = list()
         i = 0
-        print self.apks
         for apk in self.apks:
             filepath = self.dir + apk + "/" + apk + ".json"
             permissions = self.readPermissions(filepath)
@@ -83,6 +82,9 @@ class Statistics:
 
     def updateResult(self,results, permissions,apk):
         print apk + " has " + str(len(permissions)) + " permissions"
+        #Delete repeated elements in permissions
+        permissions = sorted(set(permissions))
+        print apk + " has " + str(len(permissions)) + " permissions"
         for tmppermission in permissions:
             position = -1
             for i,existingpermission in enumerate(results):
@@ -96,6 +98,5 @@ class Statistics:
                 results.append(p)
             else:           #tmppermission exists so we have to increment the value
                 p = results[position]
-                print "[!!] PERMISSION " + p.permission + " INCREASING"
                 p.count += 1
         return results
