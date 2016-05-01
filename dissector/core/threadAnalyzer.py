@@ -32,44 +32,40 @@ class ThreadAnalyzer ():
             os.makedirs(dir)
             os.chmod(dir,0755)
         static_target = str(self.apkpath) #this must be the complete path of apk file
-        #Catching Androguard exception
-        try:
-            logpath = self.config.outputdir + apkname + '/log.txt'
-            log = Logger(logpath)
-            targetapp = Target(static_target,self.config)
-            if targetapp.status:
-                if targetapp.package_name is not None:
-                    session_name = targetapp.package_name #usare md5, meglio
-                else:
-                    session_name = "dummyname"
+        logpath = self.config.outputdir + apkname + '/log.txt'
+        log = Logger(logpath)
 
-                #Check if the current APK has a cache file
-                cache_exists = os.path.isfile(dir + "cache")
-                if cache_exists:
-                    log.write("Restoring session for " + apkname)
-                    targetapp.restore_session(dir + "cache")
-                else:
-                    log.write("Saving session for " + apkname)
-                    targetapp.save_session(dir + "cache")
-
-                manifestInfo = Manifest(targetapp)
-
-                #Changing stdout to apkName.txt file (Normal output and errors)
-                manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-                log.write("analyzing...\n" + targetapp._print())
-                manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)
-                log.write(apkname + " has been analyzed.")
-                print apkname + " has been analyzed."
-                print "**********************************************************"
-                log.close()
-        except:
-            if type is "d":
-                errorlogpath = self.config.errorlogdir + apkname + ".txt"
-                exception = ZIPException(errorlogpath,apkname)
-                #shutil.rmtree(dir)
+        #Opening APK with Androguard
+        targetapp = Target(static_target,self.config)
+        if targetapp.status:    #If open APK result is OK, we continue...
+            if targetapp.package_name is not None:
+                session_name = targetapp.package_name #usare md5, meglio
             else:
-                raise
+                session_name = "dummyname"
 
+            #Check if the current APK has a cache file
+            cache_exists = os.path.isfile(dir + "cache")
+            if cache_exists:
+                log.write("Restoring session for " + apkname)
+                targetapp.restore_session(dir + "cache")
+            else:
+                log.write("Saving session for " + apkname)
+                targetapp.save_session(dir + "cache")
+
+            manifestInfo = Manifest(targetapp)
+
+            #Changing stdout to apkName.txt file (Normal output and errors)
+            manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
+            log.write("analyzing...\n" + targetapp._print())
+            manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)
+            log.write(apkname + " has been analyzed.")
+            print apkname + " has been analyzed."
+            print "**********************************************************"
+            log.close()
+
+        else:
+            shutil.rmtree(dir)  #Deleting folder for apk analysis
+            
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)
