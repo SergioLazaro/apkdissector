@@ -26,6 +26,7 @@ class Statistics:
             if os.path.isdir(apkpath):
                 if os.listdir(apkpath) == []:
                     self.errors += 1
+                    os.removedirs(apkpath)  #Delete empty APK folder
                 else:
                     self.apks.append(apk)
 
