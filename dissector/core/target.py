@@ -30,8 +30,7 @@ class Target:
     def open(self):
         #aggiungere calcolo md5 dell apk e usarlo come nome per la sessione
         print 'opening : ' + self.filename
-        if APK(self.filename).is_valid_APK(self.filename):
-            print "IS VALID APK"
+        try:
             self.apk = APK(self.filename)
             self.dvmf = DalvikVMFormat(self.apk.get_dex())
             self.vma = newVMAnalysis(self.dvmf)
@@ -39,7 +38,8 @@ class Target:
             self.package_name = self.apk.get_package()
             if self.package_name is None:
                 print 'cannot retrive package name information for ' + self.filename
-        else:
+        except:
+            APK(self.filename).new_zip(self.filename)
             print "INVALID APK"
             exit(-1)
 
