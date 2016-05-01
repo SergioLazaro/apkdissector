@@ -18,7 +18,7 @@ class ManifestAnalyzer(AnAnalyzer):
     def _analyze(self, target_dict):
         tags = self.collector.get_target_tags()
         for t in tags:
-            print 'tag : ' + t
+            #print 'tag : ' + t
             for elem in target_dict[t]:
                 print 'analyzer manifest, elem: ' + elem.get_name()
                 c = self.target.get_class('L' + elem.get_name().replace('.','/') + ';')
