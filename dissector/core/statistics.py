@@ -19,6 +19,7 @@ class Statistics:
         self.checkErrors()
 
     def checkErrors(self):
+        print "Checking errors in " + self.dir
         apks = os.listdir(self.dir)
         for apk in apks:
             apkpath = self.dir + apk + "/"
@@ -32,6 +33,7 @@ class Statistics:
     def getStatistics(self):
         results = list()
         i = 0
+        print self.apks
         for apk in self.apks:
             filepath = self.dir + apk + "/" + apk + ".json"
             permissions = self.readPermissions(filepath)

@@ -12,7 +12,6 @@ class PermissionCount:
 
 def main(dir):
     if dir[-1:] is not "/":
-        print "Modifying directory path."
         dir = dir + "/"
     if os.path.isdir(dir):
         statistics = Statistics(dir)
