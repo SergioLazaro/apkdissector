@@ -35,7 +35,7 @@ class Statistics:
         for apk in self.apks:
             filepath = self.dir + apk + "/" + apk + ".json"
             permissions = self.readPermissions(filepath)
-            results = self.updateResult(results,permissions,apk)
+            results = self.updateResult(results,permissions)
             i += 1
 
         results = sorted(results, key=lambda x: x.count, reverse=True)
@@ -79,11 +79,9 @@ class Statistics:
         fd.write("}")
         fd.close()
 
-    def updateResult(self,results, permissions,apk):
-        print apk + " has " + str(len(permissions)) + " permissions"
+    def updateResult(self,results, permissions):
         #Delete repeated elements in permissions
         permissions = sorted(set(permissions))
-        print apk + " has " + str(len(permissions)) + " permissions"
         for tmppermission in permissions:
             position = -1
             for i,existingpermission in enumerate(results):
