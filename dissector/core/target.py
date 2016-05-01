@@ -30,13 +30,18 @@ class Target:
     def open(self):
         #aggiungere calcolo md5 dell apk e usarlo come nome per la sessione
         print 'opening : ' + self.filename
-        self.apk = APK(self.filename)
-        self.dvmf = DalvikVMFormat(self.apk.get_dex())
-        self.vma = newVMAnalysis(self.dvmf)
-        self.dvmf.set_vmanalysis(self.vma)
-        self.package_name = self.apk.get_package()
-        if self.package_name is None:
-            print 'cannot retrive package name information for ' + self.filename
+        if APK.is_valid_APK(self.filename):
+            print "IS VALID APK"
+            self.apk = APK(self.filename)
+            self.dvmf = DalvikVMFormat(self.apk.get_dex())
+            self.vma = newVMAnalysis(self.dvmf)
+            self.dvmf.set_vmanalysis(self.vma)
+            self.package_name = self.apk.get_package()
+            if self.package_name is None:
+                print 'cannot retrive package name information for ' + self.filename
+        else:
+            print "INVALID APK"
+            exit(-1)
 
     def get_manifest(self):
         return self.apk.get_android_manifest_xml()
