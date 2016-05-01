@@ -103,13 +103,14 @@ class Manifest(Acollector):
         #print "=============================="
         #writer.write("files/permissions.json")
 
-    def checkPermissions(self,config,apkname,package_name):
+    def checkPermissions(self,config,apkname,package_name,log):
 
         dir = config.outputdir + str(apkname) + "/"
-
         db = PScoutDB(config.version,config.dbpath)
         #Create new JSON file for permission_name.json
         path = dir + apkname + ".json"
+        log.write("Opening JSON file in ") + path
+        log.write("Writing JSON file with PScout permissions mapping...")
         file = open(path,"w")
         #Populating JSON file
         file.write('{"hash":"' + apkname + '",\n')
@@ -141,4 +142,5 @@ class Manifest(Acollector):
 
             j += 1
         file.write("]}]}")
+        log.write("JSON file with PScout permissions mapping written successfuly")
         file.close()

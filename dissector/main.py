@@ -53,6 +53,7 @@ def main(path):
         print "[*] More output for each APK available in " + config.outputdir
 
     else:
+        #apkname = os.path.basename(path)
         start = time.time()
         #analyzeAPK(path, config)
         apk = ThreadAnalyzer(path,config,"f")
@@ -84,18 +85,10 @@ def analyzeSample(samplepath, config):
             #Generating apk path
             #apkpath = samplepath + apk
         tm  = ThreadManager(config.threads)
-            #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working,"d")
+        #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working,"d")
         putUpTo5Tasks(tm,apks, samplepath, config)
         tm.wait_completition()
-        print "num of apks: " + str(len(apks))
-            #print "Launching new thread total: " + str(config.threads) + " running: " + str(runningThreads)
-    '''
-    waiting = threading.enumerate()
-    for thread in waiting[1:]:
-        thread.join()
-    end = time.time()
-    print "Total time spent (seconds): %.2f" % (end - start)
-    '''
+        config.logger.write("num of apks: " + str(len(apks)))
 
 def print_help(parser):
     print "arguments error!!\n"

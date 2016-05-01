@@ -1,8 +1,7 @@
-import os
-
 __author__ = 'sergio'
-import ConfigParser
 
+import ConfigParser, os
+from logger import Logger
 
 class ConfigurationReader:
     def __init__(self):

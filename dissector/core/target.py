@@ -21,9 +21,8 @@ class Target:
         self.package_name = None
         self.open()
     def _print(self):
-        print "Target info: "
-        print "package name: " + self.package_name.encode("utf-8")
-        print "filename: " + self.filename
+        return "Target info: \npackage name: " + self.package_name.encode("utf-8") + \
+               "\nfilename: " + self.filename
 
     def get_name(self):
         return self.filename

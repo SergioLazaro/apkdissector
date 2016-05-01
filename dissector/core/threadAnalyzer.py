@@ -6,6 +6,7 @@ import threading, os, sys, traceback
 from target import Target
 from collector.manifest import Manifest
 from analyzer.manifest import ManifestAnalyzer
+from logger import Logger
 
 #class ThreadAnalyzer (threading.Thread):
 class ThreadAnalyzer ():
@@ -32,6 +33,8 @@ class ThreadAnalyzer ():
         static_target = str(self.apkpath) #this must be the complete path of apk file
         #Catching Androguard exception
         try:
+            logpath = self.config.outputdir + apkname + '/log.txt'
+            log = Logger(logpath)
             targetapp = Target(static_target)
             if targetapp.package_name is not None:
                 session_name = targetapp.package_name #usare md5, meglio
@@ -41,47 +44,35 @@ class ThreadAnalyzer ():
             #Check if the current APK has a cache file
             cache_exists = os.path.isfile(dir + "cache")
             if cache_exists:
-                print "Restoring session for " + apkname
+                log.write("Restoring session for " + apkname)
                 targetapp.restore_session(dir + "cache")
             else:
-                print "Saving session for " + apkname
+                log.write("Saving session for " + apkname)
                 targetapp.save_session(dir + "cache")
 
             manifestInfo = Manifest(targetapp)
-            #first we need to check if a cache file already exists
-            #targetapp.save_session(core.myglobals.dissector_global_dir  + "/cache/" + session_name + '.andro')
 
             #Changing stdout to apkName.txt file (Normal output and errors)
-            fd = open(dir + 'output.txt','w')
-            sys.stdout = fd
             manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
-            print "analyzing: "
-            targetapp._print()
-            manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name)
-            #Restoring stdout
-            sys.stdout = sys.__stdout__
-            fd.close()
+            log.write("analyzing...\n" + targetapp._print())
+            manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)
+            log.write(apkname + " has been analyzed.")
             print apkname + " has been analyzed."
             print "**********************************************************"
+            log.close()
         except:
             if type is "d":
-                print "[!!] Error appeared analyzing " + static_target
-                fd = open(self.config.errorlogdir + apkname + ".txt","w")
+                errorlogpath = self.config.errorlogpath + apkname + ".txt"
+                log = Logger(errorlogpath)
+                log.write("[!!] Error appeared analyzing " + static_target)
                 err = traceback.format_exc()
-                fd.write(apkname + "\n" + str(err))
-                fd.close
+                log.write.write(str(err))
                 shutil.rmtree(dir)
+                log.close()
             else:
                 raise
-        '''
-        if self.lock.locked():
-            print "Thread " + str(self.id) + " RELEASE"
-            try:
-                self.lock.release()
-            except:
-                print "Lock unlocked."
-            self.working -= 1
-        '''
+
+
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)
