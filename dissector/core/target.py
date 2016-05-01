@@ -44,7 +44,7 @@ class Target:
         except:
             print "cannot open the APK file"
             apkname = os.path.basename(os.path.splitext(self.filename)[0])
-            errorlogpath = self.config.errorlogpath + apkname + ".txt"
+            errorlogpath = self.config.errorlogdir + apkname + ".txt"
             exception = ZIPException(errorlogpath,apkname)
             shutil.rmtree(dir)
 
