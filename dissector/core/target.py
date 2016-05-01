@@ -46,7 +46,7 @@ class Target:
             apkname = os.path.basename(os.path.splitext(self.filename)[0])
             errorlogpath = self.config.errorlogdir + apkname + ".txt"
             exception = ZIPException(errorlogpath,apkname)
-            shutil.rmtree(dir)
+            #shutil.rmtree(dir)
 
     def get_manifest(self):
         return self.apk.get_android_manifest_xml()
