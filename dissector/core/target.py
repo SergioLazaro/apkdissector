@@ -39,7 +39,7 @@ class Target:
             if self.package_name is None:
                 print 'cannot retrive package name information for ' + self.filename
         except:
-            APK(self.filename).new_zip(self.filename)
+            #APK(self.filename).new_zip(self.filename)
             print "INVALID APK"
             exit(-1)
 
