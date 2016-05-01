@@ -109,15 +109,20 @@ class Manifest(Acollector):
         db = PScoutDB(config.version,config.dbpath)
         #Create new JSON file for permission_name.json
         path = dir + apkname + ".json"
+        #Reporting APK info in log file
         log.write("Opening JSON file in " + path)
         log.write("Writing JSON file with PScout permissions mapping...")
-        file = open(path,"w")
+        log.write("hash: " + apkname)
+        log.write("package_name: " + package_name)
+        log.write("manifest_permissions:")
+        file = open(path,"w")   #Opening JSON with PScout mapping information
         #Populating JSON file
         file.write('{"hash":"' + apkname + '",\n')
         file.write('"package_name":"' + package_name + '",\n')
         file.write('"mapping":[\n')
         for j, permission in enumerate(self.collected_data['uses-permission']):   #Getting all entries for a permission
             current = permission.get_name()     #Current permission
+            log.write("\t" + current)
             file.write('\t{"permission":"' + current + '",\n')
             file.write('\t"info":[')
             db.connect()                            #Connecting to the DB

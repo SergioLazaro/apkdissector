@@ -20,7 +20,7 @@ class ManifestAnalyzer(AnAnalyzer):
         for t in tags:
             #print 'tag : ' + t
             for elem in target_dict[t]:
-                print 'analyzer manifest, elem: ' + elem.get_name()
+                #print 'analyzer manifest, elem: ' + elem.get_name()
                 c = self.target.get_class('L' + elem.get_name().replace('.','/') + ';')
                 if c is None:
                     continue
