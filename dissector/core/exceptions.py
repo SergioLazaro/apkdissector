@@ -9,6 +9,7 @@ class ZIPException:
         self.errorfilepath = errorfilepath
         self.logger = Logger(errorfilepath)
         self.apkname = apkname
+
         self.write_errorlog()
 
     def write_errorlog(self):
