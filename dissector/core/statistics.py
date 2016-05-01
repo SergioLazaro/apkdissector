@@ -21,7 +21,6 @@ class Statistics:
     def checkErrors(self):
         apks = os.listdir(self.dir)
         for apk in apks:
-            print apk
             apkpath = self.dir + apk + "/"
             #Checking that we have a empty directory
             if os.path.isdir(apkpath):
