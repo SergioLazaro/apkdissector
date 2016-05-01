@@ -109,7 +109,7 @@ class Manifest(Acollector):
         db = PScoutDB(config.version,config.dbpath)
         #Create new JSON file for permission_name.json
         path = dir + apkname + ".json"
-        log.write("Opening JSON file in ") + path
+        log.write("Opening JSON file in " + path)
         log.write("Writing JSON file with PScout permissions mapping...")
         file = open(path,"w")
         #Populating JSON file
