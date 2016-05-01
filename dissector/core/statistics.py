@@ -19,16 +19,16 @@ class Statistics:
         self.checkErrors()
 
     def checkErrors(self):
-        print "Checking errors in " + self.dir
         apks = os.listdir(self.dir)
         for apk in apks:
+            print apk
             apkpath = self.dir + apk + "/"
             #Checking that we have a empty directory
-            print "APKS: " + apks
             if os.path.isdir(apkpath):
                 if os.listdir(apkpath) == []:
                     self.errors += 1
                 else:
+                    print "Appending new APK"
                     self.apks.append(apk)
 
     def getStatistics(self):
