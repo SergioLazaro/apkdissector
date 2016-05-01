@@ -14,5 +14,5 @@ class Logger:
         self.fd.close()
 
     def write(self,line):
-        self.fd.write(line)
+        self.fd.write(line+"\n")
 
