@@ -12,11 +12,10 @@ from exceptions import ZIPException
 #class ThreadAnalyzer (threading.Thread):
 class ThreadAnalyzer ():
     #def __init__(self, apkpath, config,lock,working,type):
-    def __init__(self, apkpath, config,_type):
+    def __init__(self, apkpath, config):
         #threading.Thread.__init__(self)
         self.apkpath = apkpath
         self.config = config
-        self.type = _type
         #self.lock = lock
         #self.working = working
 
@@ -65,7 +64,7 @@ class ThreadAnalyzer ():
 
         else:
             shutil.rmtree(dir)  #Deleting folder for apk analysis
-            
+
         #deob = Deobfuscator(targetapp)
         #vmfilter = VirtualMethodsFilter(manifestAnalysis)
         #writer = HookWriter(manifestAnalysis,vmfilter)

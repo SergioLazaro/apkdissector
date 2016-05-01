@@ -56,8 +56,7 @@ def main(path):
         #apkname = os.path.basename(path)
         start = time.time()
         #analyzeAPK(path, config)
-        #apk = ThreadAnalyzer(path,config,"f")    <----- CHANGE 'D' TO 'F'
-        apk = ThreadAnalyzer(path,config,"d")
+        apk = ThreadAnalyzer(path,config)
         print "Analyzing APK " + path
         apk.start()
         #Wait until thread ends
