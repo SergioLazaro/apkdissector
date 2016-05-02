@@ -31,20 +31,20 @@ This output files will be explained later.
     python main.py -f /path/to/apk
     python main.py -d /path/to/dir/with/apks/
 
-    OUTPUT FILES:
+OUTPUT FILES:
 
-    All files are written in the [outputdir] specified in the config.ini file
+All files are written in the [outputdir] specified in the config.ini file
 
-    * Cache file.
+* Cache file.
 
-    Apkdissector uses Androguard for doing the static analysis of an APK. Androguard, to improve the workflow of an analysis,
-    uses binary files(cache) to load it. This file is used in case you want to analyze more times an APK.
+Apkdissector uses Androguard for doing the static analysis of an APK. Androguard, to improve the workflow of an analysis,
+uses binary files(cache) to load it. This file is used in case you want to analyze more times an APK.
 
-    * [APKHASH].json file.
+* [APKHASH].json file.
 
-    This file contains relevant information of the analysis.
+This file contains relevant information of the analysis.
 
-    Example:
+Example:
 
     {"hash":"cafc6530f07fbeac34eaf0eba7e822eef6bf0b03",
     "package_name":"org.zxl.appstats",
@@ -56,25 +56,27 @@ This output files will be explained later.
 		]}
 	]}
 
-	As you can see, the JSON file contains the HASH of the APK, the package_name and a mapping of the permissions used.
-	Every permission has a list of methods that need to import the permission in the Manifest.xml file. Some permissions,
-	like ACCESS_NETWORK_STATE, have a lot of interesting methods. In the example, its only shown one method.
+As you can see, the JSON file contains the HASH of the APK, the package_name and a mapping of the permissions used.
+Every permission has a list of methods that need to import the permission in the Manifest.xml file. Some permissions,
+like ACCESS_NETWORK_STATE, have a lot of interesting methods. In the example, its only shown one method.
 
-    * log.txt
+* log.txt
 
-    This file contains the output information generated while apkdissector was running.
+This file contains the output information generated while apkdissector was running.
 
-    ERROR LOGS:
+ERROR LOGS:
 
-    In case there was a problem while running apkdissector, a file with the name equal to the APK hash will be created.
-    It will be stored in the [errorlogpath] and it will contain a traceback of the error.
+In case there was a problem while running apkdissector, a file with the name equal to the APK hash will be created.
+It will be stored in the [errorlogpath] and it will contain a traceback of the error.
 
 ### statistics.py
 
 Get some permission statistics(percentages) of a directory with analyzed APKs. This script look for the JSON
 file written by the main.py script to recover information of an analyzed APK.
 
-    example: python statistics.py -d /path/to/dir/with/analyzed/apks
+example:
+    
+    python statistics.py -d /path/to/dir/with/analyzed/apks
 
 ### download-apks.py **
 Download apks from virustotal.
@@ -82,9 +84,9 @@ Download apks from virustotal.
     python download-apks.py -k virustotalAPIkey -f textfile
     python download-apks.py -k virustotalAPIkey -j jsonfile
 
-    You should use  '-j' or '-f'.
-    '-f' -> text file with apks hashes
-    '-j' -> json file with apks hashes
+You should use  '-j' or '-f'.
+'-f' -> text file with apks hashes
+'-j' -> json file with apks hashes
 
 ### createSQLite.py **
 
