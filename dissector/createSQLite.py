@@ -2,9 +2,11 @@ __author__ = 'sergio'
 import optparse
 import sqlite3
 
-def main(file,version):
-    print "Creating new DB in /tmp/"
-    conn = sqlite3.connect('/tmp/permissions.db')
+def main(file,outputpath):
+    if outputpath[-1:] is not "/":
+        outputpath = outputpath + "/"
+    print "Creating new DB in " + outputpath
+    conn = sqlite3.connect(outputpath)
     conn.execute(''' DROP TABLE IF EXISTS %s''' % ("permissions"))
     query1 = '''
     CREATE TABLE %s
@@ -37,11 +39,12 @@ def print_help(parser):
 
 if __name__ == "__main__":
     parser = optparse.OptionParser()
-    parser.add_option('-v', '--version', action="store", help="PScout version", dest="version",type="string")
     parser.add_option('-f','--file', action="store", help="PSCout project CSV file ", dest="file",type="string")
+    parser.add_option('-o','--outputdir', action="store", help="Output directory where the db file will be stored ",
+                      dest="outputdir",type="string")
 
     (opts, args) = parser.parse_args()
-    if opts.file is None and opts.version:
+    if opts.file is None and opts.outputdir is None:
         print_help(parser)
     else:
-        main(opts.file, opts.version)
+        main(opts.file, opts.outputdir)
