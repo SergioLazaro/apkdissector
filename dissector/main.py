@@ -88,7 +88,7 @@ def analyzeSample(samplepath, config):
         #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working)
         putUpTo5Tasks(tm,apks, samplepath, config)
         tm.wait_completition()
-        config.logger.write("num of apks: " + str(len(apks)))
+        #logger.write("num of apks: " + str(len(apks)))
 
 def print_help(parser):
     print "arguments error!!\n"
