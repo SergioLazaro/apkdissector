@@ -70,7 +70,7 @@ def putUpTo5Tasks(tm, apks_list, samplepath , config):
     for x in range(5):
         apk = apks_list.pop()
         apkpath = samplepath + apk
-        t = ThreadAnalyzer(apkpath,config,"d")
+        t = ThreadAnalyzer(apkpath,config)
         res.append(t)
     tm.add_task(res)
 
@@ -85,7 +85,7 @@ def analyzeSample(samplepath, config):
             #Generating apk path
             #apkpath = samplepath + apk
         tm  = ThreadManager(config.threads)
-        #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working,"d")
+        #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working)
         putUpTo5Tasks(tm,apks, samplepath, config)
         tm.wait_completition()
         config.logger.write("num of apks: " + str(len(apks)))
