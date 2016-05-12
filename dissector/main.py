@@ -33,7 +33,7 @@ dest = 'files/'
 '''
 /tmp/apks/....
 
-python main.py -i file1 -o /home/sid/android/malware/analysis
+python enforcementParser.py -i file1 -o /home/sid/android/malware/analysis
 '''
 def main(path):
     print "main started!!"
