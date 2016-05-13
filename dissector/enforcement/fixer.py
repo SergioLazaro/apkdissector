@@ -20,22 +20,27 @@ class Fixer:
     def checkFixNeeded(self):
         self._open('rb+')
         self.fd.seek(-1,2)
-        if self.fd.read() == ',' :
+        r = self.fd.read()
+        r.rstrip()
+        if self.fd.read() == ',':
             self._close()
-            self.fixNotEnded()
+            self.fixNotEnded(1)
+        elif self.fd.read() == '':
+            self._close()
+            self.fixNotEnded(2)
         else:
             print "[*] JSON file well formed. Fixing not needed..."
 
     '''
         Enforcement JSON files end with a ','. Its necessary to delete it and add ']}'
     '''
-    def fixNotEnded(self):
+    def fixNotEnded(self,position):
         print "[*] Fixing the file to a well formed JSON..."
         self._open('a')  #Getting file descriptor
         size = self.fd.tell() #Get size
-        self.fd.truncate(size-1)
+        self.fd.truncate(size - position)
         self.fd.seek(0,2)  #2 = SEEK_END
-        self._write("}]}")
+        self._write("]}")
         self._close()
 
     def _open(self,mode):

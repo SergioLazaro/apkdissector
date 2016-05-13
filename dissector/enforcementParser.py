@@ -1,7 +1,7 @@
 __author__ = 'sergio'
 
 import optparse
-from enforcement.enforceReader import Fixer
+from enforcement.fixer import Fixer
 from enforcement.permMapParser import AndroidJsonParser
 from enforcement.permStackDb import PermStackDb
 
