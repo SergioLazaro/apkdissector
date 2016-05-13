@@ -48,10 +48,12 @@ class PermStackDb:
     '''
     def populateDB(self):
         if self.conn is not None:
+            count = 0
             for permissionStack in self.permissionStackElementList:
-                self.insertIntoPermStackTable(permissionStack)
+                count += self.insertIntoPermStackTable(permissionStack)
 
             self.conn.commit()  #Commit the changes
+            print "[*] Total rows inserted: " + str(count)
         else:
             print "[!!] Problems while connecting with the DB"
 
@@ -63,8 +65,10 @@ class PermStackDb:
                                  "VALUES (?,?,?,?,?)",(permissionStackElem.hash,permissionStackElem.permission,
                                     permissionStackElem.methodname,permissionStackElem.uid,permissionStackElem.pid));
             self.insertIntoStackTable(permissionStackElem.hash,permissionStackElem.stack)
+            return 1
         else:
             print "[!] Hash " + permissionStackElem.hash + " already exists"
+            return 0
 
     def insertIntoStackTable(self,hash,stack):
         print "[*] Adding " + str(len(stack)) + " elements to stacktable..."
