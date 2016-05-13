@@ -1,17 +1,13 @@
 import os
 
-from collector.pscoutDB import PScoutDB
-from collector.pscoutDB import Permission
 
 __author__ = 'sergio'
 
-class Reader:
+class Fixer:
 
-    def __init__(self,path, dbpath):
+    def __init__(self,path):
         self.path = path    #Path JSON File with enforcements
         self.fd = None
-        self.db = None
-        self.dbpath = dbpath
         self.start()
 
     def start(self):    #Working method
@@ -41,19 +37,6 @@ class Reader:
         self.fd.seek(0,2)  #2 = SEEK_END
         self._write("}]}")
         self._close()
-
-    def checkPermissionInfo(self,permission):
-        self._open('r')
-        self.db = PScoutDB(None,self.dbpath)
-        array = self.db.querypermission(permission)
-
-        #Check interesting permission methods
-        self.lookForInterestingMethods(array)
-
-    def lookForInterestingMethods(self,array):
-
-        for permission in array:
-            print "foo"
 
     def _open(self,mode):
         self.fd = open(self.path, mode)

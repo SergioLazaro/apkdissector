@@ -6,4 +6,30 @@
 		{"fileName":"Example.java","className":"test.Example","methodName":"showStack"},
 		{"fileName":"Main.java","className":"test.Main","methodName":"showMyName"},
 		{"fileName":"Main.java","className":"test.Main","methodName":"main"}
-	]}]}
+	]},
+	{"permission":"android.permission.ACCESS_WIFI_STATE","methodName":"DUMMY","uid":"uid","pid":"pid",
+	"stack":[
+		{"fileName":"Thread.java","className":"java.lang.Thread","methodName":"getStackTrace"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"stackInspector"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"showStack"},
+		{"fileName":"Main.java","className":"test.Main","methodName":"showMyName"},
+		{"fileName":"Main.java","className":"test.Main","methodName":"main"}
+	]},
+	{"permission":"android.permission.READ_PHONE_STATE","methodName":"DUMMY","uid":"uid","pid":"pid",
+	"stack":[
+		{"fileName":"Thread.java","className":"java.lang.Thread","methodName":"getStackTrace"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"stackInspector"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"showStack"},
+		{"fileName":"Main.java","className":"test.Main","methodName":"showMyName"},
+		{"fileName":"Main.java","className":"test.Main","methodName":"main"}
+	]},
+	{"permission":"android.permission.READ_PHONE_STATE","methodName":"DUMMY","uid":"uid","pid":"pid",
+	"stack":[
+		{"fileName":"Thread.java","className":"java.lang.Thread","methodName":"getStackTrace"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"stackInspector"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"showStack"},
+		{"fileName":"Example.java","className":"test.Example","methodName":"showStack"},
+		{"fileName":"Main.java","className":"test.Main","methodName":"showMyName"},
+		{"fileName":"Main.java","className":"test.Main","methodName":"main"}
+	]}
+]}
