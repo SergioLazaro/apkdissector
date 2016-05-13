@@ -31,5 +31,4 @@
 		{"fileName":"Example.java","className":"test.Example","methodName":"showStack"},
 		{"fileName":"Main.java","className":"test.Main","methodName":"showMyName"},
 		{"fileName":"Main.java","className":"test.Main","methodName":"main"}
-	]}
-]}
+	]}]}

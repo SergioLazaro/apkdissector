@@ -138,7 +138,8 @@ class PermStackDb:
             query = "SELECT hash,permission, methodname, uid, pid FROM permstacktable " \
                     "WHERE permission = '" + permission + "'"
             cursor = self.conn.execute(query)
-            for i, row in enumerate(cursor):
+            i = 0
+            for row in cursor:
                 print "======================"
                 print "         ROW " + str(i + 1)
                 print "======================"
@@ -160,6 +161,9 @@ class PermStackDb:
                     print "Filename: " + r[0]
                     print "Classname: " + r[1]
                     print "Methodname: " + r[2]
+                i += 1
+            if i == 0:
+                print "[*] 0 matches found."
         else:
             print "[!!] Connection fail. Exiting..."
 

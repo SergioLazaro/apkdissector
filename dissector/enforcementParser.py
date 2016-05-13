@@ -1,9 +1,11 @@
+
 __author__ = 'sergio'
 
 import optparse
 from enforcement.fixer import Fixer
 from enforcement.permMapParser import AndroidJsonParser
 from enforcement.permStackDb import PermStackDb
+from enforcement.dbMapper import DbMapper
 
 '''
     Method called when all the options are setted up.
@@ -33,7 +35,6 @@ def jsonDBpermissionCheck(permission,jsondb):
     [-j] are setted up, without [-p]
 '''
 def createjsonDBandCheckPermission(jsonpath,jsondb,permission):
-
     print "[*] Checking if JSON file is well formed..."
     reader = Fixer(jsonpath)        #Fixing the json file if its not well formed
     print "[*] Reading JSON file..."
@@ -43,7 +44,7 @@ def createjsonDBandCheckPermission(jsonpath,jsondb,permission):
     permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
 
 def checkPermissionBothDBs(jsondb,pscoutdb,permission):
-    print "TO DO"
+    map = DbMapper(jsondb,pscoutdb,permission)
 
 def print_help(parser):
     parser.print_help()
