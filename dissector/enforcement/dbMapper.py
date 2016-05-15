@@ -29,13 +29,13 @@ class DbMapper:
                 for stackElem in jsonElem.stack:
                     #print stackElem.methodname +  " - " + method
                     if stackElem.methodname == method:
-                        print "MATCH"
                         self.printMatch(stackElem,pscoutElem)
 
     def printMatch(self,stackElem, pscoutElem):
         print "Stack-methodname: " + stackElem.methodname + " PSCOUT-methodname: " + pscoutElem.callerMethod
         print "Stack-classname: " + stackElem.classname + " PSCOUT-classname: " + pscoutElem.callerClass
-        print "Stack-filename: " + stackElem.filename + " PSCOUT-filename: " + pscoutElem.callerMethodDesc
+        print "Stack-filename: " + stackElem.filename + " PSCOUT-filename: - "
+        print "Sack-signature: - \t" + " PSCOUT-signature: " + pscoutElem.callerMethodDesc
 
     def queryJsonDB(self):
         if self.jsondb is not None:
