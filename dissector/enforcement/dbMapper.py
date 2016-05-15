@@ -27,6 +27,7 @@ class DbMapper:
             method = pscoutElem.callerMethod
             for jsonElem in jsonlist:
                 for stackElem in jsonElem.stack:
+                    print stackElem.methodname +  " - " + method
                     if stackElem.methodname == method:
                         print "MATCH"
                         self.printMatch(stackElem,pscoutElem)
