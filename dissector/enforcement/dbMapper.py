@@ -32,10 +32,12 @@ class DbMapper:
                         self.printMatch(stackElem,pscoutElem)
 
     def printMatch(self,stackElem, pscoutElem):
+        print "**"
         print "Stack-methodname: " + stackElem.methodname + " PSCOUT-methodname: " + pscoutElem.callerMethod
         print "Stack-classname: " + stackElem.classname + " PSCOUT-classname: " + pscoutElem.callerClass
         print "Stack-filename: " + stackElem.filename + " PSCOUT-filename: - "
-        print "Sack-signature: - \t" + " PSCOUT-signature: " + pscoutElem.callerMethodDesc
+        print "Sack-signature: - \t\t" + " PSCOUT-signature: " + pscoutElem.callerMethodDesc
+        print "**"
 
     def queryJsonDB(self):
         if self.jsondb is not None:
