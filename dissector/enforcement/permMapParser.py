@@ -30,7 +30,6 @@ class AndroidJsonParser:
                 methodName = data[i]['methodName']
                 uid = data[i]['uid']
                 pid = data[i]['pid']
-                hash = ''
                 stack = self.getStackElementsArray(data[i]['stack'])
                 #Creating stackElement object array
                 permissionStackElement = PermissionStack(permission,uid,pid,methodName,stack)
