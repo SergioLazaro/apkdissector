@@ -1,5 +1,5 @@
 import os
-
+from jsonstreamer import JSONStreamer
 
 __author__ = 'sergio'
 
@@ -11,7 +11,11 @@ class Fixer:
         self.start()
 
     def start(self):    #Working method
-        self.checkFixNeeded()
+        self._open('r')
+        for path, value in JSONStreamer(self.path):
+            print(path, value)
+        exit(0)
+        #self.checkFixNeeded()
 
     '''
         Check if the last character is a ','. If it is a ',' the json file is not well ended

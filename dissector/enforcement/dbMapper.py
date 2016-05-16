@@ -18,14 +18,27 @@ class DbMapper:
         self._connect()
         self.showMapping()
 
+
+    '''
+        Method that maps the PScout DB with the JsonDB got after the json file parse.
+        The match consist on a iteration over the PScout DB with a permission. When
+        the list of PScout results is returned, the JsonDB check the same permission
+        and returns the info stored about that permission.
+        Now, we have two list of permission info from different sources. As the JsonDB
+        row has a stack ,we have to check all the methods stored by each element of
+        the stack.
+        The map is done by checking the method name of a JsonDB row and a PScout row.
+        If the method name matches, it prints all the info related to that match.
+    '''
     def showMapping(self):
 
-        pscoutlist = self.queryPScoutDB()
-        jsonlist = self.queryJsonDB()
+        pscoutlist = self.queryPScoutDB()       #List of PScout row object
+        jsonlist = self.queryJsonDB()           #List of JsonDb row object
 
         for pscoutElem in pscoutlist:
             method = pscoutElem.callerMethod
             for jsonElem in jsonlist:
+                #Check all the stack...
                 for stackElem in jsonElem.stack:
                     #print stackElem.methodname +  " - " + method
                     if stackElem.methodname == method:
