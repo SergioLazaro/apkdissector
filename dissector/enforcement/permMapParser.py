@@ -1,9 +1,6 @@
-import ijson
-
 __author__ = 'sergio'
 
-import json
-
+import ijson
 from permissionStack import StackElement, PermissionStack
 
 class AndroidJsonParser:

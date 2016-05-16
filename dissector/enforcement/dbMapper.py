@@ -36,12 +36,15 @@ class DbMapper:
         jsonlist = self.queryJsonDB()           #List of JsonDb row object
 
         for pscoutElem in pscoutlist:
-            method = pscoutElem.callerMethod
+            current_method = pscoutElem.callerMethod
+            #Parsing the PscoutElem className (example: com/android/server/LocationManagerService)
+            #Final result -> LocationManagerService
+            current_class = pscoutElem.callerClass.split("/")
+            current_class = current_class[len(current_class) - 1]
             for jsonElem in jsonlist:
                 #Check all the stack...
                 for stackElem in jsonElem.stack:
-                    #print stackElem.methodname +  " - " + method
-                    if stackElem.methodname == method:
+                    if stackElem.methodname == current_method and stackElem.classname == current_class:
                         self.printMatch(stackElem,pscoutElem)
 
     def printMatch(self,stackElem, pscoutElem):
