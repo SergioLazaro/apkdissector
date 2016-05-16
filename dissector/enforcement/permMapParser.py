@@ -1,3 +1,5 @@
+import ijson
+
 __author__ = 'sergio'
 
 import json
@@ -18,23 +20,17 @@ class AndroidJsonParser:
         object.
     '''
     def getPermissionStackArray(self):
-
-        with open(self.jsonpath) as file:
-            data = json.load(file)
-
-            data = data['mapping']      #Getting the interesting information from the JSON file
-            i = 0
-            while i < len(data):
-
-                permission = data[i]['permission']
-                methodName = data[i]['methodName']
-                uid = data[i]['uid']
-                pid = data[i]['pid']
-                stack = self.getStackElementsArray(data[i]['stack'])
-                #Creating stackElement object array
-                permissionStackElement = PermissionStack(permission,uid,pid,methodName,stack)
-                self.appendNewPermissionStack(permissionStackElement)   #Append this object into the list
-                i += 1
+        fd = open(self.jsonpath,'r')
+        objects = ijson.items(fd, 'mapping.item')
+        for i,obj in enumerate(objects):
+            permission = obj['permission']
+            methodName = obj['methodName']
+            uid = obj['uid']
+            pid = obj['pid']
+            stack = self.getStackElementsArray(obj['stack'])
+            #Creating stackElement object array
+            permissionStackElement = PermissionStack(permission,uid,pid,methodName,stack)
+            self.appendNewPermissionStack(permissionStackElement)   #Append this object into the list
 
     '''
         Method that appends a new permissionStackElement in the

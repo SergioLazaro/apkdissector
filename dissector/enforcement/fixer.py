@@ -1,6 +1,3 @@
-import os
-#from jsonstreamer import JSONStreamer
-import ijson
 __author__ = 'sergio'
 
 class Fixer:
@@ -14,21 +11,7 @@ class Fixer:
         self._open('r')
         self.checkFixNeeded()
         exit(0)
-        '''objects = ijson.items(self.fd, 'mapping.item')
-        for i,obj in enumerate(objects):
-            print "Object " + str(i)
-            print obj['permission']
-            print obj['methodName']
-            print obj['uid']
-            print obj['pid']
-            stack = obj['stack']
-            for elem in stack:
-                print elem['fileName']
-                print elem['className']
-                print elem['methodName']
-                print "*"
-            print "======="
-        '''
+
     '''
         Check if the last character is a ','. If it is a ',' the json file is not well ended
         and it should be fixed.
