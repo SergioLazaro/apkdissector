@@ -10,6 +10,7 @@ class Fixer:
     def start(self):    #Working method
         self._open('r')
         self.checkFixNeeded()
+        print "REMEMBER TO DELETE THE EXIT(0)"
         exit(0)
 
     '''
