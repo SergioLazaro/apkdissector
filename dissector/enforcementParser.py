@@ -82,6 +82,10 @@ if __name__ == "__main__":
                       dest="jsondb",type="string")
 
     (opts, args) = parser.parse_args()
+    #Checking jsonDB path. If it does not exist, the path is created.
+    if opts.jsondb is not None and os.path.isdir(opts.jsondb):
+        if not os.path.exists(opts.jsondb):
+            os.makedirs(opts.jsondb)
     if opts.jsondb is not None:
 
         if opts.file is not None and opts.permission is not None:
