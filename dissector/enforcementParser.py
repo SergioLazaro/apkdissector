@@ -84,7 +84,6 @@ if __name__ == "__main__":
     (opts, args) = parser.parse_args()
     #Checking jsonDB path. If it does not exist, the path is created.
     if opts.jsondb is not None and opts.file is not None:
-        print "HOLA HOLA"
         if not opts.jsondb.endswith(".db"):  #Check if path is not an existing db
             if not os.path.exists(opts.jsondb):
                 os.makedirs(opts.jsondb)
@@ -95,7 +94,6 @@ if __name__ == "__main__":
             createjsonDBandCheckPermission(opts.file,opts.jsondb,None)
 
     elif opts.permission is not None and opts.jsondb is not None:
-        print "IM HERE"
         if opts.dbpath is not None:
             #Compare jsonDB (self created) with the PScout DB
             checkPermissionBothDBs(opts.jsondb,opts.dbpath,opts.permission)
