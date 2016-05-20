@@ -83,15 +83,15 @@ if __name__ == "__main__":
 
     (opts, args) = parser.parse_args()
     #Checking jsonDB path. If it does not exist, the path is created.
-    if opts.jsondb is not None:
+    if opts.jsondb is not None and opts.file is not None:
         print "HOLA HOLA"
         if not opts.jsondb.endswith(".db"):  #Check if path is not an existing db
             if not os.path.exists(opts.jsondb):
                 os.makedirs(opts.jsondb)
-        if opts.file is not None and opts.permission is not None:
+        if opts.permission is not None:
             createjsonDBandCheckPermission(opts.file,opts.jsondb,opts.permission)
 
-        elif opts.file is not None:
+        else:
             createjsonDBandCheckPermission(opts.file,opts.jsondb,None)
 
     elif opts.permission is not None and opts.jsondb is not None:
