@@ -8,8 +8,8 @@ class AndroidJsonParser:
     def __init__(self,jsonpath):
         self.jsonpath = jsonpath
         self.permissionStackElementList = list()
+        print "[*] Getting elements from JSON file..."
         self.getPermissionStackArray()
-        print "END"
 
     '''
         This method read the JSON file inserted as a parameter in the main.
@@ -28,7 +28,7 @@ class AndroidJsonParser:
             stack = self.getStackElementsArray(obj['stack'])
             #Creating stackElement object array
             permissionStackElement = PermissionStack(permission,uid,pid,methodName,stack)
-            print "[*] New element appended. Permission: " + permissionStackElement.permission
+            #print "[*] New element appended. Permission: " + permissionStackElement.permission
             self.appendNewPermissionStack(permissionStackElement)   #Append this object into the list
 
     '''
@@ -48,7 +48,6 @@ class AndroidJsonParser:
             className = elem['className']
             fileName = elem['fileName']
             methodName = elem['methodName']
-            print className
             #Creating new StackElement object
             stackElement = StackElement(fileName,className,methodName)
             #Appending new StackElement object to the stack list
