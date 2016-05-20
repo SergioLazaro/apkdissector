@@ -48,9 +48,10 @@ class AndroidJsonParser:
             className = elem['className'][:-5]
             fileName = elem['fileName']
             methodName = elem['methodName']
+            print className
             #Creating new StackElement object
             stackElement = StackElement(fileName,className,methodName)
             #Appending new StackElement object to the stack list
             stack.append(stackElement)
-
+        exit(0)
         return stack
