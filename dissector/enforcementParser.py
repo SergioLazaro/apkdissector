@@ -37,10 +37,13 @@ def jsonDBpermissionCheck(permission,jsondb):
 '''
 def createjsonDBandCheckPermission(jsonpath,jsondb,permission):
     if os.path.isdir(jsonpath):
+        if jsonpath[:-1] is not "/":
+            jsonpath = jsonpath + "/"
         #Directory option
         for elem in os.listdir(jsonpath):
             if elem.endswith(".json"):
-                auxReadFileCreateDB(elem,jsondb,permission)
+                filepath = jsonpath + elem
+                auxReadFileCreateDB(filepath,jsondb,permission)
     else:
         auxReadFileCreateDB(jsonpath,jsondb,permission)
 
