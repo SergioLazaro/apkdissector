@@ -1,3 +1,4 @@
+import os
 
 __author__ = 'sergio'
 
@@ -37,11 +38,23 @@ def jsonDBpermissionCheck(permission,jsondb):
 def createjsonDBandCheckPermission(jsonpath,jsondb,permission):
     print "[*] Checking if JSON file is well formed..."
     reader = Fixer(jsonpath)        #Fixing the json file if its not well formed
-    print "[*] Reading JSON file..."
-    jsoninfo = AndroidJsonParser(jsonpath)  #Parsing the JSON file
-    print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
-    print "[*] Creating SQLite database to store the information..."
-    permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
+
+    if os.path.isDir(jsonpath):
+        #Directory option
+        for elem in os.listdir(jsonpath):
+            if elem.endswith(".json"):
+                print "[*] Reading JSON file..."
+                jsoninfo = AndroidJsonParser(jsonpath)  #Parsing the JSON file
+                print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
+                print "[*] Creating SQLite database to store the information..."
+                permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
+    else:
+        #File option
+        print "[*] Reading JSON file..."
+        jsoninfo = AndroidJsonParser(jsonpath)  #Parsing the JSON file
+        print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
+        print "[*] Creating SQLite database to store the information..."
+        permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
 
 def checkPermissionBothDBs(jsondb,pscoutdb,permission):
     map = DbMapper(jsondb,pscoutdb,permission)
@@ -62,18 +75,23 @@ def print_help(parser):
 if __name__ == "__main__":
 
     parser = optparse.OptionParser()
-    parser.add_option('-f', '--file', action="store", help="Enforce permission JSON file path", dest="file",type="string"),
+    parser.add_option('-f', '--file(s)', action="store", help="Path to JSON file or directory with JSONs", dest="file",type="string"),
     parser.add_option('-p','--perm', action="store", help="Full permission name to analyze", dest="permission",type="string"),
     parser.add_option('-d', '--db', action="store", help="PScout DB path", dest="dbpath",type="string"),
     parser.add_option('-j', '--jsondb', action="store", help="SQLite DB path to put it or path to a existing SQLite DB",
                       dest="jsondb",type="string")
 
     (opts, args) = parser.parse_args()
-    if opts.file is not None and opts.jsondb is not None:
-        if opts.permission is not None:
+    if opts.jsondb is not None:
+
+        if opts.file is not None and opts.permission is not None:
             createjsonDBandCheckPermission(opts.file,opts.jsondb,opts.permission)
-        else:
+
+        elif opts.file is not None:
             createjsonDBandCheckPermission(opts.file,opts.jsondb,None)
+        else:
+            print_help(parser)
+
     elif opts.permission is not None and opts.jsondb is not None:
         if opts.dbpath is not None:
             #Compare jsonDB (self created) with the PScout DB
