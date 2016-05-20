@@ -92,8 +92,6 @@ if __name__ == "__main__":
 
         elif opts.file is not None:
             createjsonDBandCheckPermission(opts.file,opts.jsondb,None)
-        else:
-            print_help(parser)
 
     elif opts.permission is not None and opts.jsondb is not None:
         if opts.dbpath is not None:
