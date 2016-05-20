@@ -45,7 +45,7 @@ class AndroidJsonParser:
     def getStackElementsArray(self,json_stack):
         stack = list()
         for elem in json_stack:
-            className = elem['className'][:-5]
+            className = elem['className']
             fileName = elem['fileName']
             methodName = elem['methodName']
             print className
@@ -53,5 +53,4 @@ class AndroidJsonParser:
             stackElement = StackElement(fileName,className,methodName)
             #Appending new StackElement object to the stack list
             stack.append(stackElement)
-        exit(0)
         return stack
