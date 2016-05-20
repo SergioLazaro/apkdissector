@@ -44,8 +44,10 @@ class DbMapper:
             for jsonElem in jsonlist:
                 #Check all the stack...
                 for stackElem in jsonElem.stack:
-                    print stackElem.classname + " - " + current_class
-                    if stackElem.methodname == current_method and stackElem.classname == current_class:
+                    temp_class = stackElem.classname.split(".")
+                    temp_class = temp_class[len(temp_class) - 1]
+                    print temp_class + " - " + current_class
+                    if stackElem.methodname == current_method and temp_class == current_class:
                         i += 1
                         self.printMatch(stackElem,pscoutElem)
         print "[*] " + str(i) + " matches found."
