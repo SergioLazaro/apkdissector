@@ -50,7 +50,7 @@ def createjsonDBandCheckPermission(jsonpath,jsondb,permission):
 def auxReadFileCreateDB(file,jsondb,permission):
     print "[*] Checking if JSON file is well formed..."
     reader = Fixer(file)        #Fixing the json file if its not well formed
-    print "[*] Reading JSON file..."
+    print "[*] Reading JSON file: " + file
     jsoninfo = AndroidJsonParser(file)  #Parsing the JSON file
     print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
     print "[*] Creating SQLite database to store the information..."
