@@ -36,25 +36,22 @@ def jsonDBpermissionCheck(permission,jsondb):
     [-j] are setted up, without [-p]
 '''
 def createjsonDBandCheckPermission(jsonpath,jsondb,permission):
-    print "[*] Checking if JSON file is well formed..."
-    reader = Fixer(jsonpath)        #Fixing the json file if its not well formed
-
-    if os.path.isDir(jsonpath):
+    if os.path.isdir(jsonpath):
         #Directory option
         for elem in os.listdir(jsonpath):
             if elem.endswith(".json"):
-                print "[*] Reading JSON file..."
-                jsoninfo = AndroidJsonParser(jsonpath)  #Parsing the JSON file
-                print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
-                print "[*] Creating SQLite database to store the information..."
-                permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
+                auxReadFileCreateDB(elem,jsondb,permission)
     else:
-        #File option
-        print "[*] Reading JSON file..."
-        jsoninfo = AndroidJsonParser(jsonpath)  #Parsing the JSON file
-        print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
-        print "[*] Creating SQLite database to store the information..."
-        permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
+        auxReadFileCreateDB(jsonpath,jsondb,permission)
+
+def auxReadFileCreateDB(file,jsondb,permission):
+    print "[*] Checking if JSON file is well formed..."
+    reader = Fixer(file)        #Fixing the json file if its not well formed
+    print "[*] Reading JSON file..."
+    jsoninfo = AndroidJsonParser(file)  #Parsing the JSON file
+    print "[*] Total elements read: " + str(len(jsoninfo.permissionStackElementList))
+    print "[*] Creating SQLite database to store the information..."
+    permStackDB = PermStackDb(jsoninfo.permissionStackElementList,jsondb,permission)
 
 def checkPermissionBothDBs(jsondb,pscoutdb,permission):
     map = DbMapper(jsondb,pscoutdb,permission)
@@ -83,11 +80,10 @@ if __name__ == "__main__":
 
     (opts, args) = parser.parse_args()
     #Checking jsonDB path. If it does not exist, the path is created.
-    if opts.jsondb is not None and os.path.isdir(opts.jsondb):
-        if not os.path.exists(opts.jsondb):
-            os.makedirs(opts.jsondb)
     if opts.jsondb is not None:
-
+        if not opts.jsondb.endswith(".db"):  #Check if path is not an existing db
+            if not os.path.exists(opts.jsondb):
+                os.makedirs(opts.jsondb)
         if opts.file is not None and opts.permission is not None:
             createjsonDBandCheckPermission(opts.file,opts.jsondb,opts.permission)
 
