@@ -54,7 +54,7 @@ class DbMapper:
 
             print "[*] " + str(i) + " matches found."
         else:
-            print "[*] No records found for permission " + self.permission
+            print "[*] No matches found for permission " + self.permission
 
 
     def printMatch(self,stackElem, pscoutElem):
