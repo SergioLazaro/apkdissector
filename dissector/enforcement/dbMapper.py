@@ -35,7 +35,6 @@ class DbMapper:
         pscoutlist = self.queryPScoutDB()       #List of PScout row object
         jsonlist = self.queryJsonDB()           #List of JsonDb row object
         i = 0
-        j = 0
         for pscoutElem in pscoutlist:
             current_method = pscoutElem.callerMethod
             #Parsing the PscoutElem className (example: com/android/server/LocationManagerService)
@@ -49,12 +48,9 @@ class DbMapper:
                     temp_class = temp_class[len(temp_class) - 1]
                     if stackElem.methodname == current_method and temp_class == current_class:
                         i += 1
-                        #self.printMatch(stackElem,pscoutElem)
-                    else:
-                        j += 1
+                        self.printMatch(stackElem,pscoutElem)
 
         print "[*] " + str(i) + " matches found."
-        print "[*] " + str(j) + " unmatches found."
 
     def printMatch(self,stackElem, pscoutElem):
         print "**"
