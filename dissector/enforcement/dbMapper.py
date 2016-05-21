@@ -35,23 +35,30 @@ class DbMapper:
         pscoutlist = self.queryPScoutDB()       #List of PScout row object
         jsonlist = self.queryJsonDB()           #List of JsonDb row object
         i = 0
-        for pscoutElem in pscoutlist:
-            current_method = pscoutElem.callerMethod
-            #Parsing the PscoutElem className (example: com/android/server/LocationManagerService)
-            #Final result -> LocationManagerService
-            current_class = pscoutElem.callerClass.split("/")
-            current_class = current_class[len(current_class) - 1]
-            for jsonElem in jsonlist:
-                #Check all the stack...
-                for stackElem in jsonElem.stack:
-                    temp_class = stackElem.classname.split(".")
-                    temp_class = temp_class[len(temp_class) - 1]
-                    if stackElem.methodname == current_method and temp_class == current_class:
-                        i += 1
-                        #self.printMatch(stackElem,pscoutElem)
-                        print current_method
+        if len(pscoutlist) > 0 and len(jsonlist) > 0:
+            for pscoutElem in pscoutlist:
+                current_method = pscoutElem.callerMethod
+                #Parsing the PscoutElem className (example: com/android/server/LocationManagerService)
+                #Final result -> LocationManagerService
+                current_class = pscoutElem.callerClass.split("/")
+                current_class = current_class[len(current_class) - 1]
+                for jsonElem in jsonlist:
+                    #Check all the stack...
+                    for stackElem in jsonElem.stack:
+                        temp_class = stackElem.classname.split(".")
+                        temp_class = temp_class[len(temp_class) - 1]
+                        if stackElem.methodname == current_method and temp_class == current_class:
+                            i += 1
+                            #self.printMatch(stackElem,pscoutElem)
+                            print current_method
 
-        print "[*] " + str(i) + " matches found."
+            print "[*] " + str(i) + " matches found."
+        elif len(jsonlist) > 0 and len(pscoutlist) == 0:
+            print "[*] No records found in PScout for permission " + self.permission
+            print "[*] " + str(len(jsonlist)) " + found in JsonDB for permission " + self.permission
+        else:
+            print "[*] No records found for permission " + self.permission
+
 
     def printMatch(self,stackElem, pscoutElem):
         print "**"
