@@ -48,7 +48,8 @@ class DbMapper:
                     temp_class = temp_class[len(temp_class) - 1]
                     if stackElem.methodname == current_method and temp_class == current_class:
                         i += 1
-                        self.printMatch(stackElem,pscoutElem)
+                        #self.printMatch(stackElem,pscoutElem)
+                        print current_method
 
         print "[*] " + str(i) + " matches found."
 
