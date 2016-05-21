@@ -55,7 +55,7 @@ class DbMapper:
             print "[*] " + str(i) + " matches found."
         elif len(jsonlist) > 0 and len(pscoutlist) == 0:
             print "[*] No records found in PScout for permission " + self.permission
-            print "[*] " + str(len(jsonlist)) " + found in JsonDB for permission " + self.permission
+            print "[*] " + str(len(jsonlist)) + " found in JsonDB for permission " + self.permission
         else:
             print "[*] No records found for permission " + self.permission
 
