@@ -91,10 +91,11 @@ class DbMapper:
                     "WHERE permission = '" + self.permission + "'"
             cursor = self.pscoutdb.execute(query)
             permissionlist = list()
-            for i, row in enumerate(cursor):
+            i = 0
+            for row in cursor:
                 elem = Permission(row[0],row[1],row[2])
                 permissionlist.append(elem)
-
+                i += 1
             print "[*] " + str(i) + " rows found with " + self.permission + " in PScoutDB"
             return permissionlist
 
