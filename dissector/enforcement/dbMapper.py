@@ -41,17 +41,18 @@ class DbMapper:
         if len(pscoutlist) > 0 and len(jsonlist) > 0:
             for pscoutElem in pscoutlist:
                 current_method = pscoutElem.callerMethod
+                current_class = pscoutElem.callerClass
                 #Parsing the PscoutElem className (example: com/android/server/LocationManagerService)
                 #Final result -> LocationManagerService
-                current_class = pscoutElem.callerClass.split("/")
-                current_class = current_class[len(current_class) - 1]
+                #current_class = pscoutElem.callerClass.split("/")
+                #current_class = current_class[len(current_class) - 1]
                 for jsonElem in jsonlist:
                     #Check all the stack...
                     found = False
                     for stackElem in jsonElem.stack:
-                        temp_class = stackElem.classname.split("/")
-                        temp_class = temp_class[len(temp_class) - 1]
-                        if stackElem.methodname == current_method and temp_class == current_class:
+                        #temp_class = stackElem.classname.split("/")
+                        #temp_class = temp_class[len(temp_class) - 1]
+                        if stackElem.methodname == current_method and stackElem.classname == current_class:
                             i += 1
                             self.printMatch(stackElem,pscoutElem)   #Print match info
                             found = True
