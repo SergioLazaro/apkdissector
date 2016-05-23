@@ -103,12 +103,9 @@ class DbMapper:
                 query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
                     "WHERE callerClass = '" + stackElem.classname + "'"
                 cursor = self.pscoutdb.execute(query)
-                i = 0
                 for row in cursor:
                     elem = Permission(row[0],row[1],row[2])
                     permissionlist.append(elem)
-                    i += 1
-                print "[*] " + str(i) + " rows found as possible matches..."
             else:
                 query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
                         "WHERE permission = '" + self.permission + "'"
