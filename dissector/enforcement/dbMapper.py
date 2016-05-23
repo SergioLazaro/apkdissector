@@ -48,7 +48,7 @@ class DbMapper:
                             i += 1
                             self.printMatch(stackElem,pscoutElem)   #Print match info
                             found = True
-                    if found:
+                    if not found:
                         self.notMatches.append(jsonElem)
 
             print "[*] " + str(i) + " matches found."
