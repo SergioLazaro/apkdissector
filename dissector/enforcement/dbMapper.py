@@ -39,9 +39,9 @@ class DbMapper:
         jsonlist = self.queryJsonDB()           #List of JsonDb row object
         i = 0
         if len(pscoutlist) > 0 and len(jsonlist) > 0:
-            for pscoutElem in pscoutlist:
+            for jsonElem in jsonlist:
                 found = False
-                for jsonElem in jsonlist:
+                for pscoutElem in pscoutlist:
                     #Check all the stack...
                     for stackElem in jsonElem.stack:
                         if stackElem.methodname == pscoutElem.callerMethod and stackElem.classname == pscoutElem.callerClass:
@@ -50,6 +50,7 @@ class DbMapper:
                             found = True
                 if not found:
                     self.notMatches.append(jsonElem)
+
             print "[*] PScout elements: " + str(len(pscoutlist))
             print "[*] PermStack elements: " + str(len(jsonlist))
             print "[*] " + str(i) + " matches found."
