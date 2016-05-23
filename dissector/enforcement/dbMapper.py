@@ -40,16 +40,16 @@ class DbMapper:
         i = 0
         if len(pscoutlist) > 0 and len(jsonlist) > 0:
             for pscoutElem in pscoutlist:
+                found = False
                 for jsonElem in jsonlist:
                     #Check all the stack...
-                    found = False
                     for stackElem in jsonElem.stack:
                         if stackElem.methodname == pscoutElem.callerMethod and stackElem.classname == pscoutElem.callerClass:
                             i += 1
                             self.printMatch(stackElem,pscoutElem)   #Print match info
                             found = True
-                    if not found:
-                        self.notMatches.append(jsonElem)
+                if not found:
+                    self.notMatches.append(jsonElem)
 
             print "[*] " + str(i) + " matches found."
         else:
