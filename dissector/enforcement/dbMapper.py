@@ -60,7 +60,7 @@ class DbMapper:
         print "**"
         print "Methodname: " + stackElem.methodname
         print "Classname: " + stackElem.classname
-        print "Filename: " + stackElem.filename
+        print "Filename: " + pscoutElem.callerClass
         print "Signature: " + pscoutElem.callerMethodDesc
         print "**"
 
