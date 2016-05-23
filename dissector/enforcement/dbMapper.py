@@ -15,9 +15,12 @@ class DbMapper:
         self.permission = permission
         self.jsondb = None
         self.pscoutdb = None
-        self._connect()
+        self.notMatches = list()
         self.showMapping()
+        self.checkNotMatches()
 
+    def checkNotMatches(self):
+        print "HELL YEAH"
 
     '''
         Method that maps the PScout DB with the JsonDB got after the json file parse.
@@ -31,7 +34,7 @@ class DbMapper:
         If the method name matches, it prints all the info related to that match.
     '''
     def showMapping(self):
-
+        self._connect()
         pscoutlist = self.queryPScoutDB()       #List of PScout row object
         jsonlist = self.queryJsonDB()           #List of JsonDb row object
         i = 0
@@ -44,12 +47,16 @@ class DbMapper:
                 current_class = current_class[len(current_class) - 1]
                 for jsonElem in jsonlist:
                     #Check all the stack...
+                    found = False
                     for stackElem in jsonElem.stack:
                         temp_class = stackElem.classname.split(".")
                         temp_class = temp_class[len(temp_class) - 1]
                         if stackElem.methodname == current_method and temp_class == current_class:
                             i += 1
-                            self.printMatch(stackElem,pscoutElem)
+                            self.printMatch(stackElem,pscoutElem)   #Print match info
+                            found = True
+                    if found:
+                        self.notMatches.append(jsonElem)
 
             print "[*] " + str(i) + " matches found."
         else:
@@ -102,7 +109,9 @@ class DbMapper:
             print "[*] " + str(i) + " rows found with " + self.permission + " in PScoutDB"
             return permissionlist
 
-
+    def noMatchesQuery(self,):
+        if self.pscoutdb is not None:
+            query = "SELECT * FROM permissions WHERE callerClass LIKE '%" +  + "%'"
     def _connect(self):
         self.jsondb = sqlite3.connect(self.jsondbpath)
         self.pscoutdb = sqlite3.connect(self.pscoutdbpath)

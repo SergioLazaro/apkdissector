@@ -45,7 +45,7 @@ class AndroidJsonParser:
     def getStackElementsArray(self,json_stack):
         stack = list()
         for elem in json_stack:
-            className = elem['className']
+            className = elem['className'].replace(".","/")
             fileName = elem['fileName']
             methodName = elem['methodName']
             #Creating new StackElement object
