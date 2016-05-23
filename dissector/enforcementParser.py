@@ -64,6 +64,7 @@ def print_help(parser):
     print "COMMAND HELP EXAMPLES:\n"
     print "1) Parse JSON file and create a DB"
     print "\tpython enforcementParser.py -f json/file/path.json -j /output/directory/\n"
+    print "\tpython enforcementParser.py -f json/directory/path/ -j /output/directory/\n"
     print "2) Parse JSON file, create DB and check a permission"
     print "\tpython enforcementParser.py -f json/file/path.json -j /output/directory/ -p android.permission.READ_PHONE_STATE\n"
     print "3) Check a permission on a created database"
