@@ -21,6 +21,12 @@ class DbMapper:
 
     def checkNotMatches(self):
         print "[*] No Matched objects : " + str(len(self.notMatches))
+        for jsonElem in self.notMatches:
+            possibleMatches = self.queryPScoutDB(stackElem)
+            for elem in possibleMatches:
+                for stackElem in jsonElem.stack:
+                    if elem.callerMethod == stackElem.methodname:
+                        self.printMatch(stackElem,elem)
 
     '''
         Method that maps the PScout DB with the JsonDB got after the json file parse.
@@ -35,7 +41,7 @@ class DbMapper:
     '''
     def showMapping(self):
         self._connect()
-        pscoutlist = self.queryPScoutDB()       #List of PScout row object
+        pscoutlist = self.queryPScoutDB(None)       #List of PScout row object
         jsonlist = self.queryJsonDB()           #List of JsonDb row object
         i = 0
         if len(pscoutlist) > 0 and len(jsonlist) > 0:
@@ -90,23 +96,31 @@ class DbMapper:
             print "[*] " + str(i) + " rows found with " + self.permission + " in JsonDB"
             return permissionList
 
-    def queryPScoutDB(self):
+    def queryPScoutDB(self,stackElem):
         if self.pscoutdb is not None:
-            query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
-                    "WHERE permission = '" + self.permission + "'"
-            cursor = self.pscoutdb.execute(query)
             permissionlist = list()
-            i = 0
-            for row in cursor:
-                elem = Permission(row[0],row[1],row[2])
-                permissionlist.append(elem)
-                i += 1
-            print "[*] " + str(i) + " rows found with " + self.permission + " in PScoutDB"
+            if stackElem is not None:
+                query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
+                    "WHERE callerClass = '" + stackElem.classname + "'"
+                cursor = self.pscoutdb.execute(query)
+                i = 0
+                for row in cursor:
+                    elem = Permission(row[0],row[1],row[2])
+                    permissionlist.append(elem)
+                    i += 1
+                print "[*] " + str(i) + " rows found as possible matches..."
+            else:
+                query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
+                        "WHERE permission = '" + self.permission + "'"
+                cursor = self.pscoutdb.execute(query)
+                i = 0
+                for row in cursor:
+                    elem = Permission(row[0],row[1],row[2])
+                    permissionlist.append(elem)
+                    i += 1
+                print "[*] " + str(i) + " rows found with " + self.permission + " in PScoutDB"
             return permissionlist
 
-    def noMatchesQuery(self,):
-        if self.pscoutdb is not None:
-            query = "SELECT * FROM permissions WHERE callerClass LIKE '%" +  + "%'"
     def _connect(self):
         self.jsondb = sqlite3.connect(self.jsondbpath)
         self.pscoutdb = sqlite3.connect(self.pscoutdbpath)
