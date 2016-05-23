@@ -49,8 +49,7 @@ class DbMapper:
                         temp_class = temp_class[len(temp_class) - 1]
                         if stackElem.methodname == current_method and temp_class == current_class:
                             i += 1
-                            #self.printMatch(stackElem,pscoutElem)
-                            print current_method
+                            self.printMatch(stackElem,pscoutElem)
 
             print "[*] " + str(i) + " matches found."
         else:
@@ -59,10 +58,10 @@ class DbMapper:
 
     def printMatch(self,stackElem, pscoutElem):
         print "**"
-        print "Stack-methodname: " + stackElem.methodname + " PSCOUT-methodname: " + pscoutElem.callerMethod
-        print "Stack-classname: " + stackElem.classname + " PSCOUT-classname: " + pscoutElem.callerClass
-        print "Stack-filename: " + stackElem.filename + " PSCOUT-filename: - "
-        print "Sack-signature: - \t\t" + " PSCOUT-signature: " + pscoutElem.callerMethodDesc
+        print "Methodname: " + stackElem.methodname
+        print "Classname: " + stackElem.classname
+        print "Filename: " + stackElem.filename
+        print "Signature: " + pscoutElem.callerMethodDesc
         print "**"
 
     def queryJsonDB(self):
