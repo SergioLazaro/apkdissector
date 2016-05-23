@@ -20,12 +20,11 @@ class DbMapper:
         self.checkNotMatches()
 
     def checkNotMatches(self):
-        print "[*] No Matched objects : " + str(len(self.notMatches))
         print "[*] Looking for " + str(len(self.notMatches)) + " possible matches..."
         for jsonElem in self.notMatches:
-            possibleMatches = self.queryPScoutDB(stackElem)
-            for elem in possibleMatches:
-                for stackElem in jsonElem.stack:
+            for stackElem in jsonElem.stack:
+                possibleMatches = self.queryPScoutDB(stackElem)
+                for elem in possibleMatches:
                     if elem.callerMethod == stackElem.methodname:
                         self.printMatch(stackElem,elem)
 
