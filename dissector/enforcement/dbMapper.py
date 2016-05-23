@@ -50,7 +50,8 @@ class DbMapper:
                             found = True
                 if not found:
                     self.notMatches.append(jsonElem)
-
+            print "[*] PScout elements: " + str(len(pscoutlist))
+            print "[*] PermStack elements: " + str(len(jsonlist))
             print "[*] " + str(i) + " matches found."
         else:
             print "[*] No matches found for permission " + self.permission
