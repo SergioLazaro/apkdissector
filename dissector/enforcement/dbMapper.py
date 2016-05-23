@@ -20,7 +20,7 @@ class DbMapper:
         self.checkNotMatches()
 
     def checkNotMatches(self):
-        print "HELL YEAH"
+        print "[*] No Matched objects : " + str(len(self.notMatches))
 
     '''
         Method that maps the PScout DB with the JsonDB got after the json file parse.
