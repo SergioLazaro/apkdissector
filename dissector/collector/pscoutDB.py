@@ -46,11 +46,12 @@ class PScoutDB:
     #Query all rows looking for <permission>
     def querypermission(self, permission):
 
-        cursor = self.conn.execute("SELECT * from pscout WHERE PERMISSION = %s" % ("'" + permission + "'"))
+        cursor = self.conn.execute("SELECT callerClass, callerMethod, callerMethodDesc, permission "
+                                   "from pscout WHERE PERMISSION = %s" % ("'" + permission + "'"))
         array = list()
         #print "Checking permissions of " + str(permission) + "..."
         for row in cursor:
-            p = Permission(row[1],row[2],row[3])
+            p = Permission(row[0],row[1],row[2], row[3])
             array.append(p)
         if(len(array) != 0):
             pass
@@ -68,8 +69,9 @@ class PScoutDB:
 
 class Permission:
 
-    def __init__(self,callerClass,callerMethod, callerMethodDesc):
+    def __init__(self,callerClass,callerMethod, callerMethodDesc, permission):
         self.callerClass = callerClass
         self.callerMethod = callerMethod
         self.callerMethodDesc = callerMethodDesc
+        self.permission = permission
 

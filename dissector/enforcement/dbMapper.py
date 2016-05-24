@@ -58,7 +58,6 @@ class DbMapper:
                             self.printMatch(stackElem,pscoutElem)   #Print match info
                             found = True
                 if not found:
-                    print "NEW MATCH!!"
                     self.notMatches.append(jsonElem)
 
             print "[*] PScout elements: " + str(len(pscoutlist))
@@ -74,6 +73,7 @@ class DbMapper:
         print "Classname: " + stackElem.classname
         print "Filename: " + pscoutElem.callerClass
         print "Signature: " + pscoutElem.callerMethodDesc
+        print "Permission: " + pscoutElem.permission
         print "**"
 
     def queryJsonDB(self):
@@ -104,19 +104,19 @@ class DbMapper:
         if self.pscoutdb is not None:
             permissionlist = list()
             if stackElem is not None:
-                query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
+                query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM permissions " \
                     "WHERE callerClass = '" + stackElem.classname + "'"
                 cursor = self.pscoutdb.execute(query)
                 for row in cursor:
-                    elem = Permission(row[0],row[1],row[2])
+                    elem = Permission(row[0],row[1],row[2],row[3])
                     permissionlist.append(elem)
             else:
-                query = "SELECT callerclass, callermethod, callermethoddesc FROM permissions " \
+                query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM permissions " \
                         "WHERE permission = '" + self.permission + "'"
                 cursor = self.pscoutdb.execute(query)
                 i = 0
                 for row in cursor:
-                    elem = Permission(row[0],row[1],row[2])
+                    elem = Permission(row[0],row[1],row[2],row[3])
                     permissionlist.append(elem)
                     i += 1
                 print "[*] " + str(i) + " rows found with " + self.permission + " in PScoutDB"
