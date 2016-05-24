@@ -1,3 +1,5 @@
+import hashlib
+
 __author__ = 'sergio'
 
 import sqlite3
@@ -22,14 +24,29 @@ class DbMapper:
     def checkNotMatches(self):
         if len(self.notMatches) > 0:
             print "[*] Looking for " + str(len(self.notMatches)) + " possible matches..."
+            printedlist = list()
             for jsonElem in self.notMatches:
                 for stackElem in jsonElem.stack:
                     possibleMatches = self.queryPScoutDB(stackElem)
-                    for elem in possibleMatches:
-                        if elem.callerMethod == stackElem.methodname:
-                            self.printMatch(stackElem,elem)
+                    for pscoutElem in possibleMatches:
+                        if pscoutElem.callerMethod == stackElem.methodname:
+                            info = InfoToShow(stackElem.methodname, stackElem.classname, stackElem.filename,
+                                              pscoutElem.callerMethodDesc, pscoutElem.permission)
+                            shouldPrint = self.isPrinted(info.hash, printedlist)    #Check if is printed or not...
+                            if shouldPrint:
+                                #Print the element and append it to the currently printed objects
+                                self.printMatch(info)
+                                printedlist.append(info)
         else:
             print "[*] No possible matches found."
+
+    def isPrinted(self,hash, printedlist):
+        shouldPrint = True
+        for elem in printedlist:
+            if elem.hash == hash:
+                shouldPrint = False
+
+        return shouldPrint
 
     '''
         Method that maps the PScout DB with the JsonDB got after the json file parse.
@@ -55,7 +72,9 @@ class DbMapper:
                     for stackElem in jsonElem.stack:
                         if stackElem.methodname == pscoutElem.callerMethod and stackElem.classname == pscoutElem.callerClass:
                             i += 1
-                            self.printMatch(stackElem,pscoutElem)   #Print match info
+                            info = InfoToShow(stackElem.methodname, stackElem.classname, stackElem.filename,
+                                              pscoutElem.callerMethodDesc, pscoutElem.permission)
+                            self.printMatch(info)   #Print match info
                             found = True
                 if not found:
                     self.notMatches.append(jsonElem)
@@ -67,13 +86,13 @@ class DbMapper:
             print "[*] No matches found for permission " + self.permission
 
 
-    def printMatch(self,stackElem, pscoutElem):
+    def printMatch(self,infoObject):
         print "**"
-        print "Methodname: " + stackElem.methodname
-        print "Classname: " + stackElem.classname
-        print "Filename: " + pscoutElem.callerClass
-        print "Signature: " + pscoutElem.callerMethodDesc
-        print "Permission: " + pscoutElem.permission
+        print "Methodname: " + infoObject.methodname
+        print "Classname: " + infoObject.classname
+        print "Filename: " + infoObject.filename
+        print "Signature: " + infoObject.signature
+        print "Permission: " + infoObject.permission
         print "**"
 
     def queryJsonDB(self):
@@ -103,14 +122,14 @@ class DbMapper:
     def queryPScoutDB(self,stackElem):
         if self.pscoutdb is not None:
             permissionlist = list()
-            if stackElem is not None:
+            if stackElem is not None:   #Query using the classname as identifier
                 query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM permissions " \
                     "WHERE callerClass = '" + stackElem.classname + "'"
                 cursor = self.pscoutdb.execute(query)
                 for row in cursor:
                     elem = Permission(row[0],row[1],row[2],row[3])
                     permissionlist.append(elem)
-            else:
+            else:           #Query using the permission as identifier
                 query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM permissions " \
                         "WHERE permission = '" + self.permission + "'"
                 cursor = self.pscoutdb.execute(query)
@@ -128,3 +147,18 @@ class DbMapper:
         if self.jsondb is None or self.pscoutdb is None:
             print "[!!] Cannot connect to databases. Exiting..."
             exit(-1)
+
+class InfoToShow:
+
+    def __init__(self, methodname, classname, filename, signature, permission):
+        self.methodname = methodname
+        self.classname = classname
+        self.filename = filename
+        self.signature = signature
+        self.permission = permission
+        self.hash = self.generateHash()
+
+    def generateHash(self):
+        concatenation = self.methodname + "," + self.classname + "," + self.filename + "," +\
+                        self.signature + "," + self.permission
+        return hashlib.sha1(concatenation).hexdigest()
