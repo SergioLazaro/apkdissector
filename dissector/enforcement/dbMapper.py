@@ -37,6 +37,8 @@ class DbMapper:
                                 #Print the element and append it to the currently printed objects
                                 self.printMatch(info)
                                 printedlist.append(info)
+                            else:
+                                "NO PRINT!!"
         else:
             print "[*] No possible matches found."
 
