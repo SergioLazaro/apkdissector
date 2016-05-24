@@ -25,7 +25,6 @@ class DbMapper:
         if len(self.notMatches) > 0:
             print "[*] Looking for " + str(len(self.notMatches)) + " possible matches..."
             printedlist = list()
-            print self.notMatches
             for jsonElem in self.notMatches:
                 for stackElem in jsonElem.stack:
                     possibleMatches = self.queryPScoutDB(stackElem)
