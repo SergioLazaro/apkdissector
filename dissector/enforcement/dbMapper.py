@@ -83,6 +83,9 @@ class DbMapper:
             print "[*] PScout elements: " + str(len(pscoutlist))
             print "[*] PermStack elements: " + str(len(jsonlist))
             print "[*] " + str(i) + " matches found."
+        elif len(pscoutlist) == 0 and len(jsonlist) > 0:
+            #Check all the jsonElements in the PScout database using the classname
+            self.notMatches = jsonlist
         else:
             print "[*] No matches found for permission " + self.permission
 
