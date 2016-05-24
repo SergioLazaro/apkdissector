@@ -34,6 +34,7 @@ class DbMapper:
                                               pscoutElem.callerMethodDesc, pscoutElem.permission)
                             shouldPrint = self.isPrinted(info.hash, printedlist)    #Check if is printed or not...
                             if shouldPrint:
+                                "PRINT!!"
                                 #Print the element and append it to the currently printed objects
                                 self.printMatch(info)
                                 printedlist.append(info)
