@@ -20,13 +20,16 @@ class DbMapper:
         self.checkNotMatches()
 
     def checkNotMatches(self):
-        print "[*] Looking for " + str(len(self.notMatches)) + " possible matches..."
-        for jsonElem in self.notMatches:
-            for stackElem in jsonElem.stack:
-                possibleMatches = self.queryPScoutDB(stackElem)
-                for elem in possibleMatches:
-                    if elem.callerMethod == stackElem.methodname:
-                        self.printMatch(stackElem,elem)
+        if len(self.notMatches) > 0:
+            print "[*] Looking for " + str(len(self.notMatches)) + " possible matches..."
+            for jsonElem in self.notMatches:
+                for stackElem in jsonElem.stack:
+                    possibleMatches = self.queryPScoutDB(stackElem)
+                    for elem in possibleMatches:
+                        if elem.callerMethod == stackElem.methodname:
+                            self.printMatch(stackElem,elem)
+        else:
+            print "[*] No possible matches found."
 
     '''
         Method that maps the PScout DB with the JsonDB got after the json file parse.
@@ -55,6 +58,7 @@ class DbMapper:
                             self.printMatch(stackElem,pscoutElem)   #Print match info
                             found = True
                 if not found:
+                    print "NEW MATCH!!"
                     self.notMatches.append(jsonElem)
 
             print "[*] PScout elements: " + str(len(pscoutlist))
