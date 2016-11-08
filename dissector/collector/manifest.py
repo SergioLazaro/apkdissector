@@ -156,4 +156,6 @@ class Manifest(Acollector):
             current = permission.get_name()  # Current permission
             database.execute_query("INSERT INTO analyzed(hash,permission) VALUES('%s','%s')" % (apkname,current))
 
+        #Update hashes table setting analyzed to 1
+        database.execute_query("UPDATE hashes SET analyzed = 1 WHERE apk = '%s'" % apkname)
 
