@@ -1,10 +1,12 @@
+__author__ = 'vaioco && sergio'
 import threading
 from threading import Thread
 
 import time
 
-__author__ = 'vaioco && sergio'
+import sqlite3
 
+from collector.hashesDB import hashesDB
 from core.configurationreader import ConfigurationReader
 from collector.manifest import Manifest
 from core.target import Target
@@ -39,13 +41,17 @@ def main(path):
     print "main started!!"
     global dissector_global_dir
     config = ConfigurationReader()   #Config parameters
+    database = hashesDB(config.dbpath)
     #Check if the path is a file or a dir
     if os.path.isdir(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
-        analyzeSample(path, config)
+        start = time.time()
+        analyzeSample(path, config, database)
         #Could call to statistics.py to get some permissions statistics
+        end = time.time()
+        print "Total time: %s" % (str(end-start))
         print "[*] Getting some statistics..."
         stats = Statistics(config.outputdir)
         stats.getStatistics()
@@ -56,7 +62,7 @@ def main(path):
         #apkname = os.path.basename(path)
         start = time.time()
         #analyzeAPK(path, config)
-        apk = ThreadAnalyzer(path,config)
+        apk = ThreadAnalyzer(path,config, database)
         print "Analyzing APK " + path
         apk.start()
         #Wait until thread ends
@@ -65,30 +71,26 @@ def main(path):
         end = time.time()
         print "Total time spent (seconds): %.2f" % (end - start)
 
-def putUpTo5Tasks(tm, apks_list, samplepath , config):
+    database.close()
+
+def putUpToNTasks(tm, apks_list, samplepath , config, database):
     res = []
-    for x in range(5):
+    for x in range(config.threads):
         apk = apks_list.pop()
         apkpath = samplepath + apk
-        t = ThreadAnalyzer(apkpath,config)
+        t = ThreadAnalyzer(apkpath,config, database)
         res.append(t)
     tm.add_task(res)
 
 
-def analyzeSample(samplepath, config):
-    start = time.time()
-    #runningThreads = 1
+def analyzeSample(samplepath, config, database):
     apks = os.listdir(samplepath)
-    #tm = ThreadManager(config.threads)
     while True:
         if not apks: break
-            #Generating apk path
-            #apkpath = samplepath + apk
+
         tm  = ThreadManager(config.threads)
-        #t = ThreadAnalyzer(apkpath,config,tm.lock,tm.working)
-        putUpTo5Tasks(tm,apks, samplepath, config)
+        putUpToNTasks(tm,apks, samplepath, config, database)
         tm.wait_completition()
-        #logger.write("num of apks: " + str(len(apks)))
 
 def print_help(parser):
     print "arguments error!!\n"

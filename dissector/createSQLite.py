@@ -9,7 +9,7 @@ def main(file,outputpath, version):
     print "DB path: " + outputpath
     print "Creating new DB..."
     conn = sqlite3.connect(outputpath)
-    conn.execute(''' DROP TABLE IF EXISTS %s''' % ("permissions"))
+    conn.execute(''' DROP TABLE IF EXISTS %s''' % ("pscout"))
     query1 = '''
     CREATE TABLE %s
            (ID INTEGER PRIMARY KEY AUTOINCREMENT ,
@@ -18,7 +18,7 @@ def main(file,outputpath, version):
            CALLERMETHODDESC        VARCHAR,
            PERMISSION              VARCHAR,
            VERSION                 VARCHAR);
-    ''' % ("permissions")
+    ''' % ("pscout")
     conn.execute(query1)
 
     with open(file) as file:
@@ -27,7 +27,7 @@ def main(file,outputpath, version):
             list = line.split(",")
             #print "Added record: %d\n" % (i)
             #print "%s - %s - %s - %s - %s\n" % (list[0],list[1],list[2],list[3],list[4])
-            conn.execute("INSERT INTO permissions (CALLERCLASS,CALLERMETHOD,CALLERMETHODDESC,PERMISSION,VERSION) "
+            conn.execute("INSERT INTO pscout (CALLERCLASS,CALLERMETHOD,CALLERMETHODDESC,PERMISSION,VERSION) "
                          "VALUES (?,?,?,?,?)",(list[0],list[1],list[2],list[3],list[4]));
 
         conn.commit()

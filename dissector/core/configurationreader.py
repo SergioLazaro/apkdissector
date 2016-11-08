@@ -20,9 +20,15 @@ class ConfigurationReader:
         if os.path.isdir(self.outputdir) is False:
             print "Creating folder to write the output in " + self.outputdir
             os.mkdir(self.outputdir,0666)
+            
         if os.path.isdir(self.errorlogdir) is False:
             print "Creating folder to report errors in " + self.errorlogdir
             os.mkdir(self.errorlogdir,0666)
+
+        if not os.path.isdir(self.dbpath):
+            print "[!!] Error, dbpath in config.ini should be a sqlite3 database"
+            print "[!!] Exiting..."
+
         print "Everything is currently OK..."
 
     def printConfiguration(self):
