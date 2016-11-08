@@ -6,7 +6,6 @@ import time
 
 import sqlite3
 
-from collector.hashesDB import hashesDB
 from core.configurationreader import ConfigurationReader
 from collector.manifest import Manifest
 from core.target import Target
@@ -41,20 +40,20 @@ def main(path):
     print "main started!!"
     global dissector_global_dir
     config = ConfigurationReader()   #Config parameters
-    database = hashesDB(config.dbpath)
     #Check if the path is a file or a dir
     if os.path.isdir(path):
         #Checking if path is OK
         if path[-1:] is not "/":
             path = path + "/"
         start = time.time()
-        analyzeSample(path, config, database)
+        analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
         end = time.time()
         print "Total time: %s" % (str(end-start))
         print "[*] Getting some statistics..."
-        stats = Statistics(config.outputdir)
-        stats.getStatistics()
+        #stats = Statistics(config.outputdir)
+        stats = Statistics(config.dbpath)
+        stats.getStatisticsFromDB()
         print "[*] Errors are reported in " + config.errorlogdir
         print "[*] More output for each APK available in " + config.outputdir
 
@@ -62,7 +61,7 @@ def main(path):
         #apkname = os.path.basename(path)
         start = time.time()
         #analyzeAPK(path, config)
-        apk = ThreadAnalyzer(path,config, database)
+        apk = ThreadAnalyzer(path,config)
         print "Analyzing APK " + path
         apk.start()
         #Wait until thread ends
@@ -71,25 +70,24 @@ def main(path):
         end = time.time()
         print "Total time spent (seconds): %.2f" % (end - start)
 
-    database.close()
-
-def putUpToNTasks(tm, apks_list, samplepath , config, database):
+def putUpToNTasks(tm, apks_list, samplepath , config):
     res = []
-    for x in range(config.threads):
-        apk = apks_list.pop()
-        apkpath = samplepath + apk
-        t = ThreadAnalyzer(apkpath,config, database)
-        res.append(t)
+    for x in range(int(config.threads)):
+        if len(apks_list) > 0:
+            apk = apks_list.pop()
+            apkpath = samplepath + apk
+            t = ThreadAnalyzer(apkpath,config)
+            res.append(t)
     tm.add_task(res)
 
 
-def analyzeSample(samplepath, config, database):
+def analyzeSample(samplepath, config):
     apks = os.listdir(samplepath)
     while True:
         if not apks: break
 
         tm  = ThreadManager(config.threads)
-        putUpToNTasks(tm,apks, samplepath, config, database)
+        putUpToNTasks(tm,apks, samplepath, config)
         tm.wait_completition()
 
 def print_help(parser):

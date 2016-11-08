@@ -150,14 +150,10 @@ class Manifest(Acollector):
         log.write("JSON file with PScout permissions mapping written successfuly")
         file.close()
 
-        def checkPermissionsInDB(self, config, apkname, database):
-            #apkname -> hash
+    def checkPermissionsInDB(self, config, apkname, database):
 
-            for j, permission in enumerate(self.collected_data['uses-permission']):  # Getting all entries for a permission
-                current = permission.get_name()  # Current permission
-                #current -> permission name
-                database.connect()  # Connecting to the DB
-
-                database.execute_query("INSERT INTO analyzed(hash,permission) VALUES('%s','%s')" % (apkname,current))
+        for j, permission in enumerate(self.collected_data['uses-permission']):  # Getting all entries for a permission
+            current = permission.get_name()  # Current permission
+            database.execute_query("INSERT INTO analyzed(hash,permission) VALUES('%s','%s')" % (apkname,current))
 
 
