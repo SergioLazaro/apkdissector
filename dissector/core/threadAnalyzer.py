@@ -12,10 +12,11 @@ from exceptions import ZIPException
 #class ThreadAnalyzer (threading.Thread):
 class ThreadAnalyzer ():
     #def __init__(self, apkpath, config,lock,working,type):
-    def __init__(self, apkpath, config):
+    def __init__(self, apkpath, config, database):
         #threading.Thread.__init__(self)
         self.apkpath = apkpath
         self.config = config
+        self.database = database
         #self.lock = lock
         #self.working = working
 
@@ -43,8 +44,7 @@ class ThreadAnalyzer ():
                 session_name = "dummyname"
 
             #Check if the current APK has a cache file
-            cache_exists = os.path.isfile(dir + "cache")
-            if cache_exists:
+            if os.path.isfile(dir + "cache"):
                 log.write("Restoring session for " + apkname)
                 targetapp.restore_session(dir + "cache")
             else:
@@ -56,7 +56,8 @@ class ThreadAnalyzer ():
             #Changing stdout to apkName.txt file (Normal output and errors)
             manifestAnalysis = ManifestAnalyzer(manifestInfo,targetapp);
             log.write("analyzing...\n" + targetapp._print())
-            manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)
+            #manifestInfo.checkPermissions(self.config,apkname,targetapp.package_name,log)          <- JSON
+            manifestInfo.checkPermissionsInDB(self.config, apkname, self.database)                # <- DB
             log.write(apkname + " has been analyzed.")
             print apkname + " has been analyzed."
             print "**********************************************************"
