@@ -10,12 +10,17 @@ class PermissionCount:
         self.permission = permission
         self.count = count
 
-def main(dir):
+def statisticsFromFiles(dir):
     if dir[-1:] is not "/":
         dir = dir + "/"
     if os.path.isdir(dir):
         statistics = Statistics(dir)
-        statistics.getStatistics()
+        statistics.getStatisticsFromFiles()
+
+def statisticsFromDB(database):
+    if os.path.isfile(database):
+        statistics = Statistics(database)
+        statistics.getStatisticsFromDB()
 
 
 def print_help(parser):
@@ -30,9 +35,13 @@ if __name__ == "__main__":
     parser = optparse.OptionParser()
     parser.add_option('-d', '--dir' , action="store", help="Path to your directory with APKs analyzed i.e:/path/to/your/apk/analyzed/",
                       dest="dir",type='string')
+    parser.add_option('-db', '--database', action="store", help="Path to your database with analyzed apks",
+                      dest="database", type="string")
 
     (opts, args) = parser.parse_args()
     if opts.dir is None or (not os.path.isdir(opts.dir)):
         print_help(parser)
-    else:
-        main(opts.dir)
+    elif opts.dir is not None:
+        statisticsFromFiles(opts.dir)
+    elif opts.db is not None:
+        statisticsFromDB(opts.database)

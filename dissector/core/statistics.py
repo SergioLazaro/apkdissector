@@ -1,8 +1,10 @@
 
 __author__='sergio'
 
+from collector.hashesDB import hashesDB
 from decimal import Decimal
 import os, json
+
 
 class PermissionCount:
 
@@ -12,16 +14,49 @@ class PermissionCount:
 
 class Statistics:
 
-    def __init__(self, dir):
-        self.dir = dir
+    def __init__(self, path):
+        self.path = path
         self.errors = 0
         self.apks = list()
-        self.checkErrors()
+        if os.path.isdir(self.path):
+            self.checkErrors()
+
+    def getStatisticsFromDB(self):
+        database = hashesDB(self.path)
+        database.connect()
+
+        hashes = database.create_cursor("SELECT DISTINCT hash FROM analyzed")
+        results = list()
+        i = 0
+        for apk_hash in hashes:
+            hash = apk_hash[0]
+            permissions = self.getPermissionsFromTuples(database, hash)
+            results = self.updateResult(results, permissions)
+            i += 1
+
+        self.printStatistics(results,i)
+
+    '''
+        * Database = hashesDB database connected
+        * hash = apk hash
+
+        Method needed to get a permission list related to an apk hash.
+        [permissions] will contain a list with permissions.
+    '''
+    def getPermissionsFromTuples(self, database, hash):
+
+        permissions_tuple = database.create_cursor("SELECT permission FROM analyzed WHERE hash = '%s'" % hash)
+        permissions = list()
+
+        for permission in permissions_tuple:
+            permissions.append(permission[0])
+
+        return permissions
 
     def checkErrors(self):
-        apks = os.listdir(self.dir)
+        apks = os.listdir(self.path)
         for apk in apks:
-            apkpath = self.dir + apk + "/"
+            apkpath = self.path + apk + "/"
             #Checking that we have a empty directory
             if os.path.isdir(apkpath):
                 if os.listdir(apkpath) == []:
@@ -30,21 +65,18 @@ class Statistics:
                 else:
                     self.apks.append(apk)
 
-    def getStatistics(self):
+    def getStatisticsFromFiles(self):
         results = list()
         i = 0
         for apk in self.apks:
-            filepath = self.dir + apk + "/" + apk + ".json"
+            filepath = self.path + apk + "/" + apk + ".json"
             permissions = self.readPermissions(filepath)
             results = self.updateResult(results,permissions)
             i += 1
 
-        results = sorted(results, key=lambda x: x.count, reverse=True)
-        print "============================================================"
+
         self.printStatistics(results,i)
-        print "============================================================"
-        print "[*] Analyzed apks: " + str(i)
-        print "[*] Total errors reported: " + str(self.errors)
+
 
     '''
         Method used to read the permissions used by an analyzed APK
@@ -58,14 +90,19 @@ class Statistics:
         return permissions
 
     def printStatistics(self,results,i):
+        results = sorted(results, key=lambda x: x.count, reverse=True)
+        print "============================================================"
         for val in results:
             percentage = (Decimal(val.count)/Decimal(i))*100
             print("PERMISSION: %s VALUE: %d PERCENTAGE: %.2f%%") % (val.permission,val.count, percentage)
+        print "============================================================"
+        print "[*] Analyzed apks: " + str(i)
+        print "[*] Total errors reported: " + str(self.errors)
 
         self.generateJSON(results,i)
 
     def generateJSON(self,results,i):
-        fd = open(self.dir+"statistics.json","w")
+        fd = open(self.path+"statistics.json","w")
         fd.write('{"permissions": [')
         for j,val in enumerate(results):
             percentage = (Decimal(val.count)/Decimal(i))
