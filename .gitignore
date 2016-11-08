@@ -11,7 +11,7 @@ cache/
 .idea/
 
 #Code
-config.ini
+dissector/config.ini
 
 # Distribution / packaging
 .Python
