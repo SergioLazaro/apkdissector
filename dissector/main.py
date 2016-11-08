@@ -49,13 +49,13 @@ def main(path):
         analyzeSample(path, config)
         #Could call to statistics.py to get some permissions statistics
         end = time.time()
-        print "Total time: %s" % (str(end-start))
         print "[*] Getting some statistics..."
         #stats = Statistics(config.outputdir)
         stats = Statistics(config.dbpath)
         stats.getStatisticsFromDB()
         print "[*] Errors are reported in " + config.errorlogdir
         print "[*] More output for each APK available in " + config.outputdir
+        print "Total time(min): %s" % (str((end-start)/60))
 
     else:
         #apkname = os.path.basename(path)
@@ -68,8 +68,8 @@ def main(path):
         #if apk.isAlive():
         #    apk.join()
         end = time.time()
-        print "Total time spent (seconds): %.2f" % (end - start)
-
+        print "Total time(min): %s" % (str((end-start)/60))
+        
 def putUpToNTasks(tm, apks_list, samplepath , config):
     res = []
     for x in range(int(config.threads)):
