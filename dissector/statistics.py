@@ -35,13 +35,15 @@ if __name__ == "__main__":
     parser = optparse.OptionParser()
     parser.add_option('-d', '--dir' , action="store", help="Path to your directory with APKs analyzed i.e:/path/to/your/apk/analyzed/",
                       dest="dir",type='string')
-    parser.add_option('-db', '--database', action="store", help="Path to your database with analyzed apks",
+    parser.add_option('-b', '--database', action="store", help="Path to your database with analyzed apks",
                       dest="database", type="string")
 
     (opts, args) = parser.parse_args()
-    if opts.dir is None or (not os.path.isdir(opts.dir)):
-        print_help(parser)
-    elif opts.dir is not None:
+
+    if opts.dir is not None and os.path.isdir(opts.dir):
         statisticsFromFiles(opts.dir)
-    elif opts.db is not None:
+    elif opts.database is not None:
         statisticsFromDB(opts.database)
+
+    else:
+        print_help(parser)
