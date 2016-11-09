@@ -69,7 +69,7 @@ def main(path):
         #    apk.join()
         end = time.time()
         print "Total time(min): %s" % (str((end-start)/60))
-        
+
 def putUpToNTasks(tm, apks_list, samplepath , config):
     res = []
     for x in range(int(config.threads)):
