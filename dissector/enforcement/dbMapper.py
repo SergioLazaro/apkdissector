@@ -127,14 +127,14 @@ class DbMapper:
         if self.pscoutdb is not None:
             permissionlist = list()
             if stackElem is not None:   #Query using the classname as identifier
-                query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM permissions " \
+                query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM pscout " \
                     "WHERE callerClass = '" + stackElem.classname + "'"
                 cursor = self.pscoutdb.execute(query)
                 for row in cursor:
                     elem = Permission(row[0],row[1],row[2],row[3])
                     permissionlist.append(elem)
             else:           #Query using the permission as identifier
-                query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM permissions " \
+                query = "SELECT callerclass, callermethod, callermethoddesc, permission FROM pscout " \
                         "WHERE permission = '" + self.permission + "'"
                 cursor = self.pscoutdb.execute(query)
                 i = 0
