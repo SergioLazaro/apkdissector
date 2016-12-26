@@ -1,4 +1,7 @@
+
+
 __author__ = 'vaioco && sergio'
+
 import threading
 from threading import Thread
 
@@ -36,7 +39,7 @@ dest = 'files/'
 
 python enforcementParser.py -i file1 -o /home/sid/android/malware/analysis
 '''
-def main(path):
+def main(path, launch_writer):
     print "main started!!"
     global dissector_global_dir
     config = ConfigurationReader()   #Config parameters
@@ -46,7 +49,7 @@ def main(path):
         if path[-1:] is not "/":
             path = path + "/"
         start = time.time()
-        analyzeSample(path, config)
+        analyzeSample(path, config, launch_writer)
         #Could call to statistics.py to get some permissions statistics
         end = time.time()
         print "[*] Getting some statistics..."
@@ -61,7 +64,7 @@ def main(path):
         #apkname = os.path.basename(path)
         start = time.time()
         #analyzeAPK(path, config)
-        apk = ThreadAnalyzer(path,config)
+        apk = ThreadAnalyzer(path,config, launch_writer)
         print "Analyzing APK " + path
         apk.start()
         #Wait until thread ends
@@ -70,24 +73,24 @@ def main(path):
         end = time.time()
         print "Total time(min): %s" % (str((end-start)/60))
 
-def putUpToNTasks(tm, apks_list, samplepath , config):
+def putUpToNTasks(tm, apks_list, samplepath , config, launch_writer):
     res = []
     for x in range(int(config.threads)):
         if len(apks_list) > 0:
             apk = apks_list.pop()
             apkpath = samplepath + apk
-            t = ThreadAnalyzer(apkpath,config)
+            t = ThreadAnalyzer(apkpath,config, launch_writer)
             res.append(t)
     tm.add_task(res)
 
 
-def analyzeSample(samplepath, config):
+def analyzeSample(samplepath, config, launch_writer):
     apks = os.listdir(samplepath)
     while True:
         if not apks: break
 
         tm  = ThreadManager(config.threads)
-        putUpToNTasks(tm,apks, samplepath, config)
+        putUpToNTasks(tm,apks, samplepath, config, launch_writer)
         tm.wait_completition()
 
 def print_help(parser):
@@ -104,11 +107,12 @@ if __name__ == "__main__":
     parser = optparse.OptionParser()
     parser.add_option('-f', '--file', action="store", help="APK file path", dest="file",type="string")
     parser.add_option('-d','--dir', action="store", help="Path to a directory with APKs", dest="dir",type="string")
+    parser.add_option('-w','--write-frida', action="store_true", help="Run frida writer option", dest="frida")
 
     (opts, args) = parser.parse_args()
     if opts.file is not None:
-        main(opts.file)
+        main(opts.file, opts.frida)
     elif opts.dir is not None:
-        main(opts.dir)
+        main(opts.dir, opts.frida)
     else:
         print_help(parser)

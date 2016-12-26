@@ -9,14 +9,16 @@ from analyzer.manifest import ManifestAnalyzer
 from logger import Logger
 from exceptions import ZIPException
 from collector.hashesDB import hashesDB
+from frida.frida import Frida
 
 #class ThreadAnalyzer (threading.Thread):
 class ThreadAnalyzer ():
     #def __init__(self, apkpath, config,lock,working,type):
-    def __init__(self, apkpath, config):
+    def __init__(self, apkpath, config, launch_writer):
         #threading.Thread.__init__(self)
         self.apkpath = apkpath
         self.config = config
+        self.launch_writer = launch_writer
         #self.lock = lock
         #self.working = working
 
@@ -65,6 +67,10 @@ class ThreadAnalyzer ():
             log.write(apkname + " has been analyzed.")
             print apkname + " has been analyzed."
             print "**********************************************************"
+            #Check frida option
+            if self.launch_writer:
+                frida = Frida(self.apkpath)
+
             log.close()
             database.close()
 

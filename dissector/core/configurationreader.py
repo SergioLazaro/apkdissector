@@ -19,15 +19,16 @@ class ConfigurationReader:
         print "Checking current enviroment..."
         if os.path.isdir(self.outputdir) is False:
             print "Creating folder to write the output in " + self.outputdir
-            os.mkdir(self.outputdir,0666)
+            os.makedirs(self.outputdir)
             
         if os.path.isdir(self.errorlogdir) is False:
             print "Creating folder to report errors in " + self.errorlogdir
-            os.mkdir(self.errorlogdir,0666)
+            os.makedirs(self.errorlogdir)
 
-        if not os.path.isdir(self.dbpath):
+        if not os.path.isfile(self.dbpath):
             print "[!!] Error, dbpath in config.ini should be a sqlite3 database"
             print "[!!] Exiting..."
+            exit(1)
 
         print "Everything is currently OK..."
 
